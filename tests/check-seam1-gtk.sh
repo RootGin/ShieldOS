@@ -124,6 +124,10 @@ for i in "${!DENYLIST_LABELS[@]}"; do
   fi
 done
 
+if ! python3 "${REPO_DIR}/tests/check-yuck-triangles.py"; then
+  fail "yuck-geometry" "Yuck triangle geometry validation failed"
+fi
+
 mapfile -t WINDOWS < <(
   python3 -c '
 import glob, re, sys

@@ -206,6 +206,8 @@ shieldOS-eww/
        - `to top right` in gradients (fails to parse in GTK3; use `to bottom right` or explicit angles).
        - Two-position gradient color stops (`$c 0 3px` form; heuristic check, fails GTK parser; use explicit stops `$c 0, $c 3px`).
        - Any `url(` in compiled CSS (relative `url()` does not resolve in SCSS; assets must load via Yuck `image :path`).
+     - Verified against core geometry techniques: 4-quadrant linear gradients from `@mixin octagon` and `@mixin cut2` cleanly pass all 30 denylist patterns while two-position color stops are strictly caught.
+   - **Yuck Triangle Geometry Lint**: AST parser (`tests/check-yuck-triangles.py`) validating all `.yuck` files to enforce that border-only triangle widgets (`.triangle`, `.trianglesub`) never declare explicit `:width` or `:height` (which turns borders into trapezoids); includes built-in negative test asserting rejection of dimensioned triangles.
    - **Headless Runtime Verification**: Start Eww in a headless session with `SHIELD_FIXTURE=frozen`, open every defined window (`eww -c shieldOS-eww open-many ...`), assert all expected windows are listed in `eww -c shieldOS-eww active-windows` and variables are populated in `eww -c shieldOS-eww state --all` (not just `eww ping`), and fail on any CSS or parser warnings in `eww -c shieldOS-eww logs`. Always start a fresh Eww daemon in tests, never `eww reload`; unknown-property errors and CSS parser failures only print at daemon start.
 2. **Seam 2 — JSON Schema Contract & Fixture Pipeline Check (Per Ticket)**
    - **Contract Source of Truth**: `schemas/state.schema.json` defines the exact schema for `telemetry`, `compositor`, and `network_audio` payloads.

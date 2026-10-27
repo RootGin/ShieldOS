@@ -1,5 +1,7 @@
 # Agent Rules (`shieldOS-eww`)
 
+Run all commands inside `nix develop` (or `nix develop --command <cmd>`).
+
 1. **Use theme tokens only**: Never hardcode hex or RGB color literals in `.scss` or `.yuck` files; reference semantic variables from `themes/` via `theme.scss`.
 2. **One component per file**: Maintain a strict 1:1 module boundary with one `yuck/<module>.yuck` and one `scss/<module>.scss` per component; keep root `eww.yuck` and `eww.scss` limited to shared state, tokens, resets, base classes, and imports/includes.
 3. **No new dependencies without asking**: Use only the tools pinned in the Nix devShell (`eww`, `sass`, `sway`, `grim`, `imagemagick`, `python3` with `jsonschema`). Do not add packages or runtime dependencies without explicit user approval.
@@ -15,10 +17,4 @@
    - Any `url()` in compiled CSS (relative `url()` does not resolve in SCSS; load assets via Yuck `image :path`).
 5. **Never claim a test passes without running it**: Always execute the test suite (`tests/check-seam1-gtk.sh`, etc.) and verify its exit code and output before reporting completion.
 6. **Every ticket must end with tests/run-ticket.sh passing**: Execute `tests/run-ticket.sh` (which runs Seam 1 then Seam 2) and verify its exit code is 0 before completing any ticket.
-7. **Read docs/eww-geometry.md before any chamfered/angled component**: Consult `docs/eww-geometry.md` before writing or modifying any chamfered, angled, or polygon widget.
-8. **Pin explicit `:width`/`:height` on every overlay layer**: An `overlay` stretches its first child and positions subsequent children at natural size; always pin `:width` and `:height` on all layers to prevent alignment drift and seams.
-9. **Understand overlay constraints**: An `overlay` stretches its first child, ignores its own margin, paints no background, and has no properties.
-10. **Put a label inside its box, not as a sibling overlay child**: Sibling overlay children collapse container `min-height`/`min-width`; place labels inside the child box container.
-11. **Never set `:width`/`:height` on a border-only triangle**: Setting dimensions on a `.triangle` turns the border into a trapezoid. Let border widths alone size the triangle.
-12. **`min-width` is content-box**: Rendered width = `min-width` + padding + border; subtract horizontal padding and border when matching target pixel dimensions.
-13. **Measure rendered pixels before tuning any offset**: Use `tests/check-seam3-golden.sh measure` and `crop` to verify exact rendered pixel boundaries rather than guessing offsets.
+7. **Geometry & layout standards**: Consult `docs/eww-geometry.md` before writing or modifying any chamfered, angled, or polygon widget; see `CODING_STANDARDS.md` for geometry rules and layout constraints.
