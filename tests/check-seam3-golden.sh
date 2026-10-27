@@ -323,9 +323,74 @@ subcommand_compare() {
   printf 'CREATED [seam3-compare]: Side-by-side fidelity comparison image written to %s\n' "${COMPARE_FILE}"
 }
 
+subcommand_crop() {
+  local target="$1"
+  local geom="${2:-}"
+  local zoom="${3:-1}"
+  if [[ -z "${geom}" ]]; then
+    fail "crop-args" "Missing geometry for crop. Usage: $0 crop <N> <x,y,w,h> [zoom]"
+  fi
+  resolve_target "${target}"
+  if [[ ! -f "${CAPTURE_FILE}" ]]; then
+    printf '==> Capturing render for target %s...\n' "${target}"
+    render_and_capture "${CAPTURE_FILE}"
+    printf 'CAPTURED: %s\n' "${CAPTURE_FILE}"
+  fi
+
+  local x y w h
+  IFS=',' read -r x y w h <<< "${geom}"
+  if [[ -z "${x:-}" || -z "${y:-}" || -z "${w:-}" || -z "${h:-}" ]]; then
+    fail "crop-geom" "Invalid geometry '${geom}'. Expected format: x,y,w,h (e.g. 100,100,50,50)"
+  fi
+
+  local cleaned
+  if [[ "${target}" == *"/"* ]] || [[ "${target}" == *.png ]]; then
+    cleaned="${target%.png}"
+  else
+    cleaned="milestone-${target}"
+  fi
+  local crop_out="${REPO_DIR}/tests/captures/crop-${cleaned//\//-}-${x}_${y}_${w}_${h}-z${zoom}.png"
+  mkdir -p "$(dirname "${crop_out}")"
+
+  if (( zoom > 1 )); then
+    magick "${CAPTURE_FILE}" -crop "${w}x${h}+${x}+${y}" +repage -scale "$(( zoom * 100 ))%" "${crop_out}"
+  else
+    magick "${CAPTURE_FILE}" -crop "${w}x${h}+${x}+${y}" +repage "${crop_out}"
+  fi
+  printf 'CROPPED [seam3-crop]: Region (%s) scaled %sx written to %s\n' "${geom}" "${zoom}" "${crop_out}"
+}
+
+subcommand_measure() {
+  local target="$1"
+  local hex="${2:-}"
+  if [[ -z "${hex}" ]]; then
+    fail "measure-args" "Missing color hex for measure. Usage: $0 measure <N> <hex>"
+  fi
+  resolve_target "${target}"
+  if [[ ! -f "${CAPTURE_FILE}" ]]; then
+    printf '==> Capturing render for target %s...\n' "${target}"
+    render_and_capture "${CAPTURE_FILE}"
+    printf 'CAPTURED: %s\n' "${CAPTURE_FILE}"
+  fi
+
+  local bounds
+  bounds="$(magick "${CAPTURE_FILE}" -fuzz 2% -fill black +opaque "${hex}" -fill white -opaque "${hex}" -bordercolor black -border 1 -trim -format '%wx%h +%[fx:page.x-1]+%[fx:page.y-1]' info: 2>/dev/null || true)"
+  if [[ -z "${bounds}" || "${bounds}" == *"-2+-2"* || "${bounds}" == *"-1+-1"* ]]; then
+    bounds="0x0 +0+0"
+  fi
+  printf 'MEASURED [seam3-measure]: Color %s bounding box: %s\n' "${hex}" "${bounds}"
+  printf '%s\n' "${bounds}"
+}
+
 main() {
   if [[ $# -lt 2 ]]; then
-    printf 'Usage: %s <capture|check|approve|compare> <N> [--yes]\n' "$0" >&2
+    printf 'Usage: %s <capture|check|approve|compare|crop|measure> <N> [options...]\n' "$0" >&2
+    printf '  capture <N>             Capture render to tests/captures/milestone-<N>.png\n' >&2
+    printf '  check <N>               Diff capture against golden tests/goldens/milestone-<N>.png\n' >&2
+    printf '  approve <N> --yes       Promote latest capture to golden\n' >&2
+    printf '  compare <N>             Create side-by-side comparison against reference mockup\n' >&2
+    printf '  crop <N> x,y,w,h [zoom] Tight crop with nearest-neighbor upscale (default zoom: 1)\n' >&2
+    printf '  measure <N> <hex>       Measure bounding box of specified color hex\n' >&2
     exit 1
   fi
 
@@ -346,8 +411,14 @@ main() {
     compare)
       subcommand_compare "${target}"
       ;;
+    crop)
+      subcommand_crop "${target}" "$@"
+      ;;
+    measure)
+      subcommand_measure "${target}" "$@"
+      ;;
     *)
-      fail "invalid-command" "Unknown subcommand '${action}'. Expected: capture, check, approve, compare."
+      fail "invalid-command" "Unknown subcommand '${action}'. Expected: capture, check, approve, compare, crop, measure."
       ;;
   esac
 }

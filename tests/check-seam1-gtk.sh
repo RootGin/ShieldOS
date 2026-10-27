@@ -72,6 +72,14 @@ DENYLIST_LABELS=(
   "overflow"
   "line-height"
   "transition: all"
+  "!important"
+  "comma-separated @keyframes selectors"
+  "animation-delay"
+  "steps()"
+  "8-digit hex colors (#RRGGBBAA)"
+  "to top right"
+  "two-position gradient color stops"
+  "url()"
 )
 
 DENYLIST_PATTERNS=(
@@ -98,6 +106,14 @@ DENYLIST_PATTERNS=(
   "(^|[[:space:]{;])overflow(-x|-y)?[[:space:]]*:"
   "(^|[[:space:]{;])line-height[[:space:]]*:"
   "transition(-property)?[[:space:]]*:[[:space:]]*all([[:space:];,}]|$)"
+  "!important"
+  "(^|[;{}])[[:space:]]*([0-9]+%|from|to)[[:space:]]*,"
+  "(^|[[:space:]{;])animation-delay[[:space:]]*:"
+  "steps\([[:space:]]*[0-9]+"
+  "(^|[^0-9a-fA-F])#[0-9a-fA-F]{8}([^0-9a-fA-F]|$)"
+  "to[[:space:]]+top[[:space:]]+right"
+  "(#[0-9a-fA-F]{3,8}|rgba?\([^)]*\)|hsla?\([^)]*\)|transparent)[[:space:]]+-?[0-9]+(\.[0-9]+)?(px|%|em|rem)?[[:space:]]+-?[0-9]+(\.[0-9]+)?(px|%|em|rem)?([[:space:],\)]|$)"
+  "(^|[[:space:]{;:(-])url\("
 )
 
 for i in "${!DENYLIST_LABELS[@]}"; do

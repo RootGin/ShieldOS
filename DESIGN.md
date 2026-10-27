@@ -122,8 +122,8 @@ All hex values are sampled directly from `reference/shield-os.png` and named by 
 
 ### Recommended Stack
 - **UI Runtime**: **Eww (ElKowar's Wacky Widgets)** on Wayland (`layer-shell`) inside `/home/rootgin/.config/eww/shieldOS-eww/`.
-- **Styling**: **SCSS compiled to GTK3 CSS** (strictly scoped to GTK-supported properties per `scss-best-practices-eww`), paired with inline/file **SVG assets** for 45° chamfered polygons, the 56-star S.H.I.E.L.D. emblem, and trapezoid tabs.
-  - *Why SVG + GTK CSS*: GTK3 CSS does not support `clip-path: polygon(...)` or arbitrary angled borders. Rendering chamfered panel backgrounds and trapezoid tabs as scalable SVGs (or `background-image: url(...)` on inner `box` widgets) while positioning labels via Yuck `overlay` gives razor-sharp 45° geometry with low CPU overhead.
+- **Styling**: **SCSS compiled to GTK3 CSS** (strictly scoped to GTK-supported properties per `scss-best-practices-eww`), paired with Yuck `image :path` widgets inside `overlay` containers for assets where SVG is required.
+  - *Why Native SCSS Shapes + Yuck SVGs*: Relative `url()` in SCSS does not resolve in GTK3 CSS (it fails silently, rendering nothing while preserving background colors). All external assets must load via Yuck `image :path`. Most chamfers and bevels do not require external SVGs: GTK3 CSS natively supports 45° corner cuts via 4-quadrant clipped `linear-gradient` mixins (`octagon`, `cut2`) and zero-content border-triangle boxes (`.triangle.<corner>`), directly consuming SCSS theme tokens at compile time without needing SVG generation.
 - **Data Scripts**: Event-driven Python/Bash scripts (`deflisten` for telemetry, compositor workspaces/windows, network, audio) following ADR-0001 multi-compositor auto-detection.
 
 ### Folder Structure
@@ -166,14 +166,24 @@ shieldOS-eww/
 └── assets/
     ├── emblem-shield.svg     # Center eagle + 56-star ring SVG
     ├── data-noise.svg        # Waveform lines & reticle grid
-    └── panels/               # Parameterized SVG frames for chamfered corners & trapezoids
+    └── panels/               # Parameterized SVG frames for corner plates only
 ```
 
+### Component Geometry & Styling Techniques
+
+| Component | Technique | Notes |
+|---|---|---|
+| Workspace pills, date pill, small plates (4-6px cuts) | four-corner octagon mixin | opaque colors only (no rgba); never set background-color on the same element |
+| Frame bevels (#5A5C60 edge, #18191B groove) | nested octagons | measure the diagonal band thickness; spike before committing |
+| Window tabs, bottom trapezoid tabs (slants, variable width) | fixed-size slant caps + stretchy body box | paint in the tab's own color (additive); a $xbg mask is not a real cut and shows over the noise |
+| Frame corner plates (24-44px step-chamfers) | SVG via `image :path`, or stacked boxes | spike one corner both ways in Milestone 2 |
+| Emblem, 56-star ring, data noise, glow | SVG via `image :path` | the glow rgba token belongs here |
+
 ### How Components Share Theme Tokens & Tradeoffs
-- **Single Source of Truth**: Color tokens live in `themes/<name>.scss`. Because SVG files loaded via GTK `background-image` do not inherit GTK SCSS variables automatically, `scripts/theme-gen.py` reads the active theme palette and writes tokenized SVG panel assets on theme switch (triggered by the `COLORS` button).
+- **Single Source of Truth**: Color tokens live in `themes/<name>.scss`. Because relative `url()` in SCSS does not resolve, assets load via yuck `image :path` inside an `overlay`. `scripts/theme-gen.py` now only recolors the few remaining SVGs (`emblem-shield.svg`, `data-noise.svg`, corner plates); SCSS-only shapes take colors directly from theme tokens at compile time.
 - **Tradeoffs**:
-  - *Eww + SVG panels (Recommended)*: Lightweight (~25 MB RAM), integrates with existing workspace skills/tooling, zero Qt6 compilation overhead. Requires SVG backing files for 45° chamfered corners since GTK3 lacks `clip-path`.
-  - *Quickshell / AGS alternative*: Supports native canvas/clip-path drawing in QML/GTK4, but adds a heavy runtime dependency and diverges from this repository's established Eww architecture.
+  - *Eww Native CSS Chamfers + Yuck SVGs (Recommended)*: Lightweight (~25 MB RAM), zero Qt6 overhead. Uses pure GTK3 CSS gradients and border-triangles for cards and tabs with direct token binding, reserving SVG plates for intricate multi-color center graphics and complex corner plates.
+  - *Quickshell / AGS alternative*: Supports native canvas/clip-path drawing in QML/GTK4, but adds heavy runtime dependencies and diverges from this repository's established Eww architecture.
 
 ---
 
@@ -182,8 +192,21 @@ shieldOS-eww/
 - **Execution Cadence**: Run **Seams 1 + 2 on every ticket**; run **Seam 3 at every milestone boundary**.
 
 1. **Seam 1 — GTK3 CSS Denylist & Headless Eww Runtime Check (Per Ticket)**
-   - **Static Denylist Lint**: Compile SCSS (`sass --no-source-map --silence-deprecation=import,global-builtin shieldOS-eww/eww.scss /tmp/shield.css`) and fail if any denylisted CSS property or syntax appears (`display: flex`, `justify-content`, `align-items`, `flex-direction`, `position`, `z-index`, `float`, `clear`, `::before`, `::after`, `text-overflow`, `white-space`, `-webkit-*`, `appearance`, `cursor`, `:focus-visible`, `@media`, `var(--`, `max-width`, `max-height`, `overflow`, `line-height`, `transition: all`). Note: `line-height` is rejected by GTK 3.24 as an invalid property; `transition: all` is accepted by GTK3's parser but kept on the denylist as a strict style rule (require explicit transition property names).
-   - **Headless Runtime Verification**: Start Eww in a headless session with `SHIELD_FIXTURE=frozen`, open every defined window (`eww -c shieldOS-eww open-many ...`), assert all expected windows are listed in `eww -c shieldOS-eww active-windows` and variables are populated in `eww -c shieldOS-eww state --all` (not just `eww ping`), and fail on any CSS or parser warnings in `eww -c shieldOS-eww logs`.
+   - **Static Denylist Lint**: Compile SCSS (`sass --no-source-map --silence-deprecation=import,global-builtin shieldOS-eww/eww.scss /tmp/shield.css`) and fail if any denylisted CSS property or syntax appears:
+     - Layout & positioning: `display: flex`, `justify-content`, `align-items`, `flex-direction`, `position`, `z-index`, `float`, `clear`.
+     - Pseudo-elements / text / appearance: `::before`, `::after`, `text-overflow`, `white-space`, `-webkit-*`, `appearance`, `cursor`, `:focus-visible`, `@media`, `var(--`.
+     - Sizing & overflows: `max-width`, `max-height`, `overflow`.
+     - Deprecated or invalid GTK properties: `line-height` (rejected by GTK 3.24 as an invalid property), `transition: all` (accepted by GTK3 but denylisted as a style rule).
+     - Geometry, parser & rule additions (Ticket 3b):
+       - `!important` (unsupported by GTK3 CSS; causes GTK to discard the entire compiled stylesheet).
+       - Comma-separated `@keyframes` selectors (e.g. `0%, 24% {`; causes GTK to discard the whole stylesheet).
+       - `animation-delay` (silently ignored by GTK3; timing stagger must be baked directly into keyframes).
+       - `steps(` (unsupported in GTK3; fake via adjacent percentage keyframe stops).
+       - 8-digit hex colors (`#RRGGBBAA`; fails to parse in GTK3 gradients/properties).
+       - `to top right` in gradients (fails to parse in GTK3; use `to bottom right` or explicit angles).
+       - Two-position gradient color stops (`$c 0 3px` form; heuristic check, fails GTK parser; use explicit stops `$c 0, $c 3px`).
+       - Any `url(` in compiled CSS (relative `url()` does not resolve in SCSS; assets must load via Yuck `image :path`).
+   - **Headless Runtime Verification**: Start Eww in a headless session with `SHIELD_FIXTURE=frozen`, open every defined window (`eww -c shieldOS-eww open-many ...`), assert all expected windows are listed in `eww -c shieldOS-eww active-windows` and variables are populated in `eww -c shieldOS-eww state --all` (not just `eww ping`), and fail on any CSS or parser warnings in `eww -c shieldOS-eww logs`. Always start a fresh Eww daemon in tests, never `eww reload`; unknown-property errors and CSS parser failures only print at daemon start.
 2. **Seam 2 — JSON Schema Contract & Fixture Pipeline Check (Per Ticket)**
    - **Contract Source of Truth**: `schemas/state.schema.json` defines the exact schema for `telemetry`, `compositor`, and `network_audio` payloads.
    - **Yuck Field Reference Check**: Static test verifying that `eww.yuck` and `yuck/*.yuck` only access JSON properties declared in `schemas/state.schema.json`.
@@ -207,7 +230,7 @@ Each milestone closes with **Seam 3** (`grim` capture with frozen clock/mock dat
    - *Done when*: Seams 1+2 pass and `grim` capture of `background` passes the checklist for the centered gold eagle emblem with outer glow, 56-star ring, and vertical waveform background.
 2. **Milestone 2 — Perimeter Chamfered Frame & Corner Plates**
    - Build the static steel-grey chamfered perimeter bevels (top, bottom, left, right rails and 4 corner housings) with the bottom-right 4-pointed star emblem.
-   - *Done when*: All four screen edges show continuous chamfered steel-grey framing with `#5A5C60` highlights and `#18191B` inner grooves without blocking the center canvas.
+   - *Done when*: All four screen edges show continuous chamfered steel-grey framing with `#5A5C60` highlights and `#18191B` inner grooves without blocking the center canvas, verified with `measure`-based assertions (`tests/check-seam3-golden.sh measure 2 <hex>`) asserting frame thickness and bevel dimensions (e.g. `#5A5C60` bevel highlight thickness and `#18191B` inner groove bounds).
 3. **Milestone 3 — Top-Left Operator Module & Top-Right Date Block**
    - Implement the circular gold S.H.I.E.L.D. badge, live/frozen `HH:MM:SS` clock, orange `V0.1` box, `OPERATOR. <USER>` readout, two circular radar/target icons, and the top-right `21 / NOV - 2025 / FRI` date block.
    - *Done when*: Frozen-clock fixture renders `17:32:14` and `21 / NOV - 2025 / FRI` matching the reference checklist, and live polling updates clock and calendar.
