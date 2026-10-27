@@ -187,11 +187,11 @@ shieldOS-eww/
 
 ---
 
-## 6. Testing Seams & Verification Cadence
+## 6. Testing Gates & Verification Cadence
 
-- **Execution Cadence**: Run **Seams 1 + 2 on every ticket**; run **Seam 3 at every milestone boundary**.
+- **Execution Cadence**: Run **Gates 1 + 2 on every ticket**; run **Gate 3 at every milestone boundary**.
 
-1. **Seam 1 — GTK3 CSS Denylist & Headless Eww Runtime Check (Per Ticket)**
+1. **Gate 1 — GTK3 CSS Denylist & Headless Eww Runtime Check (Per Ticket)**
    - **Static Denylist Lint**: Compile SCSS (`sass --no-source-map --silence-deprecation=import,global-builtin shieldOS-eww/eww.scss /tmp/shield.css`) and fail if any denylisted CSS property or syntax appears:
      - Layout & positioning: `display: flex`, `justify-content`, `align-items`, `flex-direction`, `position`, `z-index`, `float`, `clear`.
      - Pseudo-elements / text / appearance: `::before`, `::after`, `text-overflow`, `white-space`, `-webkit-*`, `appearance`, `cursor`, `:focus-visible`, `@media`, `var(--`.
@@ -209,14 +209,14 @@ shieldOS-eww/
      - Verified against core geometry techniques: 4-quadrant linear gradients from `@mixin octagon` and `@mixin cut2` cleanly pass all 30 denylist patterns while two-position color stops are strictly caught.
    - **Yuck Triangle Geometry Lint**: AST parser (`tests/check-yuck-triangles.py`) validating all `.yuck` files to enforce that border-only triangle widgets (`.triangle`, `.trianglesub`) never declare explicit `:width` or `:height` (which turns borders into trapezoids); includes built-in negative test asserting rejection of dimensioned triangles.
    - **Headless Runtime Verification**: Start Eww in a headless session with `SHIELD_FIXTURE=frozen`, open every defined window (`eww -c shieldOS-eww open-many ...`), assert all expected windows are listed in `eww -c shieldOS-eww active-windows` and variables are populated in `eww -c shieldOS-eww state --all` (not just `eww ping`), and fail on any CSS or parser warnings in `eww -c shieldOS-eww logs`. Always start a fresh Eww daemon in tests, never `eww reload`; unknown-property errors and CSS parser failures only print at daemon start.
-2. **Seam 2 — JSON Schema Contract & Fixture Pipeline Check (Per Ticket)**
+2. **Gate 2 — JSON Schema Contract & Fixture Pipeline Check (Per Ticket)**
    - **Contract Source of Truth**: `schemas/state.schema.json` defines the exact schema for `telemetry`, `compositor`, and `network_audio` payloads.
    - **Yuck Field Reference Check**: Static test verifying that `eww.yuck` and `yuck/*.yuck` only access JSON properties declared in `schemas/state.schema.json`.
    - **Fixture & Fallback Validation**: Run all data scripts in `--once --fixture <name>` mock mode and validate stdout against `schemas/state.schema.json`, covering:
      - `niri` compositor fixture
      - `hyprland` compositor fixture
      - Failure/fallback fixtures (missing sysfs battery/thermals, absent compositor IPC, disconnected network/audio).
-3. **Seam 3 — Deterministic `grim` Golden Regression & Fidelity Checklist (Per Milestone)**
+3. **Gate 3 — Deterministic `grim` Golden Regression & Fidelity Checklist (Per Milestone)**
    - **Deterministic Capture**: Render in a fixed-resolution headless Wayland output with mock fixture data and a frozen clock/date (`17:32:14`, `21 NOV - 2025 FRI`), capturing the screen via `grim`.
    - **Golden Regression Diff**: Pixel-diff (`magick compare -metric AE -fuzz 2%`) only against our own approved milestone golden images (`tests/goldens/milestone-<N>.png`) to catch regressions. Tolerance policy: a `-fuzz 2%` color margin failing if differing pixels exceed 0.1% of the image surface area (up to 2,073 pixels on 1920x1080) accommodates minor antialiasing and subpixel rasterization variations across GPU/CPU rendering backends while catching any visible layout shift, color mistake, or missing element.
    - **Reference Fidelity Review**: Compare against `reference/shield-os.png` using a structured visual checklist (colors, typography, chamfered geometry, placement, states) rather than a pixel diff against the mockup.
@@ -225,11 +225,11 @@ shieldOS-eww/
 
 ## 7. Build Order (Staged Milestones)
 
-Each milestone closes with **Seam 3** (`grim` capture with frozen clock/mock data, checklist review against `reference/shield-os.png`, and golden image approval). Every ticket within a milestone runs **Seams 1 + 2**.
+Each milestone closes with **Gate 3** (`grim` capture with frozen clock/mock data, checklist review against `reference/shield-os.png`, and golden image approval). Every ticket within a milestone runs **Gates 1 + 2**.
 
 1. **Milestone 1 — Scaffold, Contracts, Tokens & Background Canvas**
-   - Set up `shieldOS-eww/` layout, `schemas/state.schema.json`, Seam 1+2 test runners, `themes/shield-gold.scss`, `dpi()` scaling, and the `bottom`-layer background window with the dark void canvas, data-noise waveform lines, and central S.H.I.E.L.D. eagle + 56-star ring SVG.
-   - *Done when*: Seams 1+2 pass and `grim` capture of `background` passes the checklist for the centered gold eagle emblem with outer glow, 56-star ring, and vertical waveform background.
+   - Set up `shieldOS-eww/` layout, `schemas/state.schema.json`, Gate 1+2 test runners, `themes/shield-gold.scss`, `dpi()` scaling, and the `bottom`-layer background window with the dark void canvas, data-noise waveform lines, and central S.H.I.E.L.D. eagle + 56-star ring SVG.
+   - *Done when*: Gates 1+2 pass and `grim` capture of `background` passes the checklist for the centered gold eagle emblem with outer glow, 56-star ring, and vertical waveform background.
 2. **Milestone 2 — Perimeter Chamfered Frame & Corner Plates**
    - Build the static steel-grey chamfered perimeter bevels (top, bottom, left, right rails and 4 corner housings) with the bottom-right 4-pointed star emblem.
    - *Done when*: All four screen edges show continuous chamfered steel-grey framing with `#5A5C60` highlights and `#18191B` inner grooves without blocking the center canvas, verified with `measure`-based assertions (`tests/check-seam3-golden.sh measure 2 <hex>`) asserting frame thickness and bevel dimensions (e.g. `#5A5C60` bevel highlight thickness and `#18191B` inner groove bounds).
@@ -238,7 +238,7 @@ Each milestone closes with **Seam 3** (`grim` capture with frozen clock/mock dat
    - *Done when*: Frozen-clock fixture renders `17:32:14` and `21 / NOV - 2025 / FRI` matching the reference checklist, and live polling updates clock and calendar.
 4. **Milestone 4 — Workspace Pills (`1`–`10`) & Angled Window Tabs**
    - Wire `scripts/compositor.py` (`deflisten` + `niri`/`hyprland`/fallback fixtures) to render workspace pills `1`–`10` (empty, occupied-orange, active-teal states) and up to 4 angled window tabs with app tags and status badges.
-   - *Done when*: Both `niri` and `hyprland` fixtures pass Seam 2, active workspaces render `#4F7E86` fill with `#AFDBE6` top bar, clicking pills dispatches workspace switches, and angled window tabs populate cleanly.
+   - *Done when*: Both `niri` and `hyprland` fixtures pass Gate 2, active workspaces render `#4F7E86` fill with `#AFDBE6` top bar, clicking pills dispatches workspace switches, and angled window tabs populate cleanly.
 5. **Milestone 5 — Right-Edge CPU / RAM Vertical Gauges & Lower Quick Tabs**
    - Implement the stacked `CPU` and `RAM` vertical ladder gauges (`100` down to `0`) with dynamic bright-amber (`#FEB703`) active threshold blocks, plus the 3 lower-right angled quick-toggle tabs.
    - *Done when*: Mock telemetry fixture (`CPU=2 / 1.0`, `RAM=42`) illuminates the exact vertical steps in `#FEB703` with `#0E0F11` text.

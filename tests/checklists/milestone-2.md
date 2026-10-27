@@ -5,7 +5,7 @@ Capture Path: `tests/captures/milestone-2.png`
 Side-by-Side Path: `tests/captures/compare-2.png`
 
 ## Automated Regression
-- [ ] `tests/run-ticket.sh` (Seams 1 & 2) passes with exit code 0
+- [ ] `tests/run-ticket.sh` (Gates 1 & 2) passes with exit code 0
 - [ ] `tests/check-seam3-golden.sh check 2` passes against approved golden
 
 ## Programmatic Geometry & Thickness Assertions (`measure`)
