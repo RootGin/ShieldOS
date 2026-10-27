@@ -172,7 +172,7 @@ def format_clock_fields(fixture_inputs):
 
 
 def collect_metrics(fixture_inputs, prev_cpu_sample):
-    proc_root = "/proc"
+    proc_root = os.environ.get("SHIELD_PROC_ROOT", "/proc")
     if fixture_inputs is not None and fixture_inputs.get("proc_root"):
         proc_root = str(fixture_inputs["proc_root"])
 

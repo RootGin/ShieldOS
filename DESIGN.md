@@ -193,7 +193,7 @@ shieldOS-eww/
      - Failure/fallback fixtures (missing sysfs battery/thermals, absent compositor IPC, disconnected network/audio).
 3. **Seam 3 — Deterministic `grim` Golden Regression & Fidelity Checklist (Per Milestone)**
    - **Deterministic Capture**: Render in a fixed-resolution headless Wayland output with mock fixture data and a frozen clock/date (`17:32:14`, `21 NOV - 2025 FRI`), capturing the screen via `grim`.
-   - **Golden Regression Diff**: Pixel-diff (`magick compare`) only against our own approved milestone golden images (`tests/goldens/milestone-<N>.png`) to catch regressions.
+   - **Golden Regression Diff**: Pixel-diff (`magick compare -metric AE -fuzz 2%`) only against our own approved milestone golden images (`tests/goldens/milestone-<N>.png`) to catch regressions. Tolerance policy: a `-fuzz 2%` color margin failing if differing pixels exceed 0.1% of the image surface area (up to 2,073 pixels on 1920x1080) accommodates minor antialiasing and subpixel rasterization variations across GPU/CPU rendering backends while catching any visible layout shift, color mistake, or missing element.
    - **Reference Fidelity Review**: Compare against `reference/shield-os.png` using a structured visual checklist (colors, typography, chamfered geometry, placement, states) rather than a pixel diff against the mockup.
 
 ---

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import datetime
 import glob
 import json
 import os
@@ -230,6 +231,36 @@ def run_env_fixture_precedence_check(script_path, schema):
         fail("fixture-precedence", f"--fixture frozen did not override SHIELD_FIXTURE=fallback: {override_payload}")
 
 
+def run_production_proc_fallback_check(script_path, schema):
+    env = os.environ.copy()
+    env.pop("SHIELD_FIXTURE", None)
+    env["SHIELD_PROC_ROOT"] = "/nonexistent-proc-fallback"
+    proc = subprocess.run(
+        [sys.executable, str(script_path), "--once"],
+        cwd=str(REPO_DIR),
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    if proc.returncode != 0:
+        fail("production-proc-fallback", f"{script_path.name} --once with unreadable /proc exited {proc.returncode}: {proc.stderr}")
+    lines = proc.stdout.splitlines()
+    if len(lines) != 1:
+        fail("production-proc-fallback", f"{script_path.name} printed {len(lines)} lines")
+    payload = json.loads(lines[0])
+    validate_payload_against_def(schema, "telemetry", payload, "production unreadable /proc")
+    if payload.get("cpu_percent") != 0 or payload.get("ram_percent") != 0 or payload.get("kernel") != "UNKNOWN":
+        fail("production-proc-fallback", f"Unexpected metrics on unreadable /proc: {payload}")
+    now = datetime.datetime.now()
+    if payload.get("day") != now.strftime("%d"):
+        fail("production-proc-fallback", f"Expected real day {now.strftime('%d')}, got {payload.get('day')}")
+    if payload.get("month_year") != f"{now.strftime('%b').upper()} - {now.strftime('%Y')}":
+        fail("production-proc-fallback", f"Expected real month_year, got {payload.get('month_year')}")
+    if payload.get("weekday") != now.strftime("%a").upper():
+        fail("production-proc-fallback", f"Expected real weekday, got {payload.get('weekday')}")
+
+
 def main():
     schema = load_and_verify_schema(SCHEMA_PATH)
 
@@ -264,6 +295,7 @@ def main():
 
         if name == "telemetry":
             run_env_fixture_precedence_check(script_path, schema)
+            run_production_proc_fallback_check(script_path, schema)
 
     print(
         f"PASS [seam2-schema]: schema strict, yuck refs valid ({checked_refs} checked), "

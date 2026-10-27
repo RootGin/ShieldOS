@@ -5,3 +5,4 @@
 3. **No new dependencies without asking**: Use only the tools pinned in the Nix devShell (`eww`, `sass`, `sway`, `grim`, `imagemagick`, `python3` with `jsonschema`). Do not add packages or runtime dependencies without explicit user approval.
 4. **GTK3-safe CSS only**: Emit only CSS properties supported by GTK3's CSS engine. Never emit CSS custom properties (`--*` / `var(...)`), flexbox/grid layout rules, `position`, `z-index`, `max-width`/`max-height`, `overflow`, `line-height`, pseudo-elements (`::before`/`::after`), or `transition: all` (enforced as a style rule even though GTK3 accepts it).
 5. **Never claim a test passes without running it**: Always execute the test suite (`tests/check-seam1-gtk.sh`, etc.) and verify its exit code and output before reporting completion.
+6. **Every ticket must end with tests/run-ticket.sh passing**: Execute `tests/run-ticket.sh` (which runs Seam 1 then Seam 2) and verify its exit code is 0 before completing any ticket.
