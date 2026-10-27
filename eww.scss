@@ -1,0 +1,32 @@
+@import "./theme";
+@import "./scss/_scale";
+@import "./scss/_tokens";
+
+* {
+  all: unset;
+  color: $text-primary;
+  font-family: $font-hud;
+  font-size: $text-md;
+}
+
+.window {
+  background-color: $bg-void;
+  color: $text-primary;
+  border-radius: dpi(0px);
+  padding: dpi(0px);
+  margin: dpi(0px);
+}
+
+.widget {
+  background-color: $surface-panel;
+  color: $text-primary;
+  border-radius: dpi(0px);
+  padding: dpi(0px);
+  margin: dpi(0px);
+}
+
+.canvas {
+  background-color: $bg-canvas;
+  color: $text-primary;
+  border-radius: dpi(0px);
+}

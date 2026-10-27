@@ -1,0 +1,7 @@
+(defvar active_theme "shield-gold")
+(defvar hud_visible true)
+(defvar telemetry "{}")
+(defvar compositor "{}")
+(defvar network_audio "{}")
+
+(include "./yuck/background.yuck")

@@ -1,0 +1,15 @@
+(defwindow background
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100%"
+                      :height "100%"
+                      :anchor "top left")
+  :stacking "bottom"
+  :exclusive false
+  :focusable false
+  :namespace "shield-background"
+  (box :class "canvas"
+       :visible hud_visible
+       :hexpand true
+       :vexpand true))
