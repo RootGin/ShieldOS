@@ -10,6 +10,6 @@
   :focusable false
   :namespace "shield-background"
   (box :class "canvas"
-       :visible hud_visible
+       :tooltip "${telemetry.time} ${telemetry.day} ${telemetry.month_year} ${telemetry.weekday}"
        :hexpand true
        :vexpand true))

@@ -70,6 +70,7 @@ DENYLIST_LABELS=(
   "max-width"
   "max-height"
   "overflow"
+  "line-height"
   "transition: all"
 )
 
@@ -95,6 +96,7 @@ DENYLIST_PATTERNS=(
   "(^|[[:space:]{;])max-width[[:space:]]*:"
   "(^|[[:space:]{;])max-height[[:space:]]*:"
   "(^|[[:space:]{;])overflow(-x|-y)?[[:space:]]*:"
+  "(^|[[:space:]{;])line-height[[:space:]]*:"
   "transition(-property)?[[:space:]]*:[[:space:]]*all([[:space:];,}]|$)"
 )
 
@@ -152,6 +154,7 @@ fi
 
 export WAYLAND_DISPLAY="${WAYLAND_SOCKET}"
 export GDK_BACKEND=wayland
+export SHIELD_FIXTURE="${SHIELD_FIXTURE:-frozen}"
 
 EWW_LOG="${WORK_DIR}/eww.log"
 eww -c shieldOS-eww daemon --no-daemonize >"${EWW_LOG}" 2>&1 &
@@ -191,9 +194,17 @@ for win in "${WINDOWS[@]}"; do
   fi
 done
 
-STATE_OUT="$(eww -c shieldOS-eww state 2>&1 || true)"
+STATE_OUT="$(eww -c shieldOS-eww state --all 2>&1 || true)"
 if [[ -z "${STATE_OUT}" ]] || ! grep -Eq "^[a-zA-Z0-9_-]+: .+" <<<"${STATE_OUT}"; then
-  fail "eww-state" "eww state is not populated (got: '${STATE_OUT}'). Logs: $(cat "${EWW_LOG}")"
+  fail "eww-state" "eww state --all is not populated (got: '${STATE_OUT}'). Logs: $(cat "${EWW_LOG}")"
+fi
+
+if [[ "${SHIELD_FIXTURE}" == "frozen" ]]; then
+  for expected in '"time":"17:32:14"' '"day":"21"' '"month_year":"NOV - 2025"' '"weekday":"FRI"'; do
+    if ! grep -Fq "${expected}" <<<"${STATE_OUT}"; then
+      fail "eww-state-frozen" "Expected ${expected} in eww state --all (got: '$(grep "^telemetry:" <<<"${STATE_OUT}" || true)')"
+    fi
+  done
 fi
 
 LOGS_CMD_OUT="$(timeout 1s eww -c shieldOS-eww logs 2>&1 || true)"

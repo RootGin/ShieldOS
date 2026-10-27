@@ -1,0 +1,10 @@
+{
+  "proc_root": "/nonexistent-proc-fallback",
+  "timestamp": null,
+  "proc_stat_prev": null,
+  "proc_stat": null,
+  "proc_loadavg": null,
+  "proc_meminfo": null,
+  "proc_osrelease": null,
+  "env_user": ""
+}

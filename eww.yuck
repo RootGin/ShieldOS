@@ -1,6 +1,8 @@
 (defvar active_theme "shield-gold")
 (defvar hud_visible true)
-(defvar telemetry "{}")
+(deflisten telemetry
+  :initial '{"time":"00:00:00","day":"01","month_year":"JAN - 1970","weekday":"THU","cpu_percent":0,"cpu_load":0.0,"ram_percent":0,"user":"OPERATOR","kernel":"UNKNOWN","version":"V0.1"}'
+  `SHIELD_FIXTURE="$SHIELD_FIXTURE" ./scripts/telemetry.py`)
 (defvar compositor "{}")
 (defvar network_audio "{}")
 

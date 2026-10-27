@@ -1,6 +1,7 @@
 # S.H.I.E.L.D. OS HUD — Design & Architecture Plan (`DESIGN.md`)
 
 Reference mockup: `../reference/shield-os.png` (`2752×1536`, 16:9 widescreen).
+User's Screen Resolution is 1920x1080.
 
 ---
 
@@ -103,11 +104,11 @@ All hex values are sampled directly from `reference/shield-os.png` and named by 
 
 | # | Component | Screen Position | Visual States | Real Data / Action Binding |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | **Operator Badge + Clock + Version Tag** | Top-left corner | Normal, hover, alert pulse on medallion. Includes circular gold eagle badge, `17:32:14` clock, orange `V0.1` tag, `OPERATOR. NFRAGMENT`, micro sub-line *(blurry/garbled in image)*, plus 2 circular status icons (ring & crosshair) on the outer bevel. | Clock: system time (`1s` poll). `NFRAGMENT`: `$USER` / `whoami`. Sub-line: `uname -r` or `hostname`. `V0.1`: config version. Clicking medallion toggles system overview. |
+| 1 | **Operator Badge + Clock + Version Tag** | Top-left corner | Normal, hover, alert pulse on medallion. Includes circular gold eagle badge, `17:32:14` clock, orange `V0.1` tag, `OPERATOR. NFRAGMENT`, micro sub-line *(blurry/garbled in image)*, plus 2 circular status icons (ring & crosshair) on the outer bevel. | Clock: system time (`1s` stream via `telemetry` `deflisten`). `NFRAGMENT`: `$USER` / `whoami`. Sub-line: `uname -r` or `hostname`. `V0.1`: config version. Clicking medallion toggles system overview. |
 | 2 | **Workspace Pills (`1`–`10`)** | Top bar, left-center | **Active** (`2`, `8`): teal fill (`#4F7E86`), bright cyan top bar, white text. **Occupied** (`4`, `7`): grey fill (`#4E4E4E`), orange top bar. **Empty** (`1,3,5,6,9,10`): grey fill, dark top bar. | Bound to Wayland compositor IPC (`niri` / `hyprland` / `sway` event stream). Click switches to workspace `N`; scroll cycles workspaces. |
 | 3 | **Window Tabs** | Top bar, right-center (after pill `10`) | 4 angled parallelogram tabs: `8G / Hydra` (orange badge), `UPD / Nebula` (red badge), `UPD / Spartim` *(garbled "Spartan", red badge)*, `UPD / Gersfit` *(garbled text, red badge)*. Sub-badges contain blurry micro-text. | Bound to windows on the active workspace via compositor IPC. Top-left code = short app class/tag; main text = truncated window title; bottom-right badge = state/PID/urgency. Click focuses window. |
-| 4 | **Date Block** | Top-right corner | Giant extended `21`, orange `NOV - 2025` pill with dark text, and `FRI` below inside a chamfered right-corner plate. | System clock/calendar (`%d`, uppercase `%b - %Y`, uppercase `%a`, `60s` poll). Click toggles calendar popup. |
-| 5 | **CPU / RAM Vertical Gauges** | Right edge, upper-middle | Two stacked vertical segmented ladders (`100, 80, 60, 40, 20, 0`). `CPU` shows active amber blocks at `2` (%) and `1.0` (load/GHz). `RAM` highlights the `42` (%) block in bright amber (`#FEB703`). | `defpoll` (`2s`) reading `/proc/stat`, `/proc/loadavg`, and `/proc/meminfo`. Segmented rows highlight dynamically at the matching threshold bucket. |
+| 4 | **Date Block** | Top-right corner | Giant extended `21`, orange `NOV - 2025` pill with dark text, and `FRI` below inside a chamfered right-corner plate. | System clock/calendar (`%d`, uppercase `%b - %Y`, uppercase `%a`, via `telemetry` `deflisten`). Click toggles calendar popup. |
+| 5 | **CPU / RAM Vertical Gauges** | Right edge, upper-middle | Two stacked vertical segmented ladders (`100, 80, 60, 40, 20, 0`). `CPU` shows active amber blocks at `2` (%) and `1.0` (load/GHz). `RAM` highlights the `42` (%) block in bright amber (`#FEB703`). | `deflisten` (`1s` stream, `2s` internal CPU/RAM refresh) reading `/proc/stat`, `/proc/loadavg`, and `/proc/meminfo`. Segmented rows highlight dynamically at the matching threshold bucket. |
 | 6 | **Status Pill `"DISCONNECTED"` + Equalizer** | Bottom-left corner | Chamfered pill with red top alert bar (`#9D000B`), robot/drone icon, and `DISCONNECTED` text; adjacent hexagonal pod with 4 vertical cyan bars. | Left pill: `nmcli monitor` network/VPN connection status (red `DISCONNECTED` vs teal `<SSID>`/`CONNECTED`). Right pod: audio output activity (`pactl`/`cava`) or Wi-Fi signal bars; click mutes/opens network menu. |
 | 7 | **Bottom Menu Tabs** | Bottom edge, center-to-right | **Left recessed strip** (icon + text): `LOCALSHARE`, `WEBSEARCH`, `COLORS`. **Right raised trapezoids**: `POWERMENU`, `BLUETOOTH`, `APPLICATIONS` (active teal `#0B4A5C` with `#AFDBE6` border). | Click actions: `LOCALSHARE` (LocalSend/share script), `WEBSEARCH` (search prompt), `COLORS` (cycle theme palette), `POWERMENU` (session power modal), `BLUETOOTH` (BT manager/popup), `APPLICATIONS` (app launcher). |
 | 8 | **Left Side Panel** | Left edge, vertical middle | Chamfered vertical steel housing with a circular play (`▶`) button at top and segmented vertical slot indicators below. | Bound to MPRIS (`playerctl` play/pause + progress/volume indicator) or quick-dock window slots. |
@@ -123,7 +124,7 @@ All hex values are sampled directly from `reference/shield-os.png` and named by 
 - **UI Runtime**: **Eww (ElKowar's Wacky Widgets)** on Wayland (`layer-shell`) inside `/home/rootgin/.config/eww/shieldOS-eww/`.
 - **Styling**: **SCSS compiled to GTK3 CSS** (strictly scoped to GTK-supported properties per `scss-best-practices-eww`), paired with inline/file **SVG assets** for 45° chamfered polygons, the 56-star S.H.I.E.L.D. emblem, and trapezoid tabs.
   - *Why SVG + GTK CSS*: GTK3 CSS does not support `clip-path: polygon(...)` or arbitrary angled borders. Rendering chamfered panel backgrounds and trapezoid tabs as scalable SVGs (or `background-image: url(...)` on inner `box` widgets) while positioning labels via Yuck `overlay` gives razor-sharp 45° geometry with low CPU overhead.
-- **Data Scripts**: Event-driven Python/Bash scripts (`deflisten` for compositor workspaces/windows, network, audio; `defpoll` for clock, CPU/RAM, date) following ADR-0001 multi-compositor auto-detection.
+- **Data Scripts**: Event-driven Python/Bash scripts (`deflisten` for telemetry, compositor workspaces/windows, network, audio) following ADR-0001 multi-compositor auto-detection.
 
 ### Folder Structure
 ```text
@@ -151,7 +152,7 @@ shieldOS-eww/
 │   └── state.schema.json     # Canonical JSON Schema for all script payloads
 ├── scripts/
 │   ├── compositor.py         # deflisten: workspaces 1-10 + active window tabs (Niri/Hyprland/Sway + --fixture)
-│   ├── telemetry.py          # defpoll: CPU %, CPU load, RAM %, date/time (+ --fixture / frozen clock)
+│   ├── telemetry.py          # deflisten: CPU %, CPU load, RAM %, date/time (+ --fixture / frozen clock)
 │   ├── network-audio.py      # deflisten: connectivity state + 4-bar equalizer/audio state (+ --fixture)
 │   └── theme-gen.py          # Injects active theme hex tokens into SVG templates
 ├── tests/
@@ -181,8 +182,8 @@ shieldOS-eww/
 - **Execution Cadence**: Run **Seams 1 + 2 on every ticket**; run **Seam 3 at every milestone boundary**.
 
 1. **Seam 1 — GTK3 CSS Denylist & Headless Eww Runtime Check (Per Ticket)**
-   - **Static Denylist Lint**: Compile SCSS (`npx sass --no-source-map shieldOS-eww/eww.scss /tmp/shield.css`) and fail if any unsupported GTK3 CSS property or syntax appears (`display: flex`, `justify-content`, `align-items`, `flex-direction`, `position`, `z-index`, `float`, `clear`, `::before`, `::after`, `text-overflow`, `white-space`, `-webkit-*`, `appearance`, `cursor`, `:focus-visible`, `@media`, `var(--`, `max-width`, `max-height`, `overflow`, `transition: all`).
-   - **Headless Runtime Verification**: Start Eww in a headless session, open every defined window (`eww -c shieldOS-eww open-many ...`), assert all expected windows are listed in `eww -c shieldOS-eww active-windows` and variables are populated in `eww -c shieldOS-eww state` (not just `eww ping`), and fail on any CSS or parser warnings in `eww -c shieldOS-eww logs`.
+   - **Static Denylist Lint**: Compile SCSS (`sass --no-source-map --silence-deprecation=import,global-builtin shieldOS-eww/eww.scss /tmp/shield.css`) and fail if any denylisted CSS property or syntax appears (`display: flex`, `justify-content`, `align-items`, `flex-direction`, `position`, `z-index`, `float`, `clear`, `::before`, `::after`, `text-overflow`, `white-space`, `-webkit-*`, `appearance`, `cursor`, `:focus-visible`, `@media`, `var(--`, `max-width`, `max-height`, `overflow`, `line-height`, `transition: all`). Note: `line-height` is rejected by GTK 3.24 as an invalid property; `transition: all` is accepted by GTK3's parser but kept on the denylist as a strict style rule (require explicit transition property names).
+   - **Headless Runtime Verification**: Start Eww in a headless session with `SHIELD_FIXTURE=frozen`, open every defined window (`eww -c shieldOS-eww open-many ...`), assert all expected windows are listed in `eww -c shieldOS-eww active-windows` and variables are populated in `eww -c shieldOS-eww state --all` (not just `eww ping`), and fail on any CSS or parser warnings in `eww -c shieldOS-eww logs`.
 2. **Seam 2 — JSON Schema Contract & Fixture Pipeline Check (Per Ticket)**
    - **Contract Source of Truth**: `schemas/state.schema.json` defines the exact schema for `telemetry`, `compositor`, and `network_audio` payloads.
    - **Yuck Field Reference Check**: Static test verifying that `eww.yuck` and `yuck/*.yuck` only access JSON properties declared in `schemas/state.schema.json`.
@@ -225,6 +226,28 @@ Each milestone closes with **Seam 3** (`grim` capture with frozen clock/mock dat
 
 ---
 
+### Resolved: Window Management Reserve Space (was Open Question 6)
+
+Decision: the HUD reserves screen space. Tiled windows sit inside the frame
+and are never drawn under interactive HUD elements.
+
+- **Top bar window** (operator module, workspaces, window tabs, date block):
+  layer-shell, anchored top, full width, `:exclusive true`. Exclusive zone
+  equals the full top bar height, so the 90px corner plates are inside it.
+- **Bottom bar window** (connectivity pod, utility links, trapezoid tabs):
+  anchored bottom, full width, `:exclusive true`, same rule.
+- **Left and right side windows** (left dock, CPU/RAM gauges, quick tabs):
+  anchored to their edge, NOT exclusive. Compositor gaps/struts keep tiled
+  windows clear of them (niri: `struts`/`gaps`; hyprland: `general:gaps_out`;
+  sway: `gaps outer`). Gap width = widest side element, set in one place.
+- **Background canvas window**: `bottom` layer, fullscreen, not exclusive,
+  not focusable.
+- All HUD windows: `:focusable false` so they never steal keyboard focus.
+
+Consequence: 5 windows total (top, bottom, left, right, background).
+Milestone 2 builds the frame as pieces of these windows, not one fullscreen
+overlay.
+
 ## 8. Open Questions (Ambiguities in Reference Image)
 
 1. **Garbled Window Tab Sub-Badges & Labels**: The four top window tabs (`8G Hydra`, `UPD Nebula`, `UPD Spartim`, `UPD Gersfit`) have tiny orange/red bottom-right badges with unreadable AI-garbled text. Should these tabs represent **open windows on the current workspace** (prefix = app category/tag, title = window title, bottom-right badge = workspace/PID/status), or **pinned system services/containers**?
@@ -232,4 +255,3 @@ Each milestone closes with **Seam 3** (`grim` capture with frozen clock/mock dat
 3. **Left Side Panel Function**: The left vertical panel has a `▶` icon at the top and vertical segmented slots below, with no text labels. Should we bind this to **MPRIS media controls + volume/progress**, or **minimized/parked window slots**?
 4. **Three Lower-Right Mini-Tabs**: The three small angled tabs on the lower-right frame contain blurry symbols (`ω`, `90`, `ᴗ`). What three quick actions or readouts would you like bound there (e.g., Volume %, Do-Not-Disturb, Keyboard Layout / Night Light)?
 5. **Background Data-Noise Text**: The small monospace blocks in the background canvas are illegible AI placeholder text. Should they remain **static decorative texture**, or should we populate them with **live system logs / process telemetry** (`journalctl`, `uname`, top processes)?
-6. **Window Management Reserve Space**: Should the top and bottom HUD bars reserve exclusive screen space (`:reserve` / `exclusive` layer-shell zone so tiled windows sit inside the HUD frame), or should the side/corner bevels overlap window margins?
