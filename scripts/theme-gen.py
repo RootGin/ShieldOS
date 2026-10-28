@@ -47,7 +47,7 @@ def generate_star_polygons(count, cx=400.0, cy=400.0, ring_radius=280.0, r_out=8
         y = cy + ring_radius * math.sin(theta_rad)
         rot_deg = theta_deg + 90.0
         polygons.append(
-            f'    <polygon class="star" points="{points_str}" transform="translate({x:.3f}, {y:.3f}) rotate({rot_deg:.3f})" />'
+            f'    <polygon class="star" fill="{{{{$text-ice}}}}" points="{points_str}" transform="translate({x:.3f}, {y:.3f}) rotate({rot_deg:.3f})" />'
         )
     return "\n".join(polygons)
 

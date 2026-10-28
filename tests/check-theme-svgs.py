@@ -35,10 +35,30 @@ def check_provenance(repo_dir, theme_colors):
         if eight_digit:
             fail("glow-hex", f"Forbidden 8-digit hex found in {svg_file.name}: {eight_digit}")
 
+        for m in re.finditer(r'(?:fill|stroke|stop-color|flood-color|lighting-color|color)\s*=\s*"([^"]+)"', content):
+            val = m.group(1).strip()
+            if not val or val == "none" or val.startswith("url("):
+                continue
+            if re.match(r"^#[0-9a-fA-F]{3,6}$", val):
+                if val.lower() not in theme_colors:
+                    fail("provenance", f"Color '{val}' in {svg_file.name} does not trace to any theme token in themes/shield-gold.scss")
+            else:
+                fail("provenance", f"Color '{val}' in {svg_file.name} does not trace to any theme token in themes/shield-gold.scss")
+
+        for m in re.finditer(r'(?:fill|stroke|stop-color)\s*:\s*([^;"]+)', content):
+            val = m.group(1).strip()
+            if not val or val == "none" or val.startswith("url("):
+                continue
+            if re.match(r"^#[0-9a-fA-F]{3,6}$", val):
+                if val.lower() not in theme_colors:
+                    fail("provenance", f"Color '{val}' in {svg_file.name} does not trace to any theme token in themes/shield-gold.scss")
+            else:
+                fail("provenance", f"Color '{val}' in {svg_file.name} does not trace to any theme token in themes/shield-gold.scss")
+
         found_hexes = re.findall(r"#[0-9a-fA-F]{3,6}\b", content)
         for h in found_hexes:
             if h.lower() not in theme_colors:
-                fail("provenance", f"Color {h} in {svg_file.name} does not trace to any theme token in themes/shield-gold.scss")
+                fail("provenance", f"Color '{h}' in {svg_file.name} does not trace to any theme token in themes/shield-gold.scss")
 
 def check_star_ring(repo_dir):
     ring_file = repo_dir / "assets" / "star-ring.svg"
@@ -82,7 +102,7 @@ def check_star_ring(repo_dir):
         fail("star-ring-center", f"Ring center mismatch: expected (400, 400), got ({avg_x:.3f}, {avg_y:.3f})")
 
     radii = [math.hypot(s[0] - 400.0, s[1] - 400.0) for s in stars_data]
-    expected_r = radii[0]
+    expected_r = 280.0
     for idx, r in enumerate(radii):
         if abs(r - expected_r) > 0.1:
             fail("star-ring-radius", f"Star {idx} radius {r:.3f} deviates from expected {expected_r:.3f}")
@@ -101,7 +121,7 @@ def check_star_ring(repo_dir):
         if abs(diff - expected_step) > 0.05:
             fail("star-ring-spacing", f"Star spacing deviation between {i} and {i+1}: got {diff:.3f}°, expected {expected_step:.3f}°")
 
-    expected_orientation_offset = (stars_data[0][2] - math.degrees(math.atan2(stars_data[0][1] - 400.0, stars_data[0][0] - 400.0))) % 360.0
+    expected_orientation_offset = 90.0
     for idx, (x, y, rot) in enumerate(stars_data):
         theta = math.degrees(math.atan2(y - 400.0, x - 400.0))
         offset = (rot - theta) % 360.0
