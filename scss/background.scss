@@ -1,5 +1,19 @@
+.background-void {
+  background-color: $bg-void;
+  padding: dpi(16px);
+}
+
+.canvas {
+  background-color: $bg-canvas;
+}
+
 .canvas-base {
   background-color: transparent;
+}
+
+.data-noise-layer {
+  min-width: dpi(1888px);
+  min-height: dpi(1048px);
 }
 
 .glow-layer,
