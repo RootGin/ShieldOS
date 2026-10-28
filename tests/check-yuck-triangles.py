@@ -154,7 +154,7 @@ def main():
             print("FAIL [yuck-triangle-geometry]: " + err, file=sys.stderr)
         sys.exit(1)
 
-    print("PASS [seam1-yuck]: Triangle geometry check passed (negative test verified).")
+    print("PASS [gate1-yuck]: Triangle geometry check passed (negative test verified).")
 
 if __name__ == "__main__":
     main()

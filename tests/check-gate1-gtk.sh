@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 WORKSPACE_DIR="$(cd "${REPO_DIR}/.." && pwd)"
 
-WORK_DIR="$(mktemp -d "${TMPDIR:-/tmp}/shield-seam1.XXXXXX")"
+WORK_DIR="$(mktemp -d "${TMPDIR:-/tmp}/shield-gate1.XXXXXX")"
 export XDG_RUNTIME_DIR="${WORK_DIR}/runtime"
 export XDG_CACHE_HOME="${WORK_DIR}/cache"
 mkdir -p "${XDG_RUNTIME_DIR}" "${XDG_CACHE_HOME}"
@@ -235,4 +235,4 @@ if bad_logs="$(grep -E "(WARN|ERROR|Gtk-WARNING|Gtk-CRITICAL|error\[|error:|warn
   fail "eww-logs" "Warnings or errors detected in eww logs: ${bad_logs}"
 fi
 
-printf 'PASS [seam1-gtk]: CSS denylist clean, windows active (%s), state populated, logs clean.\n' "${WINDOWS[*]}"
+printf 'PASS [gate1-gtk]: CSS denylist clean, windows active (%s), state populated, logs clean.\n' "${WINDOWS[*]}"

@@ -6,12 +6,12 @@ Side-by-Side Path: `tests/captures/compare-2.png`
 
 ## Automated Regression
 - [ ] `tests/run-ticket.sh` (Gates 1 & 2) passes with exit code 0
-- [ ] `tests/check-seam3-golden.sh check 2` passes against approved golden
+- [ ] `tests/check-gate3-golden.sh check 2` passes against approved golden
 
 ## Programmatic Geometry & Thickness Assertions (`measure`)
-- [ ] Outer bevel highlight `#5A5C60` thickness assertions pass (`tests/check-seam3-golden.sh measure 2 '#5A5C60'`)
-- [ ] Inner groove `#18191B` dimension assertions pass (`tests/check-seam3-golden.sh measure 2 '#18191B'`)
-- [ ] Steel-grey panel perimeter bounds `#2C2D2F` wrap all four screen edges (`tests/check-seam3-golden.sh measure 2 '#2C2D2F'`)
+- [ ] Outer bevel highlight `#5A5C60` thickness assertions pass (`tests/check-gate3-golden.sh measure 2 '#5A5C60'`)
+- [ ] Inner groove `#18191B` dimension assertions pass (`tests/check-gate3-golden.sh measure 2 '#18191B'`)
+- [ ] Steel-grey panel perimeter bounds `#2C2D2F` wrap all four screen edges (`tests/check-gate3-golden.sh measure 2 '#2C2D2F'`)
 
 ## Visual Fidelity Review (Milestone 2)
 - [ ] Continuous chamfered steel-grey framing across top, bottom, left, and right screen rails
@@ -20,4 +20,4 @@ Side-by-Side Path: `tests/captures/compare-2.png`
 - [ ] Bottom-right 4-pointed star emblem in corner bezel
 
 ## Approval Decision
-- [ ] Approved for golden promotion: `tests/check-seam3-golden.sh approve 2 --yes`
+- [ ] Approved for golden promotion: `tests/check-gate3-golden.sh approve 2 --yes`

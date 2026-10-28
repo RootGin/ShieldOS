@@ -156,9 +156,9 @@ shieldOS-eww/
 │   ├── network-audio.py      # deflisten: connectivity state + 4-bar equalizer/audio state (+ --fixture)
 │   └── theme-gen.py          # Injects active theme hex tokens into SVG templates
 ├── tests/
-│   ├── check-seam1-gtk.sh    # CSS denylist lint + headless eww open-all, active-windows, state & log check
-│   ├── check-seam2-schema.py # Validates yuck field refs + script outputs (niri, hyprland, fallback fixtures) vs schema
-│   ├── check-seam3-golden.sh # Fixed-res frozen-clock grim capture + golden regression diff
+│   ├── check-gate1-gtk.sh    # CSS denylist lint + headless eww open-all, active-windows, state & log check
+│   ├── check-gate2-schema.py # Validates yuck field refs + script outputs (niri, hyprland, fallback fixtures) vs schema
+│   ├── check-gate3-golden.sh # Fixed-res frozen-clock grim capture + golden regression diff
 │   ├── fixtures/             # niri, hyprland, and hardware/IPC failure fallback fixtures
 │   └── goldens/              # Approved milestone golden screenshots for regression diffing
 ├── bin/
@@ -232,7 +232,7 @@ Each milestone closes with **Gate 3** (`grim` capture with frozen clock/mock dat
    - *Done when*: Gates 1+2 pass and `grim` capture of `background` passes the checklist for the centered gold eagle emblem with outer glow, 56-star ring, and vertical waveform background.
 2. **Milestone 2 — Perimeter Chamfered Frame & Corner Plates**
    - Build the static steel-grey chamfered perimeter bevels (top, bottom, left, right rails and 4 corner housings) with the bottom-right 4-pointed star emblem.
-   - *Done when*: All four screen edges show continuous chamfered steel-grey framing with `#5A5C60` highlights and `#18191B` inner grooves without blocking the center canvas, verified with `measure`-based assertions (`tests/check-seam3-golden.sh measure 2 <hex>`) asserting frame thickness and bevel dimensions (e.g. `#5A5C60` bevel highlight thickness and `#18191B` inner groove bounds).
+   - *Done when*: All four screen edges show continuous chamfered steel-grey framing with `#5A5C60` highlights and `#18191B` inner grooves without blocking the center canvas, verified with `measure`-based assertions (`tests/check-gate3-golden.sh measure 2 <hex>`) asserting frame thickness and bevel dimensions (e.g. `#5A5C60` bevel highlight thickness and `#18191B` inner groove bounds).
 3. **Milestone 3 — Top-Left Operator Module & Top-Right Date Block**
    - Implement the circular gold S.H.I.E.L.D. badge, live/frozen `HH:MM:SS` clock, orange `V0.1` box, `OPERATOR. <USER>` readout, two circular radar/target icons, and the top-right `21 / NOV - 2025 / FRI` date block.
    - *Done when*: Frozen-clock fixture renders `17:32:14` and `21 / NOV - 2025 / FRI` matching the reference checklist, and live polling updates clock and calendar.

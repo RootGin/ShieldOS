@@ -15,6 +15,6 @@ Run all commands inside `nix develop` (or `nix develop --command <cmd>`).
    - `to top right` in gradients (use `to bottom right` or explicit angles).
    - Two-position gradient color stops (`$c 0 3px`).
    - Any `url()` in compiled CSS (relative `url()` does not resolve in SCSS; load assets via Yuck `image :path`).
-5. **Never claim a test passes without running it**: Always execute the test suite (`tests/check-seam1-gtk.sh`, etc.) and verify its exit code and output before reporting completion.
+5. **Never claim a test passes without running it**: Always execute the test suite (`tests/check-gate1-gtk.sh`, etc.) and verify its exit code and output before reporting completion.
 6. **Every ticket must end with tests/run-ticket.sh passing**: Execute `tests/run-ticket.sh` (which runs Gate 1 then Gate 2) and verify its exit code is 0 before completing any ticket.
 7. **Geometry & layout standards**: Consult `docs/eww-geometry.md` before writing or modifying any chamfered, angled, or polygon widget; see `CODING_STANDARDS.md` for geometry rules and layout constraints.

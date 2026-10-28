@@ -6,7 +6,7 @@ Side-by-Side Path: `tests/captures/compare-1.png`
 
 ## Automated Regression
 - [ ] `tests/run-ticket.sh` (Gates 1 & 2) passes with exit code 0
-- [ ] `tests/check-seam3-golden.sh check 1` passes against approved golden
+- [ ] `tests/check-gate3-golden.sh check 1` passes against approved golden
 
 ## Visual Fidelity Review (Milestone 1)
 - [ ] Centered gold S.H.I.E.L.D. eagle emblem with outer glow (`$accent-primary` / `$accent-primary-glow`)
@@ -16,4 +16,4 @@ Side-by-Side Path: `tests/captures/compare-1.png`
 - [ ] Reticle grid markers (`+` / `*`) positioned on canvas
 
 ## Approval Decision
-- [ ] Approved for golden promotion: `tests/check-seam3-golden.sh approve 1 --yes`
+- [ ] Approved for golden promotion: `tests/check-gate3-golden.sh approve 1 --yes`

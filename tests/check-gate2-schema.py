@@ -298,7 +298,7 @@ def main():
             run_production_proc_fallback_check(script_path, schema)
 
     print(
-        f"PASS [seam2-schema]: schema strict, yuck refs valid ({checked_refs} checked), "
+        f"PASS [gate2-schema]: schema strict, yuck refs valid ({checked_refs} checked), "
         f"active fixtures valid ({', '.join(active_validated)}), "
         f"pending ({', '.join(pending_entries)})."
     )

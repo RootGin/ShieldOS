@@ -31,7 +31,7 @@ resolve_target() {
 render_and_capture() {
   local out_file="$1"
   local work_dir
-  work_dir="$(mktemp -d "${TMPDIR:-/tmp}/shield-seam3.XXXXXX")"
+  work_dir="$(mktemp -d "${TMPDIR:-/tmp}/shield-gate3.XXXXXX")"
 
   local sway_pid=""
   local eww_pid=""
@@ -273,11 +273,11 @@ subcommand_check() {
   local max_diff_pixels=$(( total_pixels / 1000 ))
 
   if (( diff_count > max_diff_pixels )); then
-    fail "seam3-golden" "${CAPTURE_FILE} differs from ${GOLDEN_FILE} by ${diff_count} pixels (> ${max_diff_pixels} threshold, 0.1%). Diff image written to: ${DIFF_FILE}"
+    fail "gate3-golden" "${CAPTURE_FILE} differs from ${GOLDEN_FILE} by ${diff_count} pixels (> ${max_diff_pixels} threshold, 0.1%). Diff image written to: ${DIFF_FILE}"
   fi
 
   rm -f "${DIFF_FILE}"
-  printf 'PASS [seam3-golden]: %s matches %s (%d differing pixels <= %d threshold at 2%% fuzz).\n' "${CAPTURE_FILE}" "${GOLDEN_FILE}" "${diff_count}" "${max_diff_pixels}"
+  printf 'PASS [gate3-golden]: %s matches %s (%d differing pixels <= %d threshold at 2%% fuzz).\n' "${CAPTURE_FILE}" "${GOLDEN_FILE}" "${diff_count}" "${max_diff_pixels}"
 }
 
 subcommand_approve() {
@@ -320,7 +320,7 @@ subcommand_compare() {
   fi
   mkdir -p "$(dirname "${COMPARE_FILE}")"
   magick "${CAPTURE_FILE}" \( "${ref_img}" -resize 1920x1080\! \) +append "${COMPARE_FILE}"
-  printf 'CREATED [seam3-compare]: Side-by-side fidelity comparison image written to %s\n' "${COMPARE_FILE}"
+  printf 'CREATED [gate3-compare]: Side-by-side fidelity comparison image written to %s\n' "${COMPARE_FILE}"
 }
 
 subcommand_crop() {
@@ -357,7 +357,7 @@ subcommand_crop() {
   else
     magick "${CAPTURE_FILE}" -crop "${w}x${h}+${x}+${y}" +repage "${crop_out}"
   fi
-  printf 'CROPPED [seam3-crop]: Region (%s) scaled %sx written to %s\n' "${geom}" "${zoom}" "${crop_out}"
+  printf 'CROPPED [gate3-crop]: Region (%s) scaled %sx written to %s\n' "${geom}" "${zoom}" "${crop_out}"
 }
 
 subcommand_measure() {
@@ -378,7 +378,7 @@ subcommand_measure() {
   if [[ -z "${bounds}" || "${bounds}" == *"-2+-2"* || "${bounds}" == *"-1+-1"* ]]; then
     bounds="0x0 +0+0"
   fi
-  printf 'MEASURED [seam3-measure]: Color %s bounding box: %s\n' "${hex}" "${bounds}"
+  printf 'MEASURED [gate3-measure]: Color %s bounding box: %s\n' "${hex}" "${bounds}"
   printf '%s\n' "${bounds}"
 }
 

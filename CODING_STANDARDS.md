@@ -8,4 +8,4 @@
 4. **Put a label inside its box, not as a sibling overlay child**: Sibling overlay children collapse container `min-height`/`min-width`; place labels inside the child box container.
 5. **Never set `:width`/`:height` on a border-only triangle**: Setting dimensions on a `.triangle` turns the border into a trapezoid. Let border widths alone size the triangle.
 6. **`min-width` is content-box**: Rendered width = `min-width` + padding + border; subtract horizontal padding and border when matching target pixel dimensions.
-7. **Measure rendered pixels before tuning any offset**: Use `tests/check-seam3-golden.sh measure` and `crop` to verify exact rendered pixel boundaries rather than guessing offsets.
+7. **Measure rendered pixels before tuning any offset**: Use `tests/check-gate3-golden.sh measure` and `crop` to verify exact rendered pixel boundaries rather than guessing offsets.
