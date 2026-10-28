@@ -27,5 +27,5 @@
                 (image :path "./assets/glow.svg" :image-width 800 :image-height 800))
               (box :class "star-ring-layer" :halign "center" :valign "center" :width 800 :height 800
                 (image :path "./assets/star-ring.svg" :image-width 800 :image-height 800))
-              (box :class "placeholder-layer" :halign "center" :valign "center" :width 800 :height 800
-                (image :path "./assets/placeholder.svg" :image-width 800 :image-height 800))))))
+              (box :class "emblem-layer" :halign "center" :valign "center" :width 800 :height 800
+                (image :path "./assets/emblem.svg" :image-width 800 :image-height 800))))))

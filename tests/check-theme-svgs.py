@@ -165,6 +165,22 @@ def check_glow(repo_dir):
     if abs(op_last - 0.0) > 0.01:
         fail("glow-opacity-end", f"Expected outer stop-opacity 0, got {op_last}")
 
+def check_emblem(repo_dir):
+    emblem_file = repo_dir / "assets" / "emblem.svg"
+    if not emblem_file.is_file():
+        fail("emblem-missing", "assets/emblem.svg does not exist")
+
+    content = emblem_file.read_text(encoding="utf-8")
+    if "#DBAD4D" not in content.upper():
+        fail("emblem-primary", "assets/emblem.svg missing $accent-primary (#DBAD4D)")
+    if "#C79C4E" not in content.upper():
+        fail("emblem-primary-mid", "assets/emblem.svg missing $accent-primary-mid (#C79C4E)")
+
+    try:
+        ET.parse(emblem_file)
+    except Exception as exc:
+        fail("emblem-xml", f"Failed to parse assets/emblem.svg: {exc}")
+
 def main():
     repo_dir = Path(__file__).resolve().parent.parent
     theme_colors = extract_theme_colors(repo_dir / "themes" / "shield-gold.scss")
@@ -172,8 +188,9 @@ def main():
     check_provenance(repo_dir, theme_colors)
     check_star_ring(repo_dir)
     check_glow(repo_dir)
+    check_emblem(repo_dir)
 
-    print("PASS [theme-svgs]: provenance, 56-star ring, and radial glow validated successfully.")
+    print("PASS [theme-svgs]: provenance, 56-star ring, radial glow, and emblem validated successfully.")
 
 if __name__ == "__main__":
     main()

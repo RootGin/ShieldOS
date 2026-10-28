@@ -103,8 +103,17 @@ def main():
             f.write(rendered)
 
     emblem_src = assets_dir / "emblem-src.svg"
-    if not emblem_src.is_file():
-        print("SKIP: assets/emblem-src.svg (not present, supplied in Ticket 02)")
+    if emblem_src.is_file():
+        with open(emblem_src, "r", encoding="utf-8") as f:
+            tmpl = f.read()
+        target_primary = tokens.get("$accent-primary", "#DBAD4D")
+        target_primary_mid = tokens.get("$accent-primary-mid", "#C79C4E")
+        rendered = tmpl
+        rendered = replace_tokens(rendered, tokens)
+        rendered = re.sub(r"#DBAD4D\b", target_primary, rendered, flags=re.IGNORECASE)
+        rendered = re.sub(r"#C79C4E\b", target_primary_mid, rendered, flags=re.IGNORECASE)
+        with open(assets_dir / "emblem.svg", "w", encoding="utf-8") as f:
+            f.write(rendered)
 
 if __name__ == "__main__":
     main()
