@@ -5,6 +5,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 WORKSPACE_DIR="$(cd "${REPO_DIR}/.." && pwd)"
 
+if ! command -v sway >/dev/null 2>&1 && command -v nix >/dev/null 2>&1 && [[ -f "${REPO_DIR}/flake.nix" ]]; then
+  exec nix develop "${REPO_DIR}" -c bash "${BASH_SOURCE[0]}" "$@"
+fi
+
 fail() {
   local check_name="$1"
   local message="$2"

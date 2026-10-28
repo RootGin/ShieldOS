@@ -1,0 +1,10 @@
+.canvas-base {
+  background-color: transparent;
+}
+
+.glow-layer,
+.star-ring-layer,
+.placeholder-layer {
+  min-width: dpi(800px);
+  min-height: dpi(800px);
+}

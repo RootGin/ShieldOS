@@ -5,6 +5,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 WORKSPACE_DIR="$(cd "${REPO_DIR}/.." && pwd)"
 
+if ! command -v sass >/dev/null 2>&1 && command -v nix >/dev/null 2>&1 && [[ -f "${REPO_DIR}/flake.nix" ]]; then
+  exec nix develop "${REPO_DIR}" -c bash "${BASH_SOURCE[0]}" "$@"
+fi
+
 WORK_DIR="$(mktemp -d "${TMPDIR:-/tmp}/shield-gate1.XXXXXX")"
 export XDG_RUNTIME_DIR="${WORK_DIR}/runtime"
 export XDG_CACHE_HOME="${WORK_DIR}/cache"
@@ -123,6 +127,14 @@ for i in "${!DENYLIST_LABELS[@]}"; do
     fail "css-denylist" "Forbidden GTK3 CSS construct '${label}' found in compiled CSS: ${match}"
   fi
 done
+
+if legacy_vars="$(grep -En '\$x[0-9a-z]+' "${REPO_DIR}/eww.scss" "${REPO_DIR}/scss"/*.scss 2>/dev/null || true)" && [[ -n "${legacy_vars}" ]]; then
+  fail "scss-legacy-vars" "Forbidden legacy \$x[0-9a-z]+ variable found in SCSS: ${legacy_vars}"
+fi
+
+if raw_hex="$(grep -En '#[0-9a-fA-F]{3,8}' "${REPO_DIR}/scss"/*.scss 2>/dev/null || true)" && [[ -n "${raw_hex}" ]]; then
+  fail "scss-raw-hex" "Forbidden raw hex color found in scss/ (must reside in themes/): ${raw_hex}"
+fi
 
 if ! python3 "${REPO_DIR}/tests/check-yuck-triangles.py"; then
   fail "yuck-geometry" "Yuck triangle geometry validation failed"

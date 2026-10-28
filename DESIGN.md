@@ -113,7 +113,7 @@ All hex values are sampled directly from `reference/shield-os.png` and named by 
 | 7 | **Bottom Menu Tabs** | Bottom edge, center-to-right | **Left recessed strip** (icon + text): `LOCALSHARE`, `WEBSEARCH`, `COLORS`. **Right raised trapezoids**: `POWERMENU`, `BLUETOOTH`, `APPLICATIONS` (active teal `#0B4A5C` with `#AFDBE6` border). | Click actions: `LOCALSHARE` (LocalSend/share script), `WEBSEARCH` (search prompt), `COLORS` (cycle theme palette), `POWERMENU` (session power modal), `BLUETOOTH` (BT manager/popup), `APPLICATIONS` (app launcher). |
 | 8 | **Left Side Panel** | Left edge, vertical middle | Chamfered vertical steel housing with a circular play (`▶`) button at top and segmented vertical slot indicators below. | Bound to MPRIS (`playerctl` play/pause + progress/volume indicator) or quick-dock window slots. |
 | 9 | **Right Corner Widgets** | Lower-right edge & bottom-right corner | Vertical plate with 3 angled mini-tabs containing blurry micro-glyphs *(resembling `ω`, `90`, `ᴗ`)* above a 4-pointed star emblem in the bottom-right corner. | 3 mini-tabs: quick toggles (DND/notifications, volume %, night-light/layout). 4-pointed star: toggle HUD visibility or lock screen. |
-| 10 | **Center Emblem** | Center of background canvas | Large gold S.H.I.E.L.D. eagle medallion with inner bevel shading, soft golden bloom, and an outer perimeter ring of 56 icy-white 5-pointed stars. | Rendered on the `bottom` layer-shell desktop canvas window as crisp SVG artwork. |
+| 10 | **Center Emblem** | Center of background canvas | Large gold S.H.I.E.L.D. eagle medallion with inner bevel shading, soft golden bloom, and an outer perimeter ring of 56 icy-white 5-pointed stars. | Rendered on the `bottom` layer-shell desktop canvas window as layered SVG artwork (radial glow, 56-star ring, and center emblem mounted via Yuck overlay). |
 | 11 | **Background Data-Noise Layer** | Full background behind emblem | Vertical golden-amber waveform lines across the horizontal mid-plane, `+`/`*` reticles, and faint monospace blocks *(all background text in the mockup is garbled AI filler)*. | Static SVG/PNG background layer combined with an optional live monospace telemetry readout (`journalctl` / `top` / network stats) in the text zones. |
 
 ---
@@ -155,16 +155,22 @@ shieldOS-eww/
 │   ├── telemetry.py          # deflisten: CPU %, CPU load, RAM %, date/time (+ --fixture / frozen clock)
 │   ├── network-audio.py      # deflisten: connectivity state + 4-bar equalizer/audio state (+ --fixture)
 │   └── theme-gen.py          # Injects active theme hex tokens into SVG templates
+├── docs/
+│   └── eww-geometry.md       # Geometry reference & token mapping
 ├── tests/
 │   ├── check-gate1-gtk.sh    # CSS denylist lint + headless eww open-all, active-windows, state & log check
 │   ├── check-gate2-schema.py # Validates yuck field refs + script outputs (niri, hyprland, fallback fixtures) vs schema
 │   ├── check-gate3-golden.sh # Fixed-res frozen-clock grim capture + golden regression diff
+│   ├── check-yuck-triangles.py # Yuck triangle geometry & overlay constraints validator
 │   ├── fixtures/             # niri, hyprland, and hardware/IPC failure fallback fixtures
 │   └── goldens/              # Approved milestone golden screenshots for regression diffing
 ├── bin/
 │   └── shield-ctl            # CLI entrypoint for keybinds & tab actions
 └── assets/
-    ├── emblem-shield.svg     # Center eagle + 56-star ring SVG
+    ├── templates/            # Token-free SVG templates
+    ├── star-ring.svg         # 56-star perimeter ring SVG
+    ├── glow.svg              # Radial glow backdrop SVG
+    ├── placeholder.svg       # Neutral center emblem placeholder SVG
     ├── data-noise.svg        # Waveform lines & reticle grid
     └── panels/               # Parameterized SVG frames for corner plates only
 ```
@@ -180,7 +186,7 @@ shieldOS-eww/
 | Emblem, 56-star ring, data noise, glow | SVG via `image :path` | the glow rgba token belongs here |
 
 ### How Components Share Theme Tokens & Tradeoffs
-- **Single Source of Truth**: Color tokens live in `themes/<name>.scss`. Because relative `url()` in SCSS does not resolve, assets load via yuck `image :path` inside an `overlay`. `scripts/theme-gen.py` now only recolors the few remaining SVGs (`emblem-shield.svg`, `data-noise.svg`, corner plates); SCSS-only shapes take colors directly from theme tokens at compile time.
+- **Single Source of Truth**: Color tokens live in `themes/<name>.scss`. Because relative `url()` in SCSS does not resolve, assets load via yuck `image :path` inside an `overlay`. `scripts/theme-gen.py` generates and recolors the layered SVGs (`glow.svg`, `star-ring.svg`, `placeholder.svg`, `data-noise.svg`, corner plates); SCSS-only shapes take colors directly from theme tokens at compile time.
 - **Tradeoffs**:
   - *Eww Native CSS Chamfers + Yuck SVGs (Recommended)*: Lightweight (~25 MB RAM), zero Qt6 overhead. Uses pure GTK3 CSS gradients and border-triangles for cards and tabs with direct token binding, reserving SVG plates for intricate multi-color center graphics and complex corner plates.
   - *Quickshell / AGS alternative*: Supports native canvas/clip-path drawing in QML/GTK4, but adds heavy runtime dependencies and diverges from this repository's established Eww architecture.

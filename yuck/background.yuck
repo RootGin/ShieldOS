@@ -12,5 +12,15 @@
   (box :class "canvas"
        :hexpand true
        :vexpand true
-       (label :visible false
-              :text "${telemetry.time} ${telemetry.day} ${telemetry.month_year} ${telemetry.weekday}")))
+       (overlay
+         (box :class "canvas-base"
+              :hexpand true
+              :vexpand true
+              (label :visible false
+                     :text "${telemetry.time} ${telemetry.day} ${telemetry.month_year} ${telemetry.weekday}"))
+         (box :class "glow-layer" :halign "center" :valign "center" :width 800 :height 800
+           (image :path "./assets/glow.svg" :image-width 800 :image-height 800))
+         (box :class "star-ring-layer" :halign "center" :valign "center" :width 800 :height 800
+           (image :path "./assets/star-ring.svg" :image-width 800 :image-height 800))
+         (box :class "placeholder-layer" :halign "center" :valign "center" :width 800 :height 800
+           (image :path "./assets/placeholder.svg" :image-width 800 :image-height 800)))))

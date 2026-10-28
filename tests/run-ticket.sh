@@ -4,6 +4,10 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+if ! command -v sass >/dev/null 2>&1 && command -v nix >/dev/null 2>&1 && [[ -f "${REPO_DIR}/flake.nix" ]]; then
+  exec nix develop "${REPO_DIR}" -c bash "${BASH_SOURCE[0]}" "$@"
+fi
+
 printf '==> Running Gate 1: GTK3 CSS denylist and headless Eww runtime...\n'
 "${REPO_DIR}/tests/check-gate1-gtk.sh"
 
@@ -36,5 +40,9 @@ if [[ "${measure_absent}" != "0x0 +0+0" ]]; then
   exit 1
 fi
 printf 'PASS [gate3-helpers]: crop and measure self-test passed against selftest capture.\n'
+
+printf '\n==> Running Theme SVGs check...\n'
+python3 "${REPO_DIR}/scripts/theme-gen.py"
+python3 "${REPO_DIR}/tests/check-theme-svgs.py"
 
 printf '\n==> All per-ticket verification gates passed.\n'
