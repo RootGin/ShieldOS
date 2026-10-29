@@ -48,6 +48,9 @@ printf '\n==> Running Theme SVGs check...\n'
 python3 "${REPO_DIR}/scripts/theme-gen.py"
 python3 "${REPO_DIR}/tests/check-theme-svgs.py"
 
+printf '\n==> Running Frame Docking Seams check...\n'
+python3 "${REPO_DIR}/tests/check-docking-seams.py"
+
 printf '\n==> Running Exclusive-Zone Proof Harness...\n'
 python3 "${REPO_DIR}/tests/check-exclusive-zone.py"
 
