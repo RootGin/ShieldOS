@@ -12,6 +12,8 @@ from jsonschema import Draft202012Validator
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_DIR = SCRIPT_DIR.parent
 SCHEMA_PATH = REPO_DIR / "schemas" / "state.schema.json"
+LAYOUT_PATH = REPO_DIR / "layout.json"
+LAYOUT_SCHEMA_PATH = REPO_DIR / "schemas" / "layout.schema.json"
 
 SCRIPT_REGISTRY = [
     {
@@ -261,8 +263,177 @@ def run_production_proc_fallback_check(script_path, schema):
         fail("production-proc-fallback", f"Expected real weekday, got {payload.get('weekday')}")
 
 
+def load_and_verify_layout_schema(schema_path, layout_path):
+    if not schema_path.is_file():
+        fail("layout-schema-load", f"Layout schema file not found: {schema_path}")
+    try:
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        fail("layout-schema-load", f"Invalid JSON in {schema_path}: {exc}")
+
+    try:
+        Draft202012Validator.check_schema(schema)
+    except Exception as exc:
+        fail("layout-schema-meta", f"Layout schema failed Draft 2020-12 meta-validation: {exc}")
+
+    if not layout_path.is_file():
+        fail("layout-load", f"Layout file not found: {layout_path}")
+    try:
+        layout = json.loads(layout_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        fail("layout-load", f"Invalid JSON in {layout_path}: {exc}")
+
+    validator = Draft202012Validator(schema)
+    errors = sorted(validator.iter_errors(layout), key=lambda e: list(e.path))
+    if errors:
+        err = errors[0]
+        loc = ".".join(str(p) for p in err.path) or "<root>"
+        fail("layout-validation", f"layout.json failed schema at '{loc}': {err.message}")
+
+    return layout
+
+
+def verify_layout_generation(layout_data):
+    layout_gen_script = REPO_DIR / "scripts" / "layout-gen.py"
+    if not layout_gen_script.is_file():
+        fail("layout-gen-missing", f"Generator script not found: {layout_gen_script}")
+
+    proc = subprocess.run(
+        [sys.executable, str(layout_gen_script), "--check"],
+        cwd=str(REPO_DIR),
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    if proc.returncode != 0:
+        fail("layout-gen-check", f"scripts/layout-gen.py --check failed: {proc.stderr.strip() or proc.stdout.strip()}")
+
+
+def extract_governed_dimensions(layout):
+    governed = set()
+
+    def walk(obj):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if k in ("outer_border", "inner_groove"):
+                    continue
+                walk(v)
+        elif isinstance(obj, list):
+            for item in obj:
+                walk(item)
+        elif isinstance(obj, int) and not isinstance(obj, bool):
+            governed.add(obj)
+
+    walk(layout)
+    return governed
+
+
+def lint_scss_layout_text(text, label, governed_dims):
+    errors = []
+    lines = text.splitlines()
+    for idx, line in enumerate(lines, 1):
+        clean_line = line.strip()
+        if not clean_line or clean_line.startswith("$") or clean_line.startswith("@import"):
+            continue
+        for match in re.finditer(r"\bdpi\((\d+)px\)", clean_line):
+            val = int(match.group(1))
+            if val in governed_dims:
+                errors.append(
+                    f"{label}:{idx}: Hardcoded governed layout dimension dpi({val}px) found: '{clean_line}'"
+                )
+        for match in re.finditer(r"(?<![a-zA-Z0-9_$-])(\d+)px\b", clean_line):
+            val = int(match.group(1))
+            if val in governed_dims:
+                errors.append(
+                    f"{label}:{idx}: Hardcoded governed layout dimension {val}px found: '{clean_line}'"
+                )
+    return errors
+
+
+def lint_yuck_layout_text(text, label, governed_dims):
+    errors = []
+    lines = text.splitlines()
+    for idx, line in enumerate(lines, 1):
+        clean_line = line.strip()
+        if not clean_line or clean_line.startswith(";"):
+            continue
+        for match in re.finditer(
+            r":(width|height|image-width|image-height|size)\s+[\"']?(\d+)(?:px)?[\"']?",
+            clean_line,
+        ):
+            attr_name = match.group(1)
+            val = int(match.group(2))
+            if val in governed_dims:
+                errors.append(
+                    f"{label}:{idx}: Hardcoded governed layout dimension :{attr_name} {val} found: '{clean_line}'"
+                )
+    return errors
+
+
+def run_layout_selftest(governed_dims):
+    sample_dim = 1888
+    neg_scss = f".test {{ min-width: dpi({sample_dim}px); }}"
+    neg_scss_errors = lint_scss_layout_text(neg_scss, "<neg-scss>", governed_dims)
+    if not neg_scss_errors:
+        fail("layout-selftest", f"Negative SCSS test failed to catch dpi({sample_dim}px)")
+
+    neg_yuck = f"(box :width {sample_dim} :height 100)"
+    neg_yuck_errors = lint_yuck_layout_text(neg_yuck, "<neg-yuck>", governed_dims)
+    if not neg_yuck_errors:
+        fail("layout-selftest", f"Negative Yuck test failed to catch :width {sample_dim}")
+
+    pos_scss = ".test { min-width: $canvas-width; }"
+    pos_scss_errors = lint_scss_layout_text(pos_scss, "<pos-scss>", governed_dims)
+    if pos_scss_errors:
+        fail("layout-selftest", f"Positive SCSS test had false positive: {pos_scss_errors}")
+
+    pos_yuck = "(box :width canvas_width :height canvas_height)"
+    pos_yuck_errors = lint_yuck_layout_text(pos_yuck, "<pos-yuck>", governed_dims)
+    if pos_yuck_errors:
+        fail("layout-selftest", f"Positive Yuck test had false positive: {pos_yuck_errors}")
+
+
+def check_hardcoded_layout_dimensions(governed_dims):
+    run_layout_selftest(governed_dims)
+
+    scss_files = [REPO_DIR / "eww.scss"] + [
+        Path(p)
+        for p in sorted(glob.glob(str(REPO_DIR / "scss" / "*.scss")))
+        if Path(p).name not in ("_scale.scss", "_tokens.scss", "_layout.scss")
+    ]
+    yuck_files = [REPO_DIR / "eww.yuck"] + [
+        Path(p)
+        for p in sorted(glob.glob(str(REPO_DIR / "yuck" / "*.yuck")))
+        if Path(p).name != "_layout.yuck"
+    ]
+
+    total_errors = []
+    for scss_path in scss_files:
+        if scss_path.is_file():
+            text = scss_path.read_text(encoding="utf-8")
+            rel_label = scss_path.relative_to(REPO_DIR) if scss_path.is_relative_to(REPO_DIR) else scss_path
+            errs = lint_scss_layout_text(text, str(rel_label), governed_dims)
+            total_errors.extend(errs)
+
+    for yuck_path in yuck_files:
+        if yuck_path.is_file():
+            text = yuck_path.read_text(encoding="utf-8")
+            rel_label = yuck_path.relative_to(REPO_DIR) if yuck_path.is_relative_to(REPO_DIR) else yuck_path
+            errs = lint_yuck_layout_text(text, str(rel_label), governed_dims)
+            total_errors.extend(errs)
+
+    if total_errors:
+        for err in total_errors:
+            sys.stderr.write(f"FAIL [layout-hardcoded]: {err}\n")
+        fail("layout-hardcoded", f"Found {len(total_errors)} hardcoded layout dimension occurrence(s)")
+
+
 def main():
     schema = load_and_verify_schema(SCHEMA_PATH)
+    layout = load_and_verify_layout_schema(LAYOUT_SCHEMA_PATH, LAYOUT_PATH)
+    verify_layout_generation(layout)
+    governed_dims = extract_governed_dimensions(layout)
+    check_hardcoded_layout_dimensions(governed_dims)
 
     yuck_files = [REPO_DIR / "eww.yuck"] + [
         Path(p) for p in sorted(glob.glob(str(REPO_DIR / "yuck" / "*.yuck")))
@@ -298,7 +469,8 @@ def main():
             run_production_proc_fallback_check(script_path, schema)
 
     print(
-        f"PASS [gate2-schema]: schema strict, yuck refs valid ({checked_refs} checked), "
+        f"PASS [gate2-schema]: schema strict, layout verified ({len(governed_dims)} governed dims), "
+        f"yuck refs valid ({checked_refs} checked), "
         f"active fixtures valid ({', '.join(active_validated)}), "
         f"pending ({', '.join(pending_entries)})."
     )

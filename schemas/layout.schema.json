@@ -1,0 +1,354 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shield-os.local/schemas/layout.schema.json",
+  "title": "S.H.I.E.L.D. OS HUD Layout Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "screen",
+    "void",
+    "canvas",
+    "emblem",
+    "bars",
+    "side_panels",
+    "rails",
+    "corner_plates"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "screen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "void": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "padding"
+      ],
+      "properties": {
+        "padding": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "emblem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "size"
+      ],
+      "properties": {
+        "size": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "bars": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "top",
+        "bottom"
+      ],
+      "properties": {
+        "top": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "height"
+          ],
+          "properties": {
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "bottom": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "height"
+          ],
+          "properties": {
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "side_panels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "left",
+        "right"
+      ],
+      "properties": {
+        "left": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "height"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "right": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "height"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "rails": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "properties": {
+        "top": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "height"
+          ],
+          "properties": {
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "bottom": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "height"
+          ],
+          "properties": {
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "left": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "right": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "corner_plates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "top_left",
+        "top_right",
+        "bottom_left",
+        "bottom_right",
+        "bevel"
+      ],
+      "properties": {
+        "top_left": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "height",
+            "chamfer_cut"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "chamfer_cut": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "top_right": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "height",
+            "chamfer_cut"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "chamfer_cut": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "bottom_left": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "height",
+            "chamfer_cut"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "chamfer_cut": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "bottom_right": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "height",
+            "chamfer_cut"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "chamfer_cut": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "bevel": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "outer_border",
+            "inner_groove"
+          ],
+          "properties": {
+            "outer_border": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "inner_groove": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}

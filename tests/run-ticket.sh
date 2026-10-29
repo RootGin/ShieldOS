@@ -8,7 +8,10 @@ if ! command -v sass >/dev/null 2>&1 && command -v nix >/dev/null 2>&1 && [[ -f 
   exec nix develop "${REPO_DIR}" -c bash "${BASH_SOURCE[0]}" "$@"
 fi
 
-printf '==> Running Gate 1: GTK3 CSS denylist and headless Eww runtime...\n'
+printf '==> Running Layout Generator...\n'
+python3 "${REPO_DIR}/scripts/layout-gen.py"
+
+printf '\n==> Running Gate 1: GTK3 CSS denylist and headless Eww runtime...\n'
 "${REPO_DIR}/tests/check-gate1-gtk.sh"
 
 printf '\n==> Running Gate 2: JSON schema contract and fixture pipeline...\n'

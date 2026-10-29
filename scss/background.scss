@@ -1,6 +1,6 @@
 .background-void {
   background-color: $bg-void;
-  padding: dpi(16px);
+  padding: $void-padding;
 }
 
 .canvas {
@@ -12,13 +12,14 @@
 }
 
 .data-noise-layer {
-  min-width: dpi(1888px);
-  min-height: dpi(1048px);
+  min-width: $canvas-width;
+  min-height: $canvas-height;
 }
 
 .glow-layer,
 .star-ring-layer,
 .emblem-layer {
-  min-width: dpi(800px);
-  min-height: dpi(800px);
+  min-width: $emblem-size;
+  min-height: $emblem-size;
 }
+

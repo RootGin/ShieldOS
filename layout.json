@@ -1,0 +1,75 @@
+{
+  "$schema": "./schemas/layout.schema.json",
+  "screen": {
+    "width": 1920,
+    "height": 1080
+  },
+  "void": {
+    "padding": 16
+  },
+  "canvas": {
+    "width": 1888,
+    "height": 1048
+  },
+  "emblem": {
+    "size": 800
+  },
+  "bars": {
+    "top": {
+      "height": 90
+    },
+    "bottom": {
+      "height": 44
+    }
+  },
+  "side_panels": {
+    "left": {
+      "width": 48,
+      "height": 400
+    },
+    "right": {
+      "width": 60,
+      "height": 520
+    }
+  },
+  "rails": {
+    "top": {
+      "height": 32
+    },
+    "bottom": {
+      "height": 32
+    },
+    "left": {
+      "width": 12
+    },
+    "right": {
+      "width": 12
+    }
+  },
+  "corner_plates": {
+    "top_left": {
+      "width": 260,
+      "height": 90,
+      "chamfer_cut": 58
+    },
+    "top_right": {
+      "width": 260,
+      "height": 90,
+      "chamfer_cut": 58
+    },
+    "bottom_left": {
+      "width": 260,
+      "height": 44,
+      "chamfer_cut": 12
+    },
+    "bottom_right": {
+      "width": 260,
+      "height": 44,
+      "chamfer_cut": 12
+    },
+    "bevel": {
+      "outer_border": 2,
+      "inner_groove": 1
+    }
+  }
+}
