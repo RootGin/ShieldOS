@@ -1,0 +1,27 @@
+(include "../../../yuck/_layout.yuck")
+
+(defwindow top
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100%"
+                      :anchor "top center")
+  :layer "top"
+  :exclusive true
+  :focusable false
+  (box :class "bar-top-stub"
+       :height bar_top_height
+       (label :text "top")))
+
+(defwindow bottom
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100%"
+                      :anchor "bottom center")
+  :layer "top"
+  :exclusive true
+  :focusable false
+  (box :class "bar-bottom-stub"
+       :height bar_bottom_height
+       (label :text "bottom")))

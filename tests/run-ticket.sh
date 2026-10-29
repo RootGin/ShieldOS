@@ -48,4 +48,7 @@ printf '\n==> Running Theme SVGs check...\n'
 python3 "${REPO_DIR}/scripts/theme-gen.py"
 python3 "${REPO_DIR}/tests/check-theme-svgs.py"
 
+printf '\n==> Running Exclusive-Zone Proof Harness...\n'
+python3 "${REPO_DIR}/tests/check-exclusive-zone.py"
+
 printf '\n==> All per-ticket verification gates passed.\n'

@@ -39,6 +39,7 @@
           pkgs.grim
           pkgs.imagemagick
           pkgs.fontconfig
+          pkgs.foot
           rajdhani
           pkgs.barlow
           pkgs.orbitron
