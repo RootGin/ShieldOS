@@ -91,14 +91,7 @@ def main():
         if not ping_ok:
             fail("exclusive-zone", "Timed out waiting for Eww daemon ping")
 
-        has_bottom = False
-        bottom_yuck = REPO_DIR / "yuck" / "bottom-bar.yuck"
-        if bottom_yuck.is_file() and "bottom" in bottom_yuck.read_text(encoding="utf-8"):
-            has_bottom = True
-
-        windows_to_open = ["top"]
-        if has_bottom:
-            windows_to_open.append("bottom")
+        windows_to_open = ["top", "bottom"]
 
         open_res = subprocess.run(["eww", "-c", str(config_dir), "open-many"] + windows_to_open, env=env, capture_output=True, text=True)
         if open_res.returncode != 0:
@@ -158,11 +151,11 @@ def main():
         if cy < top_h:
             fail("exclusive-zone", f"Tiled client overlaps top exclusive bar: client y={cy} < top bar height {top_h}")
 
-        if has_bottom and (cy + ch) > (screen_h - bottom_h):
+        if (cy + ch) > (screen_h - bottom_h):
             fail("exclusive-zone", f"Tiled client overlaps bottom exclusive bar: client y+h={cy+ch} > screen.h-bottom.h {screen_h - bottom_h}")
 
         expected_y = top_h
-        expected_h = screen_h - top_h - (bottom_h if has_bottom else 0)
+        expected_h = screen_h - top_h - bottom_h
         expected_w = screen_w
 
         if cy != expected_y or ch != expected_h or cw != expected_w:
@@ -173,7 +166,7 @@ def main():
 
         print(
             f"PASS [exclusive-zone]: Tiled client geometry x={cx} y={cy} w={cw} h={ch} "
-            f"clears top bar ({top_h}px) with zero overlap."
+            f"clears top bar ({top_h}px) and bottom bar ({bottom_h}px) with zero overlap."
         )
         return 0
 

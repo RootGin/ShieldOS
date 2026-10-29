@@ -1,0 +1,30 @@
+.bottom-bar-window,
+window#bottom,
+window.bottom,
+.window.bottom,
+.bottom {
+  background-color: transparent;
+}
+
+.bottom-bar {
+  background-color: transparent;
+}
+
+.corner-housing-bl,
+.corner-housing-br {
+  background-color: transparent;
+}
+
+.bottom-rail {
+  background-color: $surface-panel;
+  border-top: $bevel-outer-border solid $border-panel-outer;
+  border-bottom: $bevel-outer-border solid $border-panel-outer;
+  min-height: $rail-bottom-height - (2 * $bevel-outer-border);
+}
+
+.bottom-rail-groove {
+  border-top: $bevel-inner-groove solid $border-panel-groove;
+  border-bottom: $bevel-inner-groove solid $border-panel-groove;
+  margin-top: dpi(2px);
+  margin-bottom: dpi(1px);
+}

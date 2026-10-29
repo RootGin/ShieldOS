@@ -18,8 +18,11 @@ def fail(check_name, message):
 def check_static_docking():
     tl_svg = ASSETS_DIR / "corner-top-left.svg"
     tr_svg = ASSETS_DIR / "corner-top-right.svg"
-    if not tl_svg.is_file() or not tr_svg.is_file():
-        fail("docking-assets", "Generated corner panel assets not found")
+    bl_svg = ASSETS_DIR / "corner-bottom-left.svg"
+    br_svg = ASSETS_DIR / "corner-bottom-right.svg"
+    for svg_path in (tl_svg, tr_svg, bl_svg, br_svg):
+        if not svg_path.is_file():
+            fail("docking-assets", f"Generated corner panel asset not found: {svg_path.name}")
 
     tl_tree = ET.parse(tl_svg)
     tl_paths = tl_tree.getroot().findall(".//{http://www.w3.org/2000/svg}path") or tl_tree.getroot().findall(".//path")
@@ -48,6 +51,34 @@ def check_static_docking():
         fail("docking-outer-endpoint-tr", f"Top-right outer path does not dock at (0, 31): {tr_outer_d}")
     if "0,27.5" not in tr_groove_d:
         fail("docking-groove-endpoint-tr", f"Top-right groove path does not dock at (0, 27.5): {tr_groove_d}")
+
+    bl_tree = ET.parse(bl_svg)
+    bl_paths = bl_tree.getroot().findall(".//{http://www.w3.org/2000/svg}path") or bl_tree.getroot().findall(".//path")
+    if len(bl_paths) < 2:
+        fail("docking-paths-bl", f"Expected at least 2 paths in {bl_svg.name}")
+    bl_outer_d = bl_paths[0].attrib.get("d", "")
+    bl_groove_d = bl_paths[1].attrib.get("d", "")
+
+    if "L 259,44" in bl_outer_d or "L 260,44" in bl_outer_d or "L 259,13" in bl_outer_d:
+        fail("docking-closed-seam-bl", f"Bottom-left corner plate contains vertical seam stroke along docking edge: {bl_outer_d}")
+    if "260,13" not in bl_outer_d or "260,43" not in bl_outer_d:
+        fail("docking-outer-endpoint-bl", f"Bottom-left outer path does not dock at (260, 13) and (260, 43): {bl_outer_d}")
+    if "260,16.5" not in bl_groove_d or "260,40.5" not in bl_groove_d:
+        fail("docking-groove-endpoint-bl", f"Bottom-left groove path does not dock at (260, 16.5) and (260, 40.5): {bl_groove_d}")
+
+    br_tree = ET.parse(br_svg)
+    br_paths = br_tree.getroot().findall(".//{http://www.w3.org/2000/svg}path") or br_tree.getroot().findall(".//path")
+    if len(br_paths) < 2:
+        fail("docking-paths-br", f"Expected at least 2 paths in {br_svg.name}")
+    br_outer_d = br_paths[0].attrib.get("d", "")
+    br_groove_d = br_paths[1].attrib.get("d", "")
+
+    if "L 1,44" in br_outer_d or "L 0,44" in br_outer_d or "L 1,13" in br_outer_d:
+        fail("docking-closed-seam-br", f"Bottom-right corner plate contains vertical seam stroke along docking edge: {br_outer_d}")
+    if "0,13" not in br_outer_d or "0,43" not in br_outer_d:
+        fail("docking-outer-endpoint-br", f"Bottom-right outer path does not dock at (0, 13) and (0, 43): {br_outer_d}")
+    if "0,16.5" not in br_groove_d or "0,40.5" not in br_groove_d:
+        fail("docking-groove-endpoint-br", f"Bottom-right groove path does not dock at (0, 16.5) and (0, 40.5): {br_groove_d}")
 
 def parse_pixels(txt_output):
     pixel_map = {}
@@ -119,11 +150,42 @@ def check_raster_docking(capture_file):
         if hex_close(col, canvas_void, tolerance=5):
             fail("seam-notch-tr", f"Missing pixel / void notch detected at top-right joint bottom border: ({x+1658}, {y+31}) = {col}")
 
+    mid_bottom = sample_region(capture_file, "1x40+960+1040")
+    if 8 in [y for x, y in mid_bottom]:
+        b_top = mid_bottom.get((0, 8))
+        if b_top and hex_close(b_top, border_outer):
+            if 7 in [y for x, y in mid_bottom]:
+                above_rail = mid_bottom.get((0, 7))
+                if above_rail and hex_close(above_rail, border_outer, tolerance=5):
+                    fail("rail-height-bottom-overhang", f"Bottom rail rendered height exceeds 32px: detected outer border at y=1047 ({above_rail})")
+
+            bl_seam = sample_region(capture_file, "6x1+257+1065")
+            for (x, y), col in bl_seam.items():
+                if hex_close(col, border_outer, tolerance=10):
+                    fail("seam-divider-bl", f"Vertical outer border divider detected at bottom-left joint: ({x+257}, {y+1065}) = {col}")
+
+            bl_bottom = sample_region(capture_file, "4x1+258+1079")
+            for (x, y), col in bl_bottom.items():
+                if hex_close(col, canvas_void, tolerance=5):
+                    fail("seam-notch-bl", f"Missing pixel / void notch detected at bottom-left joint bottom border: ({x+258}, {y+1079}) = {col}")
+
+            br_seam = sample_region(capture_file, "6x1+1657+1065")
+            for (x, y), col in br_seam.items():
+                if hex_close(col, border_outer, tolerance=10):
+                    fail("seam-divider-br", f"Vertical outer border divider detected at bottom-right joint: ({x+1657}, {y+1065}) = {col}")
+
+            br_bottom = sample_region(capture_file, "4x1+1658+1079")
+            for (x, y), col in br_bottom.items():
+                if hex_close(col, canvas_void, tolerance=5):
+                    fail("seam-notch-br", f"Missing pixel / void notch detected at bottom-right joint bottom border: ({x+1658}, {y+1079}) = {col}")
+
 def main():
     check_static_docking()
 
     captures = [
         REPO_DIR / "tests" / "captures" / "ticket-09.png",
+        REPO_DIR / "tests" / "captures" / "milestone-ticket-10.png",
+        REPO_DIR / "tests" / "captures" / "ticket-10.png",
         REPO_DIR / "tests" / "captures" / "milestone-2.png",
     ]
     for cap in captures:

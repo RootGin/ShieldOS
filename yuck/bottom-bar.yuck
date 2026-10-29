@@ -1,0 +1,35 @@
+(defwindow bottom
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100%"
+                      :anchor "bottom center")
+  :layer "top"
+  :exclusive true
+  :focusable false
+  :namespace "shield-bottom-bar"
+  (box :class "bottom-bar"
+       :orientation "horizontal"
+       :space-evenly false
+       :height bar_bottom_height
+    (box :class "corner-housing-bl"
+         :width corner_bottom_left_width
+         :height corner_bottom_left_height
+         :valign "end"
+      (image :path "./assets/panels/corner-bottom-left.svg"
+             :image-width corner_bottom_left_width
+             :image-height corner_bottom_left_height))
+    (box :class "bottom-rail"
+         :hexpand true
+         :height rail_bottom_height
+         :valign "end"
+      (box :class "bottom-rail-groove"
+           :hexpand true
+           :vexpand true))
+    (box :class "corner-housing-br"
+         :width corner_bottom_right_width
+         :height corner_bottom_right_height
+         :valign "end"
+      (image :path "./assets/panels/corner-bottom-right.svg"
+             :image-width corner_bottom_right_width
+             :image-height corner_bottom_right_height))))

@@ -9,3 +9,5 @@
 
 (include "./yuck/background.yuck")
 (include "./yuck/top-bar.yuck")
+(include "./yuck/bottom-bar.yuck")
+

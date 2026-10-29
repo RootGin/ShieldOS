@@ -188,14 +188,22 @@ def check_corner_plates(repo_dir):
     panels_dir = repo_dir / "assets" / "panels"
     tl_file = panels_dir / "corner-top-left.svg"
     tr_file = panels_dir / "corner-top-right.svg"
-    if not tl_file.is_file():
-        fail("corner-top-left-missing", "assets/panels/corner-top-left.svg does not exist")
-    if not tr_file.is_file():
-        fail("corner-top-right-missing", "assets/panels/corner-top-right.svg does not exist")
+    bl_file = panels_dir / "corner-bottom-left.svg"
+    br_file = panels_dir / "corner-bottom-right.svg"
+    for path, missing_key in [
+        (tl_file, "corner-top-left-missing"),
+        (tr_file, "corner-top-right-missing"),
+        (bl_file, "corner-bottom-left-missing"),
+        (br_file, "corner-bottom-right-missing"),
+    ]:
+        if not path.is_file():
+            fail(missing_key, f"assets/panels/{path.name} does not exist")
 
-    for file_path, name, expected_chamfer in [
-        (tl_file, "top-left", "202,89 L 260,31"),
-        (tr_file, "top-right", "0,31 L 58,89"),
+    for file_path, name, expected_w, expected_h, expected_vb, expected_chamfer in [
+        (tl_file, "top-left", "260", "90", "0 0 260 90", "202,89 L 260,31"),
+        (tr_file, "top-right", "260", "90", "0 0 260 90", "0,31 L 58,89"),
+        (bl_file, "bottom-left", "260", "44", "0 0 260 44", "248,1 L 260,13"),
+        (br_file, "bottom-right", "260", "44", "0 0 260 44", "0,13 L 12,1"),
     ]:
         try:
             tree = ET.parse(file_path)
@@ -205,8 +213,8 @@ def check_corner_plates(repo_dir):
         w = root.attrib.get("width")
         h = root.attrib.get("height")
         vb = root.attrib.get("viewBox")
-        if w != "260" or h != "90" or vb != "0 0 260 90":
-            fail(f"{name}-dimensions", f"Expected 260x90 viewBox '0 0 260 90', got w={w} h={h} vb={vb}")
+        if w != expected_w or h != expected_h or vb != expected_vb:
+            fail(f"{name}-dimensions", f"Expected {expected_w}x{expected_h} viewBox '{expected_vb}', got w={w} h={h} vb={vb}")
         paths = root.findall(".//{http://www.w3.org/2000/svg}path")
         if not paths:
             paths = root.findall(".//path")
