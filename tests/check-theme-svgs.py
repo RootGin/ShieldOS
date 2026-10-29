@@ -26,6 +26,9 @@ def extract_theme_colors(theme_path):
 def check_provenance(repo_dir, theme_colors):
     assets_dir = repo_dir / "assets"
     svg_files = list(assets_dir.glob("*.svg"))
+    panels_dir = assets_dir / "panels"
+    if panels_dir.is_dir():
+        svg_files.extend(list(panels_dir.glob("*.svg")))
     if not svg_files:
         fail("provenance", "No generated SVGs found in assets/")
 
@@ -181,6 +184,44 @@ def check_emblem(repo_dir):
     except Exception as exc:
         fail("emblem-xml", f"Failed to parse assets/emblem.svg: {exc}")
 
+def check_corner_plates(repo_dir):
+    panels_dir = repo_dir / "assets" / "panels"
+    tl_file = panels_dir / "corner-top-left.svg"
+    tr_file = panels_dir / "corner-top-right.svg"
+    if not tl_file.is_file():
+        fail("corner-top-left-missing", "assets/panels/corner-top-left.svg does not exist")
+    if not tr_file.is_file():
+        fail("corner-top-right-missing", "assets/panels/corner-top-right.svg does not exist")
+
+    for file_path, name, expected_chamfer in [
+        (tl_file, "top-left", "259,32 L 202,89"),
+        (tr_file, "top-right", "58,89 L 1,32"),
+    ]:
+        try:
+            tree = ET.parse(file_path)
+        except Exception as exc:
+            fail(f"{name}-xml", f"Failed to parse {file_path.name}: {exc}")
+        root = tree.getroot()
+        w = root.attrib.get("width")
+        h = root.attrib.get("height")
+        vb = root.attrib.get("viewBox")
+        if w != "260" or h != "90" or vb != "0 0 260 90":
+            fail(f"{name}-dimensions", f"Expected 260x90 viewBox '0 0 260 90', got w={w} h={h} vb={vb}")
+        paths = root.findall(".//{http://www.w3.org/2000/svg}path")
+        if not paths:
+            paths = root.findall(".//path")
+        if len(paths) < 2:
+            fail(f"{name}-paths", f"Expected at least 2 paths in {file_path.name}, got {len(paths)}")
+        outer_path = paths[0]
+        groove_path = paths[1]
+        if outer_path.attrib.get("stroke-width") != "2":
+            fail(f"{name}-outer-stroke", f"Outer path stroke-width must be 2, got {outer_path.attrib.get('stroke-width')}")
+        if groove_path.attrib.get("stroke-width") != "1":
+            fail(f"{name}-groove-stroke", f"Groove path stroke-width must be 1, got {groove_path.attrib.get('stroke-width')}")
+        outer_d = outer_path.attrib.get("d", "")
+        if expected_chamfer not in outer_d:
+            fail(f"{name}-chamfer", f"Expected chamfer segment '{expected_chamfer}' in {file_path.name} path d='{outer_d}'")
+
 def main():
     repo_dir = Path(__file__).resolve().parent.parent
     theme_colors = extract_theme_colors(repo_dir / "themes" / "shield-gold.scss")
@@ -189,8 +230,9 @@ def main():
     check_star_ring(repo_dir)
     check_glow(repo_dir)
     check_emblem(repo_dir)
+    check_corner_plates(repo_dir)
 
-    print("PASS [theme-svgs]: provenance, 56-star ring, radial glow, and emblem validated successfully.")
+    print("PASS [theme-svgs]: provenance, 56-star ring, radial glow, emblem, and corner plates validated successfully.")
 
 if __name__ == "__main__":
     main()

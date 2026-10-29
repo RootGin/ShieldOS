@@ -1,0 +1,35 @@
+(defwindow top
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100%"
+                      :anchor "top center")
+  :layer "top"
+  :exclusive true
+  :focusable false
+  :namespace "shield-top-bar"
+  (box :class "top-bar"
+       :orientation "horizontal"
+       :space-evenly false
+       :height bar_top_height
+    (box :class "corner-housing-tl"
+         :width corner_top_left_width
+         :height corner_top_left_height
+         :valign "start"
+      (image :path "./assets/panels/corner-top-left.svg"
+             :image-width corner_top_left_width
+             :image-height corner_top_left_height))
+    (box :class "top-rail"
+         :hexpand true
+         :height rail_top_height
+         :valign "start"
+      (box :class "top-rail-groove"
+           :hexpand true
+           :vexpand true))
+    (box :class "corner-housing-tr"
+         :width corner_top_right_width
+         :height corner_top_right_height
+         :valign "start"
+      (image :path "./assets/panels/corner-top-right.svg"
+             :image-width corner_top_right_width
+             :image-height corner_top_right_height))))

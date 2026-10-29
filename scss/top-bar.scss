@@ -1,0 +1,30 @@
+.top-bar-window,
+window#top,
+window.top,
+.window.top,
+.top {
+  background-color: transparent;
+}
+
+.top-bar {
+  background-color: transparent;
+}
+
+.corner-housing-tl,
+.corner-housing-tr {
+  background-color: transparent;
+}
+
+.top-rail {
+  background-color: $surface-panel;
+  border-top: $bevel-outer-border solid $border-panel-outer;
+  border-bottom: $bevel-outer-border solid $border-panel-outer;
+  min-height: $rail-top-height;
+}
+
+.top-rail-groove {
+  border-top: $bevel-inner-groove solid $border-panel-groove;
+  border-bottom: $bevel-inner-groove solid $border-panel-groove;
+  margin-top: dpi(2px);
+  margin-bottom: dpi(2px);
+}

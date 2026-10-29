@@ -3,6 +3,7 @@
 @import "./scss/_layout";
 @import "./scss/_tokens";
 @import "./scss/background";
+@import "./scss/top-bar";
 
 * {
   all: unset;
@@ -12,7 +13,7 @@
 }
 
 .window {
-  background-color: $bg-void;
+  background-color: transparent;
   color: $text-primary;
   border-radius: dpi(0px);
   padding: dpi(0px);

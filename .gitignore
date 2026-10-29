@@ -1,2 +1,4 @@
 tests/captures/
 tests/goldens/selftest/
+__pycache__/
+*.pyc

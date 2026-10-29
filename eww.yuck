@@ -8,3 +8,4 @@
 (defvar network_audio "{}")
 
 (include "./yuck/background.yuck")
+(include "./yuck/top-bar.yuck")

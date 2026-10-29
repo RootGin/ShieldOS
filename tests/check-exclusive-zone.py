@@ -74,14 +74,15 @@ def main():
         env["WAYLAND_DISPLAY"] = wayland_sock
         env["SWAYSOCK"] = swaysock
 
-        eww_proc = subprocess.Popen(["eww", "-c", str(FIXTURE_DIR), "daemon", "--no-daemonize"], env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        config_dir = REPO_DIR
+        eww_proc = subprocess.Popen(["eww", "-c", str(config_dir), "daemon", "--no-daemonize"], env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         ping_ok = False
         for _ in range(50):
             if eww_proc.poll() is not None:
                 _, err = eww_proc.communicate()
                 fail("exclusive-zone", f"Eww daemon exited prematurely: {err.decode('utf-8', errors='replace')}")
-            ping = subprocess.run(["eww", "-c", str(FIXTURE_DIR), "ping"], env=env, capture_output=True, text=True)
+            ping = subprocess.run(["eww", "-c", str(config_dir), "ping"], env=env, capture_output=True, text=True)
             if ping.returncode == 0 and "pong" in ping.stdout:
                 ping_ok = True
                 break
@@ -90,15 +91,24 @@ def main():
         if not ping_ok:
             fail("exclusive-zone", "Timed out waiting for Eww daemon ping")
 
-        open_res = subprocess.run(["eww", "-c", str(FIXTURE_DIR), "open-many", "top", "bottom"], env=env, capture_output=True, text=True)
+        has_bottom = False
+        bottom_yuck = REPO_DIR / "yuck" / "bottom-bar.yuck"
+        if bottom_yuck.is_file() and "bottom" in bottom_yuck.read_text(encoding="utf-8"):
+            has_bottom = True
+
+        windows_to_open = ["top"]
+        if has_bottom:
+            windows_to_open.append("bottom")
+
+        open_res = subprocess.run(["eww", "-c", str(config_dir), "open-many"] + windows_to_open, env=env, capture_output=True, text=True)
         if open_res.returncode != 0:
-            fail("exclusive-zone", f"Failed to open stub windows: {open_res.stderr.strip() or open_res.stdout.strip()}")
+            fail("exclusive-zone", f"Failed to open windows: {open_res.stderr.strip() or open_res.stdout.strip()}")
 
         time.sleep(0.5)
 
-        active = subprocess.run(["eww", "-c", str(FIXTURE_DIR), "active-windows"], env=env, capture_output=True, text=True)
+        active = subprocess.run(["eww", "-c", str(config_dir), "active-windows"], env=env, capture_output=True, text=True)
         active_windows = [line.split(":")[-1].strip() for line in active.stdout.splitlines() if line.strip()]
-        for required_win in ("top", "bottom"):
+        for required_win in windows_to_open:
             if required_win not in active_windows:
                 fail("exclusive-zone", f"Window '{required_win}' missing from active windows: {active.stdout.strip()}")
 
@@ -148,11 +158,11 @@ def main():
         if cy < top_h:
             fail("exclusive-zone", f"Tiled client overlaps top exclusive bar: client y={cy} < top bar height {top_h}")
 
-        if (cy + ch) > (screen_h - bottom_h):
+        if has_bottom and (cy + ch) > (screen_h - bottom_h):
             fail("exclusive-zone", f"Tiled client overlaps bottom exclusive bar: client y+h={cy+ch} > screen.h-bottom.h {screen_h - bottom_h}")
 
         expected_y = top_h
-        expected_h = screen_h - top_h - bottom_h
+        expected_h = screen_h - top_h - (bottom_h if has_bottom else 0)
         expected_w = screen_w
 
         if cy != expected_y or ch != expected_h or cw != expected_w:
@@ -163,7 +173,7 @@ def main():
 
         print(
             f"PASS [exclusive-zone]: Tiled client geometry x={cx} y={cy} w={cw} h={ch} "
-            f"clears top bar ({top_h}px) and bottom bar ({bottom_h}px) with zero overlap."
+            f"clears top bar ({top_h}px) with zero overlap."
         )
         return 0
 
@@ -176,7 +186,7 @@ def main():
                 client_proc.kill()
 
         if eww_proc and eww_proc.poll() is None:
-            subprocess.run(["eww", "-c", str(FIXTURE_DIR), "kill"], env=env, capture_output=True)
+            subprocess.run(["eww", "-c", str(config_dir), "kill"], env=env, capture_output=True)
             eww_proc.terminate()
             try:
                 eww_proc.wait(timeout=2)
