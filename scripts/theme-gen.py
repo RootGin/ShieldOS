@@ -102,6 +102,17 @@ def main():
         with open(assets_dir / "placeholder.svg", "w", encoding="utf-8") as f:
             f.write(rendered)
 
+    panels_tmpl_dir = templates_dir / "panels"
+    panels_out_dir = assets_dir / "panels"
+    if panels_tmpl_dir.is_dir():
+        panels_out_dir.mkdir(parents=True, exist_ok=True)
+        for p in panels_tmpl_dir.glob("*.svg"):
+            with open(p, "r", encoding="utf-8") as f:
+                tmpl = f.read()
+            rendered = replace_tokens(tmpl, tokens)
+            with open(panels_out_dir / p.name, "w", encoding="utf-8") as f:
+                f.write(rendered)
+
     emblem_src = assets_dir / "emblem-src.svg"
     if emblem_src.is_file():
         with open(emblem_src, "r", encoding="utf-8") as f:
