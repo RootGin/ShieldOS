@@ -19,12 +19,12 @@ window.top,
   background-color: $surface-panel;
   border-top: $bevel-outer-border solid $border-panel-outer;
   border-bottom: $bevel-outer-border solid $border-panel-outer;
-  min-height: $rail-top-height;
+  min-height: $rail-top-height - (2 * $bevel-outer-border);
 }
 
 .top-rail-groove {
   border-top: $bevel-inner-groove solid $border-panel-groove;
   border-bottom: $bevel-inner-groove solid $border-panel-groove;
-  margin-top: dpi(2px);
+  margin-top: dpi(1px);
   margin-bottom: dpi(2px);
 }

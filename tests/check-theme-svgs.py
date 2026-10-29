@@ -194,8 +194,8 @@ def check_corner_plates(repo_dir):
         fail("corner-top-right-missing", "assets/panels/corner-top-right.svg does not exist")
 
     for file_path, name, expected_chamfer in [
-        (tl_file, "top-left", "259,32 L 202,89"),
-        (tr_file, "top-right", "58,89 L 1,32"),
+        (tl_file, "top-left", "202,89 L 260,31"),
+        (tr_file, "top-right", "0,31 L 58,89"),
     ]:
         try:
             tree = ET.parse(file_path)
