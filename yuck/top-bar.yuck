@@ -109,25 +109,32 @@
              :space-evenly false
              :halign "end"
              :valign "center"
-          (box :class "date-day"
+          (box :class "date-column"
+               :width 108
+               :orientation "vertical"
+               :space-evenly false
                :halign "end"
-            (label :class "day-text"
-                   :text {telemetry.day}))
-          (box :class "date-pill"
-               :halign "end"
-            (overlay
-              (image :path "./assets/panels/date-pill.svg"
-                     :image-width 108
-                     :image-height 26)
-              (box :class "date-pill-content"
-                   :width 108
-                   :height 26
-                   :halign "center"
-                   :valign "center"
-                (label :class "pill-text"
-                       :text {telemetry.month_year}))))
-          (box :class "date-weekday"
-               :halign "end"
-            (label :class "weekday-text"
-                   :text {telemetry.weekday})))))))
+            (box :class "date-day"
+                 :halign "center"
+                 :tooltip {telemetry.day}
+              (image :path "./assets/panels/date-day.svg"
+                     :image-width 104
+                     :image-height 28))
+            (box :class "date-pill"
+                 :halign "center"
+              (overlay
+                (image :path "./assets/panels/date-pill.svg"
+                       :image-width 108
+                       :image-height 26)
+                (box :class "date-pill-content"
+                     :width 108
+                     :height 26
+                     :halign "center"
+                     :valign "center"
+                  (label :class "pill-text"
+                         :text {telemetry.month_year}))))
+            (box :class "date-weekday"
+                 :halign "end"
+              (label :class "weekday-text"
+                     :text {telemetry.weekday}))))))))
 

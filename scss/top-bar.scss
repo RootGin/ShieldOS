@@ -135,9 +135,14 @@ window.top,
   padding-right: dpi(40px);
 }
 
+.date-column {
+  background-color: transparent;
+}
+
 .date-day {
   background-color: transparent;
   margin-top: dpi(2px);
+  margin-bottom: dpi(2px);
 }
 
 .date-day .day-text {
@@ -168,13 +173,14 @@ window.top,
 
 .date-weekday {
   background-color: transparent;
+  margin-right: dpi(4px);
 }
 
 .date-weekday .weekday-text {
   color: $text-primary;
   font-family: $font-hud;
-  font-size: $text-sm;
-  font-weight: $weight-sm;
+  font-size: $text-md;
+  font-weight: $weight-lg;
   letter-spacing: $tracking-sm;
 }
 
