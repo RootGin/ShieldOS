@@ -49,8 +49,17 @@
                        :text {telemetry.time}))
               (box :class "operator-version-badge"
                    :valign "center"
-                (label :class "version-text"
-                       :text {telemetry.version})))
+                (overlay
+                  (image :path "./assets/panels/version-badge.svg"
+                         :image-width 42
+                         :image-height 26)
+                  (box :class "version-badge-content"
+                       :width 42
+                       :height 26
+                       :halign "center"
+                       :valign "center"
+                    (label :class "version-text"
+                           :text {telemetry.version})))))
             (box :class "operator-id-row"
                  :orientation "horizontal"
                  :space-evenly false
@@ -106,8 +115,17 @@
                    :text {telemetry.day}))
           (box :class "date-pill"
                :halign "end"
-            (label :class "pill-text"
-                   :text {telemetry.month_year}))
+            (overlay
+              (image :path "./assets/panels/date-pill.svg"
+                     :image-width 108
+                     :image-height 26)
+              (box :class "date-pill-content"
+                   :width 108
+                   :height 26
+                   :halign "center"
+                   :valign "center"
+                (label :class "pill-text"
+                       :text {telemetry.month_year}))))
           (box :class "date-weekday"
                :halign "end"
             (label :class "weekday-text"

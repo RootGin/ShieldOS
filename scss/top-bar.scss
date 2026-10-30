@@ -73,15 +73,18 @@ window.top,
 }
 
 .operator-version-badge {
-  background-color: $accent-secondary;
+  background-color: transparent;
   margin-left: dpi(6px);
-  padding: dpi(3px) dpi(6px);
 }
 
-.operator-version-badge .version-text {
+.version-badge-content {
+  background-color: transparent;
+}
+
+.version-badge-content .version-text {
   color: $text-primary;
   font-family: $font-hud;
-  font-size: $text-sm;
+  font-size: $text-md;
   font-weight: $weight-xl;
   letter-spacing: $tracking-sm;
 }
@@ -127,18 +130,6 @@ window.top,
   margin-right: dpi(4px);
 }
 
-@mixin octagon($color, $leg) {
-  $stop: $leg * 0.70710678;
-  background-image:
-    linear-gradient(135deg, transparent $stop, $color $stop),
-    linear-gradient(-135deg, transparent $stop, $color $stop),
-    linear-gradient(45deg, transparent $stop, $color $stop),
-    linear-gradient(-45deg, transparent $stop, $color $stop);
-  background-size: 53% 53%;
-  background-position: top left, top right, bottom left, bottom right;
-  background-repeat: no-repeat;
-}
-
 .date-block {
   background-color: transparent;
   padding-right: dpi(40px);
@@ -149,7 +140,6 @@ window.top,
   margin-top: dpi(2px);
 }
 
-
 .date-day .day-text {
   color: $text-primary;
   font-family: $font-display;
@@ -159,13 +149,16 @@ window.top,
 }
 
 .date-pill {
-  @include octagon($accent-secondary-bright, dpi(4px));
-  padding: dpi(2px) dpi(8px);
+  background-color: transparent;
   margin-top: dpi(2px);
   margin-bottom: dpi(2px);
 }
 
-.date-pill .pill-text {
+.date-pill-content {
+  background-color: transparent;
+}
+
+.date-pill-content .pill-text {
   color: $text-on-accent;
   font-family: $font-hud;
   font-size: $text-lg;
