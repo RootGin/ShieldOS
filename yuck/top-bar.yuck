@@ -89,6 +89,27 @@
          :width corner_top_right_width
          :height corner_top_right_height
          :valign "start"
-      (image :path "./assets/panels/corner-top-right.svg"
-             :image-width corner_top_right_width
-             :image-height corner_top_right_height))))
+      (overlay
+        (image :path "./assets/panels/corner-top-right.svg"
+               :image-width corner_top_right_width
+               :image-height corner_top_right_height)
+        (box :class "date-block"
+             :width corner_top_right_width
+             :height corner_top_right_height
+             :orientation "vertical"
+             :space-evenly false
+             :halign "end"
+             :valign "center"
+          (box :class "date-day"
+               :halign "end"
+            (label :class "day-text"
+                   :text {telemetry.day}))
+          (box :class "date-pill"
+               :halign "end"
+            (label :class "pill-text"
+                   :text {telemetry.month_year}))
+          (box :class "date-weekday"
+               :halign "end"
+            (label :class "weekday-text"
+                   :text {telemetry.weekday})))))))
+
