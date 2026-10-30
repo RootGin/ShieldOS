@@ -16,9 +16,68 @@
          :width corner_top_left_width
          :height corner_top_left_height
          :valign "start"
-      (image :path "./assets/panels/corner-top-left.svg"
-             :image-width corner_top_left_width
-             :image-height corner_top_left_height))
+      (overlay
+        (image :path "./assets/panels/corner-top-left.svg"
+               :image-width corner_top_left_width
+               :image-height corner_top_left_height)
+        (box :class "operator-module"
+             :width corner_top_left_width
+             :height corner_top_left_height
+             :orientation "horizontal"
+             :space-evenly false
+          (box :class "operator-medallion-box"
+               :valign "center"
+            (image :path "./assets/panels/operator-medallion.svg"
+                   :image-width operator_medallion_size
+                   :image-height operator_medallion_size))
+          (box :class "operator-content"
+               :orientation "vertical"
+               :space-evenly false
+               :valign "center"
+            (box :class "operator-segments"
+                 :orientation "horizontal"
+                 :space-evenly false
+              (box :class "segment dim")
+              (box :class "segment dim")
+              (box :class "segment bright")
+              (box :class "segment bright"))
+            (box :class "operator-clock-row"
+                 :orientation "horizontal"
+                 :space-evenly false
+              (box :class "operator-clock"
+                (label :class "clock-text"
+                       :text {telemetry.time}))
+              (box :class "operator-version-badge"
+                   :valign "center"
+                (label :class "version-text"
+                       :text {telemetry.version})))
+            (box :class "operator-id-row"
+                 :orientation "horizontal"
+                 :space-evenly false
+              (box :class "operator-prefix"
+                (label :class "prefix-text"
+                       :text "OPERATOR. "))
+              (box :class "operator-user"
+                (label :class "user-text"
+                       :text {telemetry.user})))
+            (box :class "operator-sub-row"
+                 :orientation "horizontal"
+                 :space-evenly false
+              (box :class "operator-sub"
+                (label :class "sub-text"
+                       :text {telemetry.kernel}))))
+          (box :class "operator-radar-icons"
+               :orientation "horizontal"
+               :space-evenly false
+               :valign "start"
+            (box :class "radar-icon-box"
+              (image :path "./assets/panels/icon-radar-ring.svg"
+                     :image-width operator_icon_size
+                     :image-height operator_icon_size))
+            (box :class "radar-icon-box"
+              (image :path "./assets/panels/icon-radar-target.svg"
+                     :image-width operator_icon_size
+                     :image-height operator_icon_size))))))
     (box :class "top-rail"
          :hexpand true
          :height rail_top_height

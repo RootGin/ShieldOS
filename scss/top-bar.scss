@@ -25,6 +25,104 @@ window.top,
 .top-rail-groove {
   border-top: $bevel-inner-groove solid $border-panel-groove;
   border-bottom: $bevel-inner-groove solid $border-panel-groove;
-  margin-top: dpi(1px);
-  margin-bottom: dpi(2px);
+  margin-top: $bevel-inner-groove;
+  margin-bottom: $bevel-outer-border;
+}
+
+.operator-module {
+  background-color: transparent;
+}
+
+.operator-medallion-box {
+  margin-left: dpi(8px);
+  margin-right: dpi(8px);
+}
+
+.operator-content {
+  margin-top: dpi(6px);
+}
+
+.operator-segments {
+  margin-bottom: $bevel-outer-border;
+}
+
+.operator-segments .segment {
+  min-width: dpi(15px);
+  min-height: dpi(3px);
+  margin-right: $bevel-outer-border;
+}
+
+.operator-segments .segment.dim {
+  background-color: $surface-pill-inactive;
+}
+
+.operator-segments .segment.bright {
+  background-color: $accent-secondary;
+}
+
+.operator-clock-row {
+  margin-bottom: $bevel-inner-groove;
+}
+
+.operator-clock .clock-text {
+  color: $text-primary;
+  font-family: $font-hud;
+  font-size: $text-xl;
+  font-weight: $weight-xl;
+  letter-spacing: $tracking-xl;
+}
+
+.operator-version-badge {
+  background-color: $accent-secondary;
+  margin-left: dpi(6px);
+  padding: dpi(3px) dpi(6px);
+}
+
+.operator-version-badge .version-text {
+  color: $text-primary;
+  font-family: $font-hud;
+  font-size: $text-sm;
+  font-weight: $weight-xl;
+  letter-spacing: $tracking-sm;
+}
+
+.operator-id-row {
+  margin-top: $bevel-inner-groove;
+}
+
+.operator-prefix .prefix-text {
+  color: $text-muted;
+  font-family: $font-hud;
+  font-size: $text-xs;
+  font-weight: $weight-sm;
+  letter-spacing: $tracking-sm;
+}
+
+.operator-user .user-text {
+  color: $text-primary;
+  font-family: $font-hud;
+  font-size: $text-xs;
+  font-weight: $weight-lg;
+  letter-spacing: $tracking-sm;
+}
+
+.operator-sub-row {
+  margin-top: $bevel-inner-groove;
+}
+
+.operator-sub .sub-text {
+  color: $text-muted;
+  font-family: $font-mono;
+  font-size: $text-xs;
+  font-weight: $weight-xs;
+  letter-spacing: $tracking-xs;
+}
+
+.operator-radar-icons {
+  margin-left: dpi(10px);
+  margin-top: dpi(22px);
+}
+
+.radar-icon-box {
+  margin-right: dpi(4px);
 }

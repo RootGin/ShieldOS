@@ -202,6 +202,32 @@ export WAYLAND_DISPLAY="${WAYLAND_SOCKET}"
 export GDK_BACKEND=wayland
 export SHIELD_FIXTURE="${SHIELD_FIXTURE:-frozen}"
 
+font_dir="${SHIELD_FONTS:-}"
+if [[ -z "${font_dir}" ]] || [[ ! -d "${font_dir}/share/fonts" ]]; then
+  if fonts_from_eval="$(nix eval --raw "${REPO_DIR}#devShells.x86_64-linux.default.SHIELD_FONTS" 2>/dev/null)" && [[ -d "${fonts_from_eval}/share/fonts" ]]; then
+    font_dir="${fonts_from_eval}"
+  fi
+fi
+
+if [[ -n "${font_dir}" ]] && [[ -d "${font_dir}/share/fonts" ]]; then
+  fc_cache_dir="${WORK_DIR}/fc-cache"
+  mkdir -p "${fc_cache_dir}"
+  cat > "${WORK_DIR}/fonts.conf" << EOF
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <dir>${font_dir}/share/fonts</dir>
+  <cachedir>${fc_cache_dir}</cachedir>
+  <match target="pattern">
+    <test qual="any" name="family"><string>Share Tech Mono</string></test>
+    <edit name="family" mode="assign" binding="same"><string>ShureTechMono Nerd Font</string></edit>
+  </match>
+  <config></config>
+</fontconfig>
+EOF
+  export FONTCONFIG_FILE="${WORK_DIR}/fonts.conf"
+fi
+
 EWW_LOG="${WORK_DIR}/eww.log"
 eww -c shieldOS-eww daemon --no-daemonize >"${EWW_LOG}" 2>&1 &
 EWW_PID=$!

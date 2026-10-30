@@ -254,6 +254,27 @@ def check_star_emblem(repo_dir):
     if fill != "#DBAD4D":
         fail("star-emblem-color", f"Expected star-emblem fill #DBAD4D ($accent-primary), got {fill}")
 
+def check_operator_assets(repo_dir):
+    panels_dir = repo_dir / "assets" / "panels"
+    medallion_file = panels_dir / "operator-medallion.svg"
+    ring_file = panels_dir / "icon-radar-ring.svg"
+    target_file = panels_dir / "icon-radar-target.svg"
+    for p, key in [
+        (medallion_file, "operator-medallion-missing"),
+        (ring_file, "icon-radar-ring-missing"),
+        (target_file, "icon-radar-target-missing"),
+    ]:
+        if not p.is_file():
+            fail(key, f"assets/panels/{p.name} does not exist")
+
+    med_tree = ET.parse(medallion_file)
+    med_root = med_tree.getroot()
+    if med_root.attrib.get("width") != "64" or med_root.attrib.get("height") != "64":
+        fail("operator-medallion-dims", f"Expected 64x64 for operator medallion, got {med_root.attrib.get('width')}x{med_root.attrib.get('height')}")
+    med_content = medallion_file.read_text(encoding="utf-8")
+    if "#DBAD4D" not in med_content.upper() or "#C79C4E" not in med_content.upper():
+        fail("operator-medallion-colors", "operator-medallion.svg missing tokenized eagle colors ($accent-primary, $accent-primary-mid)")
+
 def main():
     repo_dir = Path(__file__).resolve().parent.parent
     theme_colors = extract_theme_colors(repo_dir / "themes" / "shield-gold.scss")
@@ -264,6 +285,7 @@ def main():
     check_emblem(repo_dir)
     check_corner_plates(repo_dir)
     check_star_emblem(repo_dir)
+    check_operator_assets(repo_dir)
 
     print("PASS [theme-svgs]: provenance, 56-star ring, radial glow, emblem, corner plates, and 4-pointed star validated successfully.")
 

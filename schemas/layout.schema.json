@@ -14,7 +14,8 @@
     "side_panels",
     "rails",
     "corner_plates",
-    "star_emblem"
+    "star_emblem",
+    "operator"
   ],
   "properties": {
     "$schema": {
@@ -90,6 +91,24 @@
       ],
       "properties": {
         "size": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "operator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "medallion_size",
+        "icon_size"
+      ],
+      "properties": {
+        "medallion_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "icon_size": {
           "type": "integer",
           "minimum": 1
         }

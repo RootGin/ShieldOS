@@ -43,6 +43,7 @@ def generate_scss(layout):
     cp = layout["corner_plates"]
     bv = cp["bevel"]
     se = layout.get("star_emblem", {"size": 24})
+    op = layout.get("operator", {"medallion_size": 64, "icon_size": 14})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -52,6 +53,8 @@ def generate_scss(layout):
         f"$canvas-height: dpi({c['height']}px);",
         f"$emblem-size: dpi({e['size']}px);",
         f"$star-emblem-size: dpi({se['size']}px);",
+        f"$operator-medallion-size: dpi({op['medallion_size']}px);",
+        f"$operator-icon-size: dpi({op['icon_size']}px);",
         f"$bar-top-height: dpi({b['top']['height']}px);",
         f"$bar-bottom-height: dpi({b['bottom']['height']}px);",
         f"$side-left-width: dpi({sp['left']['width']}px);",
@@ -90,6 +93,7 @@ def generate_yuck(layout):
     cp = layout["corner_plates"]
     bv = cp["bevel"]
     se = layout.get("star_emblem", {"size": 24})
+    op = layout.get("operator", {"medallion_size": 64, "icon_size": 14})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -99,6 +103,8 @@ def generate_yuck(layout):
         f"(defvar canvas_height {c['height']})",
         f"(defvar emblem_size {e['size']})",
         f"(defvar star_emblem_size {se['size']})",
+        f"(defvar operator_medallion_size {op['medallion_size']})",
+        f"(defvar operator_icon_size {op['icon_size']})",
         f"(defvar bar_top_height {b['top']['height']})",
         f"(defvar bar_bottom_height {b['bottom']['height']})",
         f"(defvar side_left_width {sp['left']['width']})",

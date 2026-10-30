@@ -54,4 +54,7 @@ python3 "${REPO_DIR}/tests/check-docking-seams.py"
 printf '\n==> Running Exclusive-Zone Proof Harness...\n'
 python3 "${REPO_DIR}/tests/check-exclusive-zone.py"
 
+printf '\n==> Running Fontconfig Resolution check...\n'
+"${REPO_DIR}/tests/check-fontconfig.sh"
+
 printf '\n==> All per-ticket verification gates passed.\n'

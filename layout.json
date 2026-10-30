@@ -17,6 +17,10 @@
   "star_emblem": {
     "size": 24
   },
+  "operator": {
+    "medallion_size": 64,
+    "icon_size": 14
+  },
   "bars": {
     "top": {
       "height": 90

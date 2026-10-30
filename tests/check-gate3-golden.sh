@@ -98,6 +98,10 @@ EOF
 <fontconfig>
   <dir>${font_dir}/share/fonts</dir>
   <cachedir>${fc_cache_dir}</cachedir>
+  <match target="pattern">
+    <test qual="any" name="family"><string>Share Tech Mono</string></test>
+    <edit name="family" mode="assign" binding="same"><string>ShureTechMono Nerd Font</string></edit>
+  </match>
   <config></config>
 </fontconfig>
 EOF
