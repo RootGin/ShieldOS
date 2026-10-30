@@ -13,7 +13,8 @@
     "bars",
     "side_panels",
     "rails",
-    "corner_plates"
+    "corner_plates",
+    "star_emblem"
   ],
   "properties": {
     "$schema": {
@@ -69,6 +70,19 @@
       }
     },
     "emblem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "size"
+      ],
+      "properties": {
+        "size": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "star_emblem": {
       "type": "object",
       "additionalProperties": false,
       "required": [

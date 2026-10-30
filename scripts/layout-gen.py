@@ -42,6 +42,7 @@ def generate_scss(layout):
     r = layout["rails"]
     cp = layout["corner_plates"]
     bv = cp["bevel"]
+    se = layout.get("star_emblem", {"size": 24})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -50,6 +51,7 @@ def generate_scss(layout):
         f"$canvas-width: dpi({c['width']}px);",
         f"$canvas-height: dpi({c['height']}px);",
         f"$emblem-size: dpi({e['size']}px);",
+        f"$star-emblem-size: dpi({se['size']}px);",
         f"$bar-top-height: dpi({b['top']['height']}px);",
         f"$bar-bottom-height: dpi({b['bottom']['height']}px);",
         f"$side-left-width: dpi({sp['left']['width']}px);",
@@ -87,6 +89,7 @@ def generate_yuck(layout):
     r = layout["rails"]
     cp = layout["corner_plates"]
     bv = cp["bevel"]
+    se = layout.get("star_emblem", {"size": 24})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -95,6 +98,7 @@ def generate_yuck(layout):
         f"(defvar canvas_width {c['width']})",
         f"(defvar canvas_height {c['height']})",
         f"(defvar emblem_size {e['size']})",
+        f"(defvar star_emblem_size {se['size']})",
         f"(defvar bar_top_height {b['top']['height']})",
         f"(defvar bar_bottom_height {b['bottom']['height']})",
         f"(defvar side_left_width {sp['left']['width']})",

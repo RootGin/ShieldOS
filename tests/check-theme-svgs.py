@@ -230,6 +230,30 @@ def check_corner_plates(repo_dir):
         if expected_chamfer not in outer_d:
             fail(f"{name}-chamfer", f"Expected chamfer segment '{expected_chamfer}' in {file_path.name} path d='{outer_d}'")
 
+def check_star_emblem(repo_dir):
+    star_file = repo_dir / "assets" / "panels" / "star-emblem.svg"
+    if not star_file.is_file():
+        fail("star-emblem-missing", "assets/panels/star-emblem.svg does not exist")
+    try:
+        tree = ET.parse(star_file)
+    except Exception as exc:
+        fail("star-emblem-xml", f"Failed to parse star-emblem.svg: {exc}")
+    root = tree.getroot()
+    w = root.attrib.get("width")
+    h = root.attrib.get("height")
+    if w != "24" or h != "24":
+        fail("star-emblem-dimensions", f"Expected 24x24 for star-emblem, got w={w} h={h}")
+    paths = root.findall(".//{http://www.w3.org/2000/svg}path") or root.findall(".//path")
+    if not paths:
+        fail("star-emblem-paths", "Missing path in star-emblem.svg")
+    star_path = paths[0]
+    star_d = star_path.attrib.get("d", "")
+    if "12,2" not in star_d or "22,12" not in star_d or "12,22" not in star_d or "2,12" not in star_d:
+        fail("star-emblem-geometry", f"Star emblem missing 4-pointed cardinal vertices in path: {star_d}")
+    fill = star_path.attrib.get("fill", "").upper()
+    if fill != "#DBAD4D":
+        fail("star-emblem-color", f"Expected star-emblem fill #DBAD4D ($accent-primary), got {fill}")
+
 def main():
     repo_dir = Path(__file__).resolve().parent.parent
     theme_colors = extract_theme_colors(repo_dir / "themes" / "shield-gold.scss")
@@ -239,8 +263,9 @@ def main():
     check_glow(repo_dir)
     check_emblem(repo_dir)
     check_corner_plates(repo_dir)
+    check_star_emblem(repo_dir)
 
-    print("PASS [theme-svgs]: provenance, 56-star ring, radial glow, emblem, and corner plates validated successfully.")
+    print("PASS [theme-svgs]: provenance, 56-star ring, radial glow, emblem, corner plates, and 4-pointed star validated successfully.")
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,36 @@
+.left-panel-window,
+window#left,
+window.left,
+.window.left,
+.left {
+  background-color: transparent;
+}
+
+.right-panel-window,
+window#right,
+window.right,
+.window.right,
+.right {
+  background-color: transparent;
+}
+
+.left-panel,
+.right-panel {
+  background-color: transparent;
+}
+
+.left-rail,
+.right-rail {
+  background-color: transparent;
+}
+
+.vertical-rail {
+  background-color: $surface-panel;
+  border-left: $bevel-outer-border solid $border-panel-outer;
+  border-right: $bevel-outer-border solid $border-panel-outer;
+}
+
+.vertical-rail-groove {
+  border-left: $bevel-inner-groove solid $border-panel-groove;
+  border-right: $bevel-inner-groove solid $border-panel-groove;
+}

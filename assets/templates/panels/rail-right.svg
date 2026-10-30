@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="520" viewBox="0 0 12 520">
+  <path fill="{{$surface-panel}}" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 11,1 L 1,11 L 1,509 L 11,519 Z" />
+  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 8.5,4.5 L 3.5,9.5 L 3.5,510.5 L 8.5,515.5 Z" />
+</svg>

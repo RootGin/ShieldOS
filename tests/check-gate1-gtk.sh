@@ -160,6 +160,20 @@ if [[ "${#WINDOWS[@]}" -eq 0 ]]; then
   fail "yuck-windows" "No (defwindow ...) definitions found in shieldOS-eww"
 fi
 
+REQUIRED_WINDOWS=("background" "top" "bottom" "left" "right")
+for req_win in "${REQUIRED_WINDOWS[@]}"; do
+  found=0
+  for w in "${WINDOWS[@]}"; do
+    if [[ "${w}" == "${req_win}" ]]; then
+      found=1
+      break
+    fi
+  done
+  if [[ "${found}" -ne 1 ]]; then
+    fail "yuck-windows" "Required window '${req_win}' not defined (found: ${WINDOWS[*]})"
+  fi
+done
+
 SWAY_CFG="${WORK_DIR}/sway.cfg"
 printf 'output HEADLESS-1 resolution 1920x1080\n' >"${SWAY_CFG}"
 

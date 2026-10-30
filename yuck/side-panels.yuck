@@ -1,0 +1,45 @@
+(defwindow left
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :anchor "left center")
+  :layer "top"
+  :exclusive false
+  :focusable false
+  :namespace "shield-left-panel"
+  (box :class "left-panel"
+       :orientation "horizontal"
+       :space-evenly false
+       :width side_left_width
+       :height side_left_height
+    (box :class "left-rail"
+         :width rail_left_width
+         :height side_left_height
+         :valign "center"
+      (image :path "./assets/panels/rail-left.svg"
+             :image-width rail_left_width
+             :image-height side_left_height))))
+
+(defwindow right
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :anchor "right center")
+  :layer "top"
+  :exclusive false
+  :focusable false
+  :namespace "shield-right-panel"
+  (box :class "right-panel"
+       :orientation "horizontal"
+       :space-evenly false
+       :halign "end"
+       :width side_right_width
+       :height side_right_height
+    (box :class "right-rail"
+         :width rail_right_width
+         :height side_right_height
+         :halign "end"
+         :valign "center"
+      (image :path "./assets/panels/rail-right.svg"
+             :image-width rail_right_width
+             :image-height side_right_height))))

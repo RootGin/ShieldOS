@@ -4,6 +4,7 @@
 (defvar canvas_width 1888)
 (defvar canvas_height 1048)
 (defvar emblem_size 800)
+(defvar star_emblem_size 24)
 (defvar bar_top_height 90)
 (defvar bar_bottom_height 44)
 (defvar side_left_width 48)

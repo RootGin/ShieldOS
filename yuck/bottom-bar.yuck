@@ -30,6 +30,17 @@
          :width corner_bottom_right_width
          :height corner_bottom_right_height
          :valign "end"
-      (image :path "./assets/panels/corner-bottom-right.svg"
-             :image-width corner_bottom_right_width
-             :image-height corner_bottom_right_height))))
+      (overlay
+        (image :path "./assets/panels/corner-bottom-right.svg"
+               :image-width corner_bottom_right_width
+               :image-height corner_bottom_right_height
+               :width corner_bottom_right_width
+               :height corner_bottom_right_height)
+        (box :class "star-emblem-container"
+             :width corner_bottom_right_width
+             :height corner_bottom_right_height
+             :halign "end"
+             :valign "center"
+          (image :path "./assets/panels/star-emblem.svg"
+                 :image-width star_emblem_size
+                 :image-height star_emblem_size))))))
