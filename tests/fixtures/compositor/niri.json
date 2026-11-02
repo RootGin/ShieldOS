@@ -1,0 +1,75 @@
+{
+  "backend": "niri",
+  "workspaces": [
+    { "id": 1, "state": "active" },
+    { "id": 2, "state": "occupied" },
+    { "id": 3, "state": "occupied" },
+    { "id": 4, "state": "empty" },
+    { "id": 5, "state": "empty" },
+    { "id": 6, "state": "empty" },
+    { "id": 7, "state": "empty" },
+    { "id": 8, "state": "empty" },
+    { "id": 9, "state": "empty" },
+    { "id": 10, "state": "empty" }
+  ],
+  "tabs": [
+    {
+      "id": "hydra",
+      "tag": "8G",
+      "title": "Hydra",
+      "badge": "0-0-NE-01",
+      "urgent": false
+    },
+    {
+      "id": "nebula",
+      "tag": "UPD",
+      "title": "Nebula",
+      "badge": "SSWS",
+      "urgent": true
+    },
+    {
+      "id": "spartim",
+      "tag": "UPD",
+      "title": "Spartim",
+      "badge": "3C2E-0010",
+      "urgent": true
+    },
+    {
+      "id": "gersfit",
+      "tag": "UPD",
+      "title": "Gersfit",
+      "badge": "SCOREN",
+      "urgent": true
+    }
+  ],
+  "windows": [
+    {
+      "id": "hydra",
+      "tag": "8G",
+      "title": "Hydra",
+      "badge": "0-0-NE-01",
+      "urgent": false
+    },
+    {
+      "id": "nebula",
+      "tag": "UPD",
+      "title": "Nebula",
+      "badge": "SSWS",
+      "urgent": true
+    },
+    {
+      "id": "spartim",
+      "tag": "UPD",
+      "title": "Spartim",
+      "badge": "3C2E-0010",
+      "urgent": true
+    },
+    {
+      "id": "gersfit",
+      "tag": "UPD",
+      "title": "Gersfit",
+      "badge": "SCOREN",
+      "urgent": true
+    }
+  ]
+}

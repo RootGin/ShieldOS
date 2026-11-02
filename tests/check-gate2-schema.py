@@ -28,9 +28,9 @@ SCRIPT_REGISTRY = [
         "name": "compositor",
         "script": "scripts/compositor.py",
         "schema_def": "compositor",
-        "status": "PENDING",
+        "status": "ACTIVE",
         "milestone": "Milestone 4",
-        "fixtures": ["frozen", "fallback", "niri", "hyprland"],
+        "fixtures": ["frozen", "fallback", "niri", "sway"],
     },
     {
         "name": "network_audio",
@@ -262,6 +262,99 @@ def run_production_proc_fallback_check(script_path, schema):
     if payload.get("weekday") != now.strftime("%a").upper():
         fail("production-proc-fallback", f"Expected real weekday, got {payload.get('weekday')}")
 
+
+def run_compositor_checks(script_path, schema):
+    env = os.environ.copy()
+    env["SHIELD_FIXTURE"] = "frozen"
+    proc_env = subprocess.run(
+        [sys.executable, str(script_path), "--once"],
+        cwd=str(REPO_DIR),
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    if proc_env.returncode != 0:
+        fail("fixture-env-compositor", f"SHIELD_FIXTURE=frozen {script_path.name} --once exited {proc_env.returncode}")
+    lines = proc_env.stdout.splitlines()
+    if len(lines) != 1:
+        fail("fixture-env-compositor", f"SHIELD_FIXTURE=frozen {script_path.name} --once printed {len(lines)} lines")
+    env_payload = json.loads(lines[0])
+    validate_payload_against_def(schema, "compositor", env_payload, "SHIELD_FIXTURE=frozen compositor.py --once")
+    ws_map = {ws["id"]: ws["state"] for ws in env_payload.get("workspaces", [])}
+    if ws_map.get(2) != "active" or ws_map.get(8) != "active":
+        fail("fixture-env-compositor", f"SHIELD_FIXTURE=frozen workspaces 2 and 8 must be active: {ws_map}")
+
+    env_override = os.environ.copy()
+    env_override["SHIELD_FIXTURE"] = "fallback"
+    override_payload = run_script_fixture(
+        script_path,
+        "frozen",
+        "compositor",
+        schema,
+        extra_env={"SHIELD_FIXTURE": "fallback"},
+    )
+    ws_override_map = {ws["id"]: ws["state"] for ws in override_payload.get("workspaces", [])}
+    if ws_override_map.get(2) != "active" or ws_override_map.get(8) != "active":
+        fail("fixture-precedence-compositor", f"--fixture frozen did not override SHIELD_FIXTURE=fallback: {override_payload}")
+
+    env_fallback = os.environ.copy()
+    env_fallback.pop("SHIELD_FIXTURE", None)
+    env_fallback["NIRI_SOCKET"] = ""
+    env_fallback["SWAYSOCK"] = ""
+    proc_fallback = subprocess.run(
+        [sys.executable, str(script_path), "--once"],
+        cwd=str(REPO_DIR),
+        env=env_fallback,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    if proc_fallback.returncode != 0:
+        fail("compositor-fallback", f"{script_path.name} fallback exited {proc_fallback.returncode}: {proc_fallback.stderr}")
+    fallback_lines = proc_fallback.stdout.splitlines()
+    if len(fallback_lines) != 1:
+        fail("compositor-fallback", f"{script_path.name} fallback printed {len(fallback_lines)} lines")
+    fallback_payload = json.loads(fallback_lines[0])
+    validate_payload_against_def(schema, "compositor", fallback_payload, "compositor standalone fallback")
+    if fallback_payload.get("backend") != "none":
+        fail("compositor-fallback", f"Expected backend 'none' in standalone fallback, got {fallback_payload.get('backend')}")
+    fb_ws_map = {ws["id"]: ws["state"] for ws in fallback_payload.get("workspaces", [])}
+    if fb_ws_map.get(1) != "active":
+        fail("compositor-fallback", f"Expected workspace 1 to be 'active' in standalone fallback, got: {fb_ws_map}")
+
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("compositor_mod", str(script_path))
+    comp_mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(comp_mod)
+
+    niri_dual = comp_mod.build_niri_payload(
+        [
+            {"id": 10, "idx": 2, "output": "DP-1", "is_active": True, "is_focused": True, "active_window_id": 101},
+            {"id": 20, "idx": 8, "output": "DP-2", "is_active": True, "is_focused": False, "active_window_id": None},
+            {"id": 30, "idx": 4, "output": "DP-1", "is_active": False, "is_focused": False, "active_window_id": 102},
+        ],
+        [{"id": 101, "workspace_id": 10}, {"id": 102, "workspace_id": 30}],
+    )
+    validate_payload_against_def(schema, "compositor", niri_dual, "niri multi-monitor mapping")
+    niri_map = {ws["id"]: ws["state"] for ws in niri_dual["workspaces"]}
+    if niri_map.get(2) != "active" or niri_map.get(8) != "active" or niri_map.get(4) != "occupied" or niri_map.get(1) != "empty":
+        fail("compositor-niri-mapping", f"Unexpected niri multi-monitor mapping: {niri_map}")
+
+    sway_dual = comp_mod.build_sway_payload(
+        [
+            {"num": 2, "name": "2", "visible": True, "focused": True, "nodes": []},
+            {"num": 8, "name": "8", "visible": True, "focused": False, "nodes": []},
+            {"num": 4, "name": "4", "visible": False, "focused": False, "nodes": [{"id": 1}]},
+        ],
+        {},
+    )
+    validate_payload_against_def(schema, "compositor", sway_dual, "sway multi-monitor mapping")
+    sway_map = {ws["id"]: ws["state"] for ws in sway_dual["workspaces"]}
+    if sway_map.get(2) != "active" or sway_map.get(8) != "active" or sway_map.get(4) != "occupied" or sway_map.get(1) != "empty":
+        fail("compositor-sway-mapping", f"Unexpected sway multi-monitor mapping: {sway_map}")
+
+
 def validate_compositor_fixtures(schema):
     comp_fixtures_dir = REPO_DIR / "tests" / "fixtures" / "compositor"
     if not comp_fixtures_dir.is_dir():
@@ -491,6 +584,8 @@ def main():
         if name == "telemetry":
             run_env_fixture_precedence_check(script_path, schema)
             run_production_proc_fallback_check(script_path, schema)
+        if name == "compositor":
+            run_compositor_checks(script_path, schema)
 
     print(
         f"PASS [gate2-schema]: schema strict, layout verified ({len(governed_dims)} governed dims), "

@@ -35,6 +35,7 @@
         packages = [
           pkgs.eww
           pkgs.dart-sass
+          pkgs.niri
           pkgs.sway
           pkgs.grim
           pkgs.imagemagick
