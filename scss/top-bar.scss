@@ -227,15 +227,16 @@ window.top,
   margin-bottom: dpi(-4px);
 }
 
-@mixin octagon($color, $leg) {
+@mixin pill-chamfer($color, $leg) {
   $stop: $leg * 0.70710678;
+  $aa: dpi(0.6px);
 
   background-image:
-    linear-gradient(135deg, transparent $stop, $color $stop),
-    linear-gradient(-135deg, transparent $stop, $color $stop),
-    linear-gradient(45deg, transparent $stop, $color $stop),
-    linear-gradient(-45deg, transparent $stop, $color $stop);
-  background-size: 50.6% 50.6%;
+    linear-gradient($color, $color),
+    linear-gradient(-135deg, transparent ($stop - $aa), $color ($stop + $aa)),
+    linear-gradient(45deg, transparent ($stop - $aa), $color ($stop + $aa)),
+    linear-gradient($color, $color);
+  background-size: 54% 54%;
   background-position: top left, top right, bottom left, bottom right;
   background-repeat: no-repeat;
 }
@@ -245,7 +246,7 @@ window.top,
 .workspace-strip-eventbox,
 .workspace-strip,
 .workspace-pill-eventbox,
-.workspace-pill-body {
+.workspace-slot {
   background-color: transparent;
 }
 
@@ -254,67 +255,65 @@ window.top,
   margin-left: $workspace-pill-left-offset;
 }
 
-.workspace-pill {
-  min-width: $workspace-pill-width;
-  min-height: $workspace-pill-height;
+.workspace-slot {
   margin-right: $workspace-pill-gap;
 }
 
-.workspace-pill.active {
-  @include octagon($state-active-fill, $workspace-pill-cut);
-}
-
-.workspace-pill.occupied {
-  @include octagon($surface-pill-inactive, $workspace-pill-cut);
-}
-
-.workspace-pill.empty {
-  @include octagon($surface-pill-inactive, $workspace-pill-cut);
-}
-
-@mixin pill-bar-chamfer($color, $leg) {
-  $stop: $leg * 0.70710678;
-
-  background-image:
-    linear-gradient(135deg, transparent $stop, $color $stop),
-    linear-gradient(-135deg, transparent $stop, $color $stop);
-  background-size: 50.6% 100%;
-  background-position: top left, top right;
-  background-repeat: no-repeat;
-}
-
 .workspace-pill-bar {
+  min-width: $workspace-pill-bar-width;
   min-height: $workspace-pill-bar-height;
+  margin-top: dpi(2px);
+  margin-right: dpi(4px);
 }
 
 .workspace-pill-bar.active {
-  @include pill-bar-chamfer($state-active-border, $workspace-pill-cut);
+  background-color: $accent-secondary;
 }
 
 .workspace-pill-bar.occupied {
-  @include pill-bar-chamfer($accent-secondary, $workspace-pill-cut);
+  background-color: $accent-secondary-bright;
 }
 
 .workspace-pill-bar.empty {
-  @include pill-bar-chamfer($border-panel-groove, $workspace-pill-cut);
+  background-color: mix($border-panel-outer, $text-ice, 35%);
+}
+
+.workspace-pill {
+  min-width: $workspace-pill-width;
+  min-height: $workspace-pill-height;
+}
+
+.workspace-pill.active {
+  @include pill-chamfer($state-active-border, $workspace-pill-cut);
+}
+
+.workspace-pill.occupied,
+.workspace-pill.empty {
+  @include pill-chamfer(mix($border-panel-outer, $text-muted, 50%), $workspace-pill-cut);
+}
+
+.workspace-pill-body {
+  margin: $bevel-outer-border;
+  min-width: $workspace-pill-width - (2 * $bevel-outer-border);
+  min-height: $workspace-pill-height - (2 * $bevel-outer-border);
+}
+
+.workspace-pill-body.active {
+  @include pill-chamfer($state-active-fill, $workspace-pill-cut - dpi(1px));
+}
+
+.workspace-pill-body.occupied,
+.workspace-pill-body.empty {
+  @include pill-chamfer($surface-pill-inactive, $workspace-pill-cut - dpi(1px));
 }
 
 .workspace-pill-label {
+  color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: $text-xl;
-  font-weight: $weight-xl;
+  font-size: $text-workspace-pill;
+  font-weight: $weight-sm;
   letter-spacing: $tracking-lg;
+  margin-top: dpi(7px);
 }
 
-.workspace-pill-label.active {
-  color: $text-primary;
-}
-
-.workspace-pill-label.occupied {
-  color: $text-primary;
-}
-
-.workspace-pill-label.empty {
-  color: $text-muted;
-}
 

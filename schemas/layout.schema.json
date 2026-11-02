@@ -123,6 +123,7 @@
         "height",
         "gap",
         "chamfer_cut",
+        "bar_width",
         "bar_height",
         "top_offset",
         "left_offset"
@@ -143,6 +144,10 @@
         "chamfer_cut": {
           "type": "integer",
           "minimum": 0
+        },
+        "bar_width": {
+          "type": "integer",
+          "minimum": 1
         },
         "bar_height": {
           "type": "integer",

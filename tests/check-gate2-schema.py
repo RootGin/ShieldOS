@@ -557,7 +557,7 @@ def extract_governed_dimensions(layout):
     def walk(obj):
         if isinstance(obj, dict):
             for k, v in obj.items():
-                if k in ("outer_border", "inner_groove", "bar_height", "top_offset"):
+                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "chamfer_cut"):
                     continue
                 walk(v)
         elif isinstance(obj, list):

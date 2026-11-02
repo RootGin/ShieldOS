@@ -122,21 +122,29 @@
               (eventbox :class "workspace-pill-eventbox"
                         :valign "start"
                         :onclick "bin/shield-ctl workspace ${ws.id}"
-                (box :class "workspace-pill ${ws.state}"
-                     :orientation "vertical"
+                (box :class "workspace-slot"
+                     :orientation "horizontal"
                      :space-evenly false
-                     :width workspace_pill_width
-                     :height workspace_pill_height
                      :valign "start"
                   (box :class "workspace-pill-bar ${ws.state}"
+                       :width workspace_pill_bar_width
                        :height workspace_pill_bar_height
                        :valign "start")
-                  (box :class "workspace-pill-body"
-                       :vexpand true
-                       :halign "center"
-                       :valign "center"
-                    (label :class "workspace-pill-label ${ws.state}"
-                           :text "${ws.id}")))))))))
+                  (box :class "workspace-pill ${ws.state}"
+                       :orientation "vertical"
+                       :space-evenly false
+                       :width workspace_pill_width
+                       :height workspace_pill_height
+                       :valign "start"
+                    (box :class "workspace-pill-body ${ws.state}"
+                         :vexpand true
+                         :hexpand true
+                         :halign "fill"
+                         :valign "fill"
+                      (label :class "workspace-pill-label ${ws.state}"
+                             :halign "center"
+                             :valign "center"
+                             :text "${ws.id}"))))))))))
     (box :class "corner-housing-tr"
          :width corner_top_right_width
          :height corner_top_right_height

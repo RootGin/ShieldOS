@@ -24,11 +24,12 @@
   "workspace_pills": {
     "width": 38,
     "height": 40,
-    "gap": 12,
-    "chamfer_cut": 6,
-    "bar_height": 3,
+    "gap": 7,
+    "chamfer_cut": 10,
+    "bar_width": 4,
+    "bar_height": 13,
     "top_offset": 2,
-    "left_offset": 145
+    "left_offset": 136
   },
   "bars": {
     "top": {
