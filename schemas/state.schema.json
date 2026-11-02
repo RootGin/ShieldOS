@@ -34,7 +34,9 @@
         "ram_percent",
         "user",
         "kernel",
-        "version"
+        "version",
+        "cpu_ladder",
+        "ram_ladder"
       ],
       "properties": {
         "time": {
@@ -98,6 +100,12 @@
               "type": "boolean"
             }
           }
+        },
+        "cpu_ladder": {
+          "$ref": "#/$defs/ladder_gauge"
+        },
+        "ram_ladder": {
+          "$ref": "#/$defs/ladder_gauge"
         }
       }
     },
@@ -317,6 +325,57 @@
             },
             "night_light": {
               "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "ladder_gauge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bucket",
+        "rungs"
+      ],
+      "properties": {
+        "bucket": {
+          "type": "integer",
+          "enum": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100
+          ]
+        },
+        "rungs": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "sublabel",
+              "state"
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "sublabel": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "normal",
+                  "lit",
+                  "active"
+                ]
+              }
             }
           }
         }

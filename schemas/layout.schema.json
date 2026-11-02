@@ -16,7 +16,8 @@
     "corner_plates",
     "star_emblem",
     "operator",
-    "workspace_pills"
+    "workspace_pills",
+    "gauges"
   ],
   "properties": {
     "$schema": {
@@ -429,6 +430,34 @@
               "minimum": 0
             }
           }
+        }
+      }
+    },
+    "gauges": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "header_height",
+        "rung_height",
+        "gap"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "header_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rung_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "gap": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     }

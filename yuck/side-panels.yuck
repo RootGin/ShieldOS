@@ -35,6 +35,71 @@
        :halign "end"
        :width side_right_width
        :height side_right_height
+    (box :class "right-gauges"
+         :orientation "vertical"
+         :space-evenly false
+         :valign "start"
+         :width gauge_width
+      (box :class "gauge cpu-gauge"
+           :orientation "vertical"
+           :space-evenly false
+           :width gauge_width
+        (box :class "gauge-header cpu-header"
+             :width gauge_width
+             :height gauge_header_height
+          (box :class "gauge-header-label-box"
+               :halign "center"
+               :valign "center"
+            (label :class "gauge-header-text"
+                   :text "CPU")))
+        (box :class "gauge-rungs cpu-rungs"
+             :orientation "vertical"
+             :space-evenly false
+             :width gauge_width
+          (for rung in {telemetry.cpu_ladder.rungs}
+            (box :class "gauge-rung ${rung.state} ${rung.sublabel != '' ? 'dual' : 'single'}"
+                 :orientation "vertical"
+                 :space-evenly false
+                 :width gauge_width
+              (box :class "rung-label-box"
+                   :halign "center"
+                   :valign "center"
+                (label :class "rung-label-text ${rung.state}"
+                       :text "${rung.label}"))
+              (box :class "rung-sublabel-box"
+                   :visible {rung.sublabel != ""}
+                   :halign "center"
+                   :valign "center"
+                (label :class "rung-sublabel-text ${rung.state}"
+                       :text "${rung.sublabel}"))))))
+      (box :class "gauge-gap"
+           :height gauge_gap)
+      (box :class "gauge ram-gauge"
+           :orientation "vertical"
+           :space-evenly false
+           :width gauge_width
+        (box :class "gauge-header ram-header"
+             :width gauge_width
+             :height gauge_header_height
+          (box :class "gauge-header-label-box"
+               :halign "center"
+               :valign "center"
+            (label :class "gauge-header-text"
+                   :text "RAM")))
+        (box :class "gauge-rungs ram-rungs"
+             :orientation "vertical"
+             :space-evenly false
+             :width gauge_width
+          (for rung in {telemetry.ram_ladder.rungs}
+            (box :class "gauge-rung ${rung.state} single"
+                 :orientation "vertical"
+                 :space-evenly false
+                 :width gauge_width
+              (box :class "rung-label-box"
+                   :halign "center"
+                   :valign "center"
+                (label :class "rung-label-text ${rung.state}"
+                       :text "${rung.label}")))))))
     (box :class "right-rail"
          :width rail_right_width
          :height side_right_height

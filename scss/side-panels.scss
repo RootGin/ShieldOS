@@ -34,3 +34,90 @@ window.right,
   border-left: $bevel-inner-groove solid $border-panel-groove;
   border-right: $bevel-inner-groove solid $border-panel-groove;
 }
+
+.right-gauges {
+  min-width: $gauge-width;
+  background-color: transparent;
+}
+
+.gauge {
+  min-width: $gauge-width;
+  background-color: transparent;
+  border-right: 2px solid $accent-primary-bright;
+}
+
+.gauge-header {
+  min-width: $gauge-width;
+  min-height: $gauge-header-height;
+  background-color: $accent-primary-dim;
+  padding: 1px 0;
+}
+
+.gauge-header-label-box {
+  min-width: $gauge-width;
+}
+
+.gauge-header-text {
+  font-family: $font-hud-condensed;
+  font-size: $text-sm;
+  font-weight: $weight-lg;
+  color: $text-primary;
+  letter-spacing: $tracking-md;
+}
+
+.gauge-rungs {
+  min-width: $gauge-width;
+  background-color: transparent;
+}
+
+.gauge-rung {
+  min-width: $gauge-width;
+  min-height: $gauge-rung-height;
+  background-color: transparent;
+}
+
+.gauge-rung.dual {
+  min-height: $gauge-rung-height * 2;
+  padding: 2px 0;
+}
+
+.gauge-rung.active {
+  background-color: $accent-primary-bright;
+}
+
+.rung-label-box {
+  min-width: $gauge-width;
+}
+
+.rung-label-text {
+  font-family: $font-hud-condensed;
+  font-size: $text-md;
+  font-weight: $weight-md;
+  color: $text-primary;
+}
+
+.rung-label-text.lit {
+  color: $accent-primary;
+}
+
+.rung-label-text.active {
+  font-family: $font-hud;
+  font-size: $text-lg;
+  font-weight: $weight-lg;
+  color: $text-on-accent;
+}
+
+.rung-sublabel-box {
+  min-width: $gauge-width;
+}
+
+.rung-sublabel-text {
+  font-family: $font-hud;
+  font-size: $text-sm;
+  font-weight: $weight-lg;
+  color: $text-on-accent;
+}
+
+.gauge-gap {
+  min-height: $gauge-gap;
+}

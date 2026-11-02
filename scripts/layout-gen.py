@@ -45,6 +45,7 @@ def generate_scss(layout):
     se = layout.get("star_emblem", {"size": 24})
     op = layout.get("operator", {"medallion_size": 64, "icon_size": 14})
     wp = layout["workspace_pills"]
+    gg = layout.get("gauges", {"width": 48, "header_height": 20, "rung_height": 18, "gap": 18})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -88,6 +89,10 @@ def generate_scss(layout):
         f"$corner-bottom-right-cut: dpi({cp['bottom_right']['chamfer_cut']}px);",
         f"$bevel-outer-border: dpi({bv['outer_border']}px);",
         f"$bevel-inner-groove: dpi({bv['inner_groove']}px);",
+        f"$gauge-width: dpi({gg['width']}px);",
+        f"$gauge-header-height: dpi({gg['header_height']}px);",
+        f"$gauge-rung-height: dpi({gg['rung_height']}px);",
+        f"$gauge-gap: dpi({gg['gap']}px);",
     ]
     return "\n".join(lines) + "\n"
 
@@ -104,6 +109,7 @@ def generate_yuck(layout):
     se = layout.get("star_emblem", {"size": 24})
     op = layout.get("operator", {"medallion_size": 64, "icon_size": 14})
     wp = layout["workspace_pills"]
+    gg = layout.get("gauges", {"width": 48, "header_height": 20, "rung_height": 18, "gap": 18})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -147,6 +153,10 @@ def generate_yuck(layout):
         f"(defvar corner_bottom_right_cut {cp['bottom_right']['chamfer_cut']})",
         f"(defvar bevel_outer_border {bv['outer_border']})",
         f"(defvar bevel_inner_groove {bv['inner_groove']})",
+        f"(defvar gauge_width {gg['width']})",
+        f"(defvar gauge_header_height {gg['header_height']})",
+        f"(defvar gauge_rung_height {gg['rung_height']})",
+        f"(defvar gauge_gap {gg['gap']})",
     ]
     return "\n".join(lines) + "\n"
 

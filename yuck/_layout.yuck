@@ -39,3 +39,7 @@
 (defvar corner_bottom_right_cut 12)
 (defvar bevel_outer_border 2)
 (defvar bevel_inner_groove 1)
+(defvar gauge_width 48)
+(defvar gauge_header_height 20)
+(defvar gauge_rung_height 18)
+(defvar gauge_gap 18)

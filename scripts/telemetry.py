@@ -235,9 +235,99 @@ def collect_metrics(fixture_inputs, prev_cpu_sample):
     }, curr_cpu_sample
 
 
+def compute_percent_bucket(percent):
+    if percent >= 100:
+        return 100
+    elif percent >= 80:
+        return 80
+    elif percent >= 60:
+        return 60
+    elif percent >= 40:
+        return 40
+    elif percent >= 20:
+        return 20
+    else:
+        return 0
+
+
+def build_cpu_ladder(percent, load):
+    bucket = compute_percent_bucket(percent)
+    load_str = f"{load:.1f}" if isinstance(load, (int, float)) else str(load)
+    rungs = []
+    if bucket == 100:
+        rungs.append({"label": str(percent), "sublabel": load_str, "state": "active"})
+        for val in [80, 60, 40, 20, 0]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "lit"})
+    elif bucket == 80:
+        rungs.append({"label": "100", "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": load_str, "state": "active"})
+        for val in [60, 40, 20, 0]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "lit"})
+    elif bucket == 60:
+        for val in [100, 80]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": load_str, "state": "active"})
+        for val in [40, 20, 0]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "lit"})
+    elif bucket == 40:
+        for val in [100, 80]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": load_str, "state": "active"})
+        for val in [40, 20, 0]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "lit"})
+    elif bucket == 20:
+        for val in [100, 80, 60, 40]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": load_str, "state": "active"})
+        rungs.append({"label": "0", "sublabel": "", "state": "lit"})
+    else:
+        for val in [100, 80, 60, 40]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": load_str, "state": "active"})
+    return {"bucket": bucket, "rungs": rungs}
+
+
+def build_ram_ladder(percent):
+    bucket = compute_percent_bucket(percent)
+    rungs = []
+    if bucket == 100:
+        rungs.append({"label": str(percent), "sublabel": "", "state": "active"})
+        for val in [80, 60, 40, 20, 0]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "lit"})
+    elif bucket == 80:
+        rungs.append({"label": "100", "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": "", "state": "active"})
+        for val in [60, 40, 20, 0]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "lit"})
+    elif bucket == 60:
+        for val in [100, 80]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": "", "state": "active"})
+        for val in [40, 20, 0]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "lit"})
+    elif bucket == 40:
+        for val in [100, 80]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": "", "state": "active"})
+        for val in [40, 20, 0]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "lit"})
+    elif bucket == 20:
+        for val in [100, 80, 60, 40]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": "", "state": "active"})
+        rungs.append({"label": "0", "sublabel": "", "state": "lit"})
+    else:
+        for val in [100, 80, 60, 40, 20]:
+            rungs.append({"label": str(val), "sublabel": "", "state": "normal"})
+        rungs.append({"label": str(percent), "sublabel": "", "state": "active"})
+    return {"bucket": bucket, "rungs": rungs}
+
+
 def build_payload(fixture_inputs, cached_metrics):
     clock = format_clock_fields(fixture_inputs)
     user = resolve_user(fixture_inputs)
+    cpu_ladder = build_cpu_ladder(cached_metrics["cpu_percent"], cached_metrics["cpu_load"])
+    ram_ladder = build_ram_ladder(cached_metrics["ram_percent"])
     payload = {
         "time": clock["time"],
         "day": clock["day"],
@@ -249,6 +339,8 @@ def build_payload(fixture_inputs, cached_metrics):
         "user": user,
         "kernel": cached_metrics["kernel"],
         "version": HUD_VERSION,
+        "cpu_ladder": cpu_ladder,
+        "ram_ladder": ram_ladder,
     }
     if fixture_inputs and fixture_inputs.get("quick_tabs") is not None:
         payload["quick_tabs"] = fixture_inputs["quick_tabs"]

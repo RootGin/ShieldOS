@@ -88,5 +88,11 @@
       "outer_border": 2,
       "inner_groove": 1
     }
+  },
+  "gauges": {
+    "width": 48,
+    "header_height": 20,
+    "rung_height": 18,
+    "gap": 18
   }
 }

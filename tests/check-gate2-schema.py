@@ -219,6 +219,12 @@ def run_env_fixture_precedence_check(script_path, schema):
     validate_payload_against_def(schema, "telemetry", env_payload, "SHIELD_FIXTURE=frozen telemetry.py --once")
     if env_payload.get("time") != "17:32:14" or env_payload.get("cpu_percent") != 2 or env_payload.get("ram_percent") != 42:
         fail("fixture-env", f"SHIELD_FIXTURE=frozen produced unexpected values: {env_payload}")
+    cpu_lad = env_payload.get("cpu_ladder", {})
+    if cpu_lad.get("bucket") != 0 or not cpu_lad.get("rungs") or cpu_lad["rungs"][-1].get("label") != "2" or cpu_lad["rungs"][-1].get("sublabel") != "1.0" or cpu_lad["rungs"][-1].get("state") != "active":
+        fail("fixture-env-cpu-ladder", f"SHIELD_FIXTURE=frozen unexpected cpu_ladder: {cpu_lad}")
+    ram_lad = env_payload.get("ram_ladder", {})
+    if ram_lad.get("bucket") != 40 or not ram_lad.get("rungs") or ram_lad["rungs"][2].get("label") != "42" or ram_lad["rungs"][2].get("state") != "active":
+        fail("fixture-env-ram-ladder", f"SHIELD_FIXTURE=frozen unexpected ram_ladder: {ram_lad}")
 
     env_override = os.environ.copy()
     env_override["SHIELD_FIXTURE"] = "fallback"
@@ -261,6 +267,38 @@ def run_production_proc_fallback_check(script_path, schema):
         fail("production-proc-fallback", f"Expected real month_year, got {payload.get('month_year')}")
     if payload.get("weekday") != now.strftime("%a").upper():
         fail("production-proc-fallback", f"Expected real weekday, got {payload.get('weekday')}")
+
+
+def run_ladder_gauge_boundary_checks(schema):
+    import importlib.util
+    telem_script = REPO_DIR / "scripts" / "telemetry.py"
+    spec = importlib.util.spec_from_file_location("telemetry_mod", str(telem_script))
+    telem_mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(telem_mod)
+
+    boundary_cases = [
+        (0, 0),
+        (19, 0),
+        (20, 20),
+        (100, 100),
+    ]
+
+    for pct, expected_bucket in boundary_cases:
+        actual_bucket = telem_mod.compute_percent_bucket(pct)
+        if actual_bucket != expected_bucket:
+            fail("ladder-bucket-boundary", f"compute_percent_bucket({pct}) expected {expected_bucket}, got {actual_bucket}")
+
+        cpu_ladder = telem_mod.build_cpu_ladder(pct, 1.0)
+        validate_payload_against_def(schema, "ladder_gauge", cpu_ladder, f"cpu_ladder boundary {pct}%")
+        if cpu_ladder["bucket"] != expected_bucket:
+            fail("ladder-bucket-boundary", f"build_cpu_ladder({pct}) bucket expected {expected_bucket}, got {cpu_ladder['bucket']}")
+
+        ram_ladder = telem_mod.build_ram_ladder(pct)
+        validate_payload_against_def(schema, "ladder_gauge", ram_ladder, f"ram_ladder boundary {pct}%")
+        if ram_ladder["bucket"] != expected_bucket:
+            fail("ladder-bucket-boundary", f"build_ram_ladder({pct}) bucket expected {expected_bucket}, got {ram_ladder['bucket']}")
+
+    print("VALIDATED [ladder-boundary]: tested boundary values 0%, 19%, 20%, and 100% OK")
 
 
 def run_compositor_checks(script_path, schema):
@@ -717,6 +755,7 @@ def main():
         if name == "telemetry":
             run_env_fixture_precedence_check(script_path, schema)
             run_production_proc_fallback_check(script_path, schema)
+            run_ladder_gauge_boundary_checks(schema)
         if name == "compositor":
             run_compositor_checks(script_path, schema)
 
