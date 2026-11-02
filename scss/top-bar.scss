@@ -316,4 +316,144 @@ window.top,
   margin-top: dpi(7px);
 }
 
+.window-tabs-strip,
+.window-tab-eventbox,
+.window-tab-slot,
+.window-tab,
+.tab-main,
+.tab-tag-box,
+.tab-title-box,
+.tab-sub-row {
+  background-color: transparent;
+}
+
+.window-tabs-strip {
+  margin-left: dpi(11px);
+}
+
+.window-tab-slot {
+  margin-right: dpi(10px);
+}
+
+.tab-anchor {
+  color: $border-panel-outer;
+  font-family: $font-hud-condensed;
+  font-size: dpi(11px);
+  font-weight: $weight-lg;
+  margin-right: dpi(3px);
+  margin-top: dpi(1px);
+}
+
+@mixin tab-main-chamfer($bg, $leg-bl, $leg-tr) {
+  $stop-bl: $leg-bl * 0.70710678;
+  $stop-tr: $leg-tr * 0.70710678;
+  $aa: dpi(0.6px);
+
+  background-image:
+    linear-gradient($bg, $bg),
+    linear-gradient(-120deg, transparent ($stop-tr * 1.4 - $aa), $bg ($stop-tr * 1.4 + $aa)),
+    linear-gradient(45deg, transparent ($stop-bl - $aa), $bg ($stop-bl + $aa)),
+    linear-gradient(-45deg, transparent ($stop-tr - $aa), $bg ($stop-tr + $aa));
+  background-size: 55% 55%;
+  background-position: top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+}
+
+.window-tab {
+  min-width: dpi(104px);
+}
+
+.tab-main {
+  min-width: dpi(104px);
+  min-height: $rail-top-height;
+  @include tab-main-chamfer($surface-control, dpi(10px), dpi(15px));
+  padding-left: dpi(8px);
+  padding-top: dpi(2px);
+}
+
+.tab-tag-box {
+  margin-right: dpi(4px);
+}
+
+.tab-tag-text {
+  color: $text-primary;
+  font-family: $font-hud-condensed;
+  font-size: $text-workspace-pill;
+  font-weight: $weight-xl;
+  letter-spacing: $tracking-sm;
+  margin-top: dpi(-4px);
+}
+
+.tab-title-box {
+  margin-top: dpi(7px);
+  margin-left: dpi(4px);
+}
+
+.tab-title-text {
+  color: $text-primary;
+  font-family: $font-hud-condensed;
+  font-size: dpi(15px);
+  font-weight: $weight-md;
+  letter-spacing: $tracking-md;
+  margin-top: dpi(-3px);
+}
+
+.tab-sub-row {
+  margin-top: dpi(-1px);
+  min-width: dpi(104px);
+}
+
+.window-tab.normal .tab-sub-line {
+  border-bottom: dpi(1px) solid $accent-secondary;
+  margin-top: dpi(5px);
+  margin-right: dpi(2px);
+  min-height: dpi(1px);
+}
+
+.window-tab.urgent .tab-sub-line {
+  border-bottom: dpi(1px) solid $state-danger-badge;
+  margin-top: dpi(5px);
+  margin-right: dpi(2px);
+  min-height: dpi(1px);
+}
+
+@mixin tab-badge-chamfer($bg) {
+  background-image: linear-gradient(45deg, transparent dpi(3.5px), $bg dpi(4px));
+}
+
+.tab-badge {
+  min-height: dpi(11px);
+  padding-left: dpi(5px);
+  padding-right: dpi(5px);
+  padding-top: dpi(1px);
+  padding-bottom: dpi(1px);
+}
+
+.tab-badge.normal {
+  @include tab-badge-chamfer($accent-secondary-bright);
+}
+
+.tab-badge.urgent {
+  @include tab-badge-chamfer($state-danger-badge);
+}
+
+.tab-badge-text {
+  font-family: $font-hud-condensed;
+  font-size: dpi(8px);
+  font-weight: $weight-xl;
+  letter-spacing: $tracking-xs;
+  margin-top: dpi(-2px);
+  margin-bottom: dpi(-2px);
+}
+
+.tab-badge-text.normal {
+  color: $text-on-accent;
+}
+
+.tab-badge-text.urgent {
+  color: $text-primary;
+}
+
+
+
 

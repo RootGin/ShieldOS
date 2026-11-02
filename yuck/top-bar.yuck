@@ -144,7 +144,54 @@
                       (label :class "workspace-pill-label ${ws.state}"
                              :halign "center"
                              :valign "center"
-                             :text "${ws.id}"))))))))))
+                             :text "${ws.id}"))))))))
+        (box :class "window-tabs-strip"
+             :orientation "horizontal"
+             :space-evenly false
+             :valign "start"
+          (for tab in {compositor.tabs}
+            (eventbox :class "window-tab-eventbox"
+                      :valign "start"
+                      :onclick "bin/shield-ctl focus ${tab.id}"
+              (box :class "window-tab-slot"
+                   :orientation "horizontal"
+                   :space-evenly false
+                   :valign "start"
+                (label :class "tab-anchor"
+                       :valign "start"
+                       :text "F:")
+                (box :class "window-tab ${tab.urgent ? 'urgent' : 'normal'}"
+                     :orientation "vertical"
+                     :space-evenly false
+                     :valign "start"
+                  (box :class "tab-main"
+                       :orientation "horizontal"
+                       :space-evenly false
+                       :valign "start"
+                    (box :class "tab-tag-box"
+                         :valign "start"
+                      (label :class "tab-tag-text"
+                             :halign "start"
+                             :valign "start"
+                             :text "${tab.tag}"))
+                    (box :class "tab-title-box"
+                         :valign "start"
+                      (label :class "tab-title-text"
+                             :halign "start"
+                             :valign "start"
+                             :text "${tab.title}")))
+                  (box :class "tab-sub-row"
+                       :orientation "horizontal"
+                       :space-evenly false
+                       :valign "start"
+                    (box :class "tab-sub-line"
+                         :hexpand true)
+                    (box :class "tab-badge ${tab.urgent ? 'urgent' : 'normal'}"
+                         :valign "start"
+                      (label :class "tab-badge-text ${tab.urgent ? 'urgent' : 'normal'}"
+                             :halign "center"
+                             :valign "center"
+                             :text "${tab.badge}"))))))))))
     (box :class "corner-housing-tr"
          :width corner_top_right_width
          :height corner_top_right_height
