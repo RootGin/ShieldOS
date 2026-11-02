@@ -4,6 +4,7 @@ import glob
 import json
 import os
 import re
+import socket
 import subprocess
 import sys
 import time
@@ -11,6 +12,29 @@ from pathlib import Path
 
 REPO_DIR = Path(__file__).resolve().parent.parent
 FIXTURES_DIR = REPO_DIR / "tests" / "fixtures" / "compositor"
+
+HYPRLAND_ADAPTER_STATUS = "fixture-only / unverified"
+
+HYPRLAND_EVENTS = (
+    "workspace>>",
+    "workspacev2>>",
+    "focusedmon>>",
+    "focusedmonv2>>",
+    "activewindow>>",
+    "activewindowv2>>",
+    "openwindow>>",
+    "closewindow>>",
+    "movewindow>>",
+    "movewindowv2>>",
+    "createworkspace>>",
+    "createworkspacev2>>",
+    "destroyworkspace>>",
+    "destroyworkspacev2>>",
+    "moveworkspace>>",
+    "moveworkspacev2>>",
+    "monitoradded>>",
+    "monitorremoved>>",
+)
 
 STATIC_TABS = [
     {
@@ -88,6 +112,23 @@ def find_niri_socket():
     return None
 
 
+def find_hyprland_socket():
+    if "HYPRLAND_INSTANCE_SIGNATURE" not in os.environ:
+        return None
+    sig = os.environ.get("HYPRLAND_INSTANCE_SIGNATURE", "").strip()
+    if not sig:
+        return None
+    runtime_dir = os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}"
+    candidates = [
+        f"{runtime_dir}/hypr/{sig}/.socket2.sock",
+        f"/tmp/hypr/{sig}/.socket2.sock",
+    ]
+    for sock in candidates:
+        if os.path.exists(sock):
+            return sock
+    return None
+
+
 def find_sway_socket():
     if "SWAYSOCK" in os.environ:
         sock = os.environ.get("SWAYSOCK", "").strip()
@@ -105,6 +146,9 @@ def detect_backend():
     niri_sock = find_niri_socket()
     if niri_sock:
         return "niri", niri_sock
+    hypr_sock = find_hyprland_socket()
+    if hypr_sock:
+        return "hyprland", hypr_sock
     sway_sock = find_sway_socket()
     if sway_sock:
         return "sway", sway_sock
@@ -158,6 +202,75 @@ def build_niri_payload(workspaces_list, windows_list):
 
     return {
         "backend": "niri",
+        "workspaces": workspaces,
+        "tabs": STATIC_TABS,
+        "windows": STATIC_TABS,
+    }
+
+
+def extract_hyprland_slot(ws_obj):
+    if not isinstance(ws_obj, dict):
+        return None
+    ws_id = ws_obj.get("id")
+    if isinstance(ws_id, int) and 1 <= ws_id <= 10:
+        return ws_id
+    name = ws_obj.get("name")
+    if name and isinstance(name, str):
+        m = re.match(r"^(\d+)", name.strip())
+        if m:
+            slot = int(m.group(1))
+            if 1 <= slot <= 10:
+                return slot
+    return None
+
+
+def query_hyprland(subcommand):
+    try:
+        proc = subprocess.run(
+            ["hyprctl", "-j", subcommand],
+            capture_output=True,
+            text=True,
+            timeout=2,
+        )
+        if proc.returncode == 0:
+            return json.loads(proc.stdout)
+    except Exception:
+        pass
+    return {} if subcommand == "activewindow" else []
+
+
+def build_hyprland_payload(monitors_list, workspaces_list, active_window=None):
+    slot_states = {i: "empty" for i in range(1, 11)}
+
+    if isinstance(workspaces_list, list):
+        for ws in workspaces_list:
+            slot = extract_hyprland_slot(ws)
+            if slot is not None:
+                windows_count = ws.get("windows", 0)
+                if isinstance(windows_count, int) and windows_count > 0:
+                    slot_states[slot] = "occupied"
+
+    if isinstance(active_window, dict) and (
+        active_window.get("address")
+        or active_window.get("class")
+        or active_window.get("title")
+    ):
+        aw_slot = extract_hyprland_slot(active_window.get("workspace"))
+        if aw_slot is not None and slot_states[aw_slot] == "empty":
+            slot_states[aw_slot] = "occupied"
+
+    if isinstance(monitors_list, list):
+        for mon in monitors_list:
+            if not isinstance(mon, dict):
+                continue
+            slot = extract_hyprland_slot(mon.get("activeWorkspace"))
+            if slot is not None:
+                slot_states[slot] = "active"
+
+    workspaces = [{"id": i, "state": slot_states[i]} for i in range(1, 11)]
+
+    return {
+        "backend": "hyprland",
         "workspaces": workspaces,
         "tabs": STATIC_TABS,
         "windows": STATIC_TABS,
@@ -330,6 +443,51 @@ def stream_niri(once=False):
             pass
 
 
+def stream_hyprland(sock_path, once=False):
+    monitors = query_hyprland("monitors")
+    workspaces = query_hyprland("workspaces")
+    active_window = query_hyprland("activewindow")
+    payload = build_hyprland_payload(monitors, workspaces, active_window)
+    emit_json_line(payload)
+    if once:
+        return
+
+    client = None
+    sock_file = None
+    try:
+        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        client.connect(sock_path)
+        sock_file = client.makefile("r", encoding="utf-8", errors="replace")
+    except Exception:
+        while True:
+            time.sleep(60)
+
+    try:
+        for raw_line in sock_file:
+            line = raw_line.strip()
+            if not line:
+                continue
+            if line.startswith(HYPRLAND_EVENTS):
+                monitors = query_hyprland("monitors")
+                workspaces = query_hyprland("workspaces")
+                active_window = query_hyprland("activewindow")
+                payload = build_hyprland_payload(monitors, workspaces, active_window)
+                emit_json_line(payload)
+    except (KeyboardInterrupt, BrokenPipeError):
+        pass
+    finally:
+        if sock_file is not None:
+            try:
+                sock_file.close()
+            except Exception:
+                pass
+        if client is not None:
+            try:
+                client.close()
+            except Exception:
+                pass
+
+
 def stream_sway(once=False):
     workspaces = query_sway("get_workspaces")
     tree = query_sway("get_tree")
@@ -390,6 +548,9 @@ def main():
         if sock and "NIRI_SOCKET" not in os.environ:
             os.environ["NIRI_SOCKET"] = sock
         stream_niri(once=args.once)
+        return 0
+    elif backend == "hyprland":
+        stream_hyprland(sock, once=args.once)
         return 0
     elif backend == "sway":
         if sock and "SWAYSOCK" not in os.environ:

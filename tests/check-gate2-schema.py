@@ -30,7 +30,7 @@ SCRIPT_REGISTRY = [
         "schema_def": "compositor",
         "status": "ACTIVE",
         "milestone": "Milestone 4",
-        "fixtures": ["frozen", "fallback", "niri", "sway"],
+        "fixtures": ["frozen", "fallback", "niri", "hyprland", "sway"],
     },
     {
         "name": "network_audio",
@@ -285,6 +285,26 @@ def run_compositor_checks(script_path, schema):
     if ws_map.get(2) != "active" or ws_map.get(8) != "active":
         fail("fixture-env-compositor", f"SHIELD_FIXTURE=frozen workspaces 2 and 8 must be active: {ws_map}")
 
+    env_hypr = os.environ.copy()
+    env_hypr["SHIELD_FIXTURE"] = "hyprland"
+    proc_hypr = subprocess.run(
+        [sys.executable, str(script_path), "--once"],
+        cwd=str(REPO_DIR),
+        env=env_hypr,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    if proc_hypr.returncode != 0:
+        fail("fixture-env-hyprland", f"SHIELD_FIXTURE=hyprland {script_path.name} --once exited {proc_hypr.returncode}")
+    hypr_lines = proc_hypr.stdout.splitlines()
+    if len(hypr_lines) != 1:
+        fail("fixture-env-hyprland", f"SHIELD_FIXTURE=hyprland {script_path.name} --once printed {len(hypr_lines)} lines")
+    hypr_env_payload = json.loads(hypr_lines[0])
+    validate_payload_against_def(schema, "compositor", hypr_env_payload, "SHIELD_FIXTURE=hyprland compositor.py --once")
+    if hypr_env_payload.get("backend") != "hyprland":
+        fail("fixture-env-hyprland", f"Expected backend 'hyprland', got {hypr_env_payload.get('backend')}")
+
     env_override = os.environ.copy()
     env_override["SHIELD_FIXTURE"] = "fallback"
     override_payload = run_script_fixture(
@@ -301,6 +321,7 @@ def run_compositor_checks(script_path, schema):
     env_fallback = os.environ.copy()
     env_fallback.pop("SHIELD_FIXTURE", None)
     env_fallback["NIRI_SOCKET"] = ""
+    env_fallback["HYPRLAND_INSTANCE_SIGNATURE"] = ""
     env_fallback["SWAYSOCK"] = ""
     proc_fallback = subprocess.run(
         [sys.executable, str(script_path), "--once"],
@@ -328,6 +349,12 @@ def run_compositor_checks(script_path, schema):
     comp_mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(comp_mod)
 
+    if getattr(comp_mod, "HYPRLAND_ADAPTER_STATUS", None) != "fixture-only / unverified":
+        fail(
+            "compositor-hyprland-status",
+            f"Expected HYPRLAND_ADAPTER_STATUS='fixture-only / unverified', got {getattr(comp_mod, 'HYPRLAND_ADAPTER_STATUS', None)!r}",
+        )
+
     niri_dual = comp_mod.build_niri_payload(
         [
             {"id": 10, "idx": 2, "output": "DP-1", "is_active": True, "is_focused": True, "active_window_id": 101},
@@ -340,6 +367,23 @@ def run_compositor_checks(script_path, schema):
     niri_map = {ws["id"]: ws["state"] for ws in niri_dual["workspaces"]}
     if niri_map.get(2) != "active" or niri_map.get(8) != "active" or niri_map.get(4) != "occupied" or niri_map.get(1) != "empty":
         fail("compositor-niri-mapping", f"Unexpected niri multi-monitor mapping: {niri_map}")
+
+    hypr_dual = comp_mod.build_hyprland_payload(
+        [
+            {"id": 0, "name": "DP-1", "activeWorkspace": {"id": 2, "name": "2"}},
+            {"id": 1, "name": "DP-2", "activeWorkspace": {"id": 8, "name": "8"}},
+        ],
+        [
+            {"id": 2, "name": "2", "windows": 1},
+            {"id": 4, "name": "4", "windows": 2},
+            {"id": 8, "name": "8", "windows": 0},
+        ],
+        {"address": "0x1234", "workspace": {"id": 2, "name": "2"}},
+    )
+    validate_payload_against_def(schema, "compositor", hypr_dual, "hyprland multi-monitor mapping")
+    hypr_map = {ws["id"]: ws["state"] for ws in hypr_dual["workspaces"]}
+    if hypr_map.get(2) != "active" or hypr_map.get(8) != "active" or hypr_map.get(4) != "occupied" or hypr_map.get(1) != "empty":
+        fail("compositor-hyprland-mapping", f"Unexpected hyprland multi-monitor mapping: {hypr_map}")
 
     sway_dual = comp_mod.build_sway_payload(
         [

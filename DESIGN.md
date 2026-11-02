@@ -125,6 +125,7 @@ All hex values are sampled directly from `reference/shield-os.png` and named by 
 - **Styling**: **SCSS compiled to GTK3 CSS** (strictly scoped to GTK-supported properties per `scss-best-practices-eww`), paired with Yuck `image :path` widgets inside `overlay` containers for assets where SVG is required.
   - *Why Native SCSS Shapes + Yuck SVGs*: Relative `url()` in SCSS does not resolve in GTK3 CSS (it fails silently, rendering nothing while preserving background colors). All external assets must load via Yuck `image :path`. Most chamfers and bevels do not require external SVGs: GTK3 CSS natively supports 45° corner cuts via 4-quadrant clipped `linear-gradient` mixins (`octagon`, `cut2`) and zero-content border-triangle boxes (`.triangle.<corner>`), directly consuming SCSS theme tokens at compile time without needing SVG generation.
 - **Data Scripts**: Event-driven Python/Bash scripts (`deflisten` for telemetry, compositor workspaces/windows, network, audio) following ADR-0001 multi-compositor auto-detection.
+  - **Hyprland Adapter Status (`fixture-only / unverified`)**: The Hyprland `.socket2.sock` / `hyprctl -j` adapter in `scripts/compositor.py` (`HYPRLAND_ADAPTER_STATUS = "fixture-only / unverified"`) is **fixture-only / unverified** at runtime because there is no native Hyprland test harness in the Nix devShell; it is validated in Gate 2 via `tests/fixtures/compositor/hyprland.json` (`--fixture hyprland` / `SHIELD_FIXTURE=hyprland`) and multi-monitor state mapping checks.
 
 ### Folder Structure
 ```text
@@ -151,7 +152,7 @@ shieldOS-eww/
 ├── schemas/
 │   └── state.schema.json     # Canonical JSON Schema for all script payloads
 ├── scripts/
-│   ├── compositor.py         # deflisten: workspaces 1-10 + active window tabs (Niri/Hyprland/Sway + --fixture)
+│   ├── compositor.py         # deflisten: workspaces 1-10 + active window tabs (Niri/Sway + Hyprland [fixture-only / unverified] + --fixture)
 │   ├── telemetry.py          # deflisten: CPU %, CPU load, RAM %, date/time (+ --fixture / frozen clock)
 │   ├── network-audio.py      # deflisten: connectivity state + 4-bar equalizer/audio state (+ --fixture)
 │   └── theme-gen.py          # Injects active theme hex tokens into SVG templates
@@ -220,7 +221,7 @@ shieldOS-eww/
    - **Yuck Field Reference Check**: Static test verifying that `eww.yuck` and `yuck/*.yuck` only access JSON properties declared in `schemas/state.schema.json`.
    - **Fixture & Fallback Validation**: Run all data scripts in `--once --fixture <name>` mock mode and validate stdout against `schemas/state.schema.json`, covering:
      - `niri` compositor fixture
-     - `hyprland` compositor fixture
+     - `hyprland` compositor fixture (`fixture-only / unverified` adapter — no native Hyprland test harness in the Nix devShell)
      - Failure/fallback fixtures (missing sysfs battery/thermals, absent compositor IPC, disconnected network/audio).
 3. **Gate 3 — Deterministic `grim` Golden Regression & Fidelity Checklist (Per Milestone)**
    - **Deterministic Capture**: Render in a fixed-resolution headless Wayland output with mock fixture data and a frozen clock/date (`17:32:14`, `21 NOV - 2025 FRI`), capturing the screen via `grim`.
@@ -243,7 +244,7 @@ Each milestone closes with **Gate 3** (`grim` capture with frozen clock/mock dat
    - Implement the circular gold S.H.I.E.L.D. badge, live/frozen `HH:MM:SS` clock, orange `V0.1` box, `OPERATOR. <USER>` readout, two circular radar/target icons, and the top-right `21 / NOV - 2025 / FRI` date block.
    - *Done when*: Frozen-clock fixture renders `17:32:14` and `21 / NOV - 2025 / FRI` matching the reference checklist, and live polling updates clock and calendar.
 4. **Milestone 4 — Workspace Pills (`1`–`10`) & Angled Window Tabs**
-   - Wire `scripts/compositor.py` (`deflisten` + `niri`/`hyprland`/fallback fixtures) to render workspace pills `1`–`10` (empty, occupied-orange, active-teal states) and up to 4 angled window tabs with app tags and status badges.
+   - Wire `scripts/compositor.py` (`deflisten` + `niri`/`hyprland`/fallback fixtures; Hyprland socket2 adapter marked `fixture-only / unverified` due to no native Hyprland test harness in the Nix devShell) to render workspace pills `1`–`10` (empty, occupied-orange, active-teal states) and up to 4 angled window tabs with app tags and status badges.
    - *Done when*: Both `niri` and `hyprland` fixtures pass Gate 2, active workspaces render `#4F7E86` fill with `#AFDBE6` top bar, clicking pills dispatches workspace switches, and angled window tabs populate cleanly.
 5. **Milestone 5 — Right-Edge CPU / RAM Vertical Gauges & Lower Quick Tabs**
    - Implement the stacked `CPU` and `RAM` vertical ladder gauges (`100` down to `0`) with dynamic bright-amber (`#FEB703`) active threshold blocks, plus the 3 lower-right angled quick-toggle tabs.
