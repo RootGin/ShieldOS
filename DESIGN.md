@@ -106,7 +106,7 @@ All hex values are sampled directly from `reference/shield-os.png` and named by 
 | :--- | :--- | :--- | :--- | :--- |
 | 1 | **Operator Badge + Clock + Version Tag** | Top-left corner | Normal, hover, alert pulse on medallion. Includes circular gold eagle badge, `17:32:14` clock, orange `V0.1` tag, `OPERATOR. NFRAGMENT`, micro sub-line *(blurry/garbled in image)*, plus 2 circular status icons (ring & crosshair) on the outer bevel. | Clock: system time (`1s` stream via `telemetry` `deflisten`). `NFRAGMENT`: `$USER` / `whoami`. Sub-line: `uname -r` or `hostname`. `V0.1`: config version. Clicking medallion toggles system overview. |
 | 2 | **Workspace Pills (`1`–`10`)** | Top bar, left-center | **Active** (`2`, `8`): teal fill (`#4F7E86`), bright cyan top bar, white text. **Occupied** (`4`, `7`): grey fill (`#4E4E4E`), orange top bar. **Empty** (`1,3,5,6,9,10`): grey fill, dark top bar. | Bound to Wayland compositor IPC (`niri` / `hyprland` / `sway` event stream). Click switches to workspace `N`; scroll cycles workspaces. |
-| 3 | **Window Tabs** | Top bar, right-center (after pill `10`) | 4 angled parallelogram tabs: `8G / Hydra` (orange badge), `UPD / Nebula` (red badge), `UPD / Spartim` *(garbled "Spartan", red badge)*, `UPD / Gersfit` *(garbled text, red badge)*. Sub-badges contain blurry micro-text. | Bound to windows on the active workspace via compositor IPC. Top-left code = short app class/tag; main text = truncated window title; bottom-right badge = state/PID/urgency. Click focuses window. |
+| 3 | **Window / Node Tabs** | Top bar, right-center (after pill `10`) | 4 angled parallelogram tabs: `8G / Hydra` (orange badge), `UPD / Nebula` (red badge), `UPD / Spartim` (red badge), `UPD / Gersfit` (red badge). | Static homelab node status placeholder slots matching reference image until homelab deployment. Bound to `compositor.tabs` in state schema with strict length limits. Click toggles node detail/focus. |
 | 4 | **Date Block** | Top-right corner | Giant extended `21`, orange `NOV - 2025` pill with dark text, and `FRI` below inside a chamfered right-corner plate. | System clock/calendar (`%d`, uppercase `%b - %Y`, uppercase `%a`, via `telemetry` `deflisten`). Click toggles calendar popup. |
 | 5 | **CPU / RAM Vertical Gauges** | Right edge, upper-middle | Two stacked vertical segmented ladders (`100, 80, 60, 40, 20, 0`). `CPU` shows active amber blocks at `2` (%) and `1.0` (load/GHz). `RAM` highlights the `42` (%) block in bright amber (`#FEB703`). | `deflisten` (`1s` stream, `2s` internal CPU/RAM refresh) reading `/proc/stat`, `/proc/loadavg`, and `/proc/meminfo`. Segmented rows highlight dynamically at the matching threshold bucket. |
 | 6 | **Status Pill `"DISCONNECTED"` + Equalizer** | Bottom-left corner | Chamfered pill with red top alert bar (`#9D000B`), robot/drone icon, and `DISCONNECTED` text; adjacent hexagonal pod with 4 vertical cyan bars. | Left pill: `nmcli monitor` network/VPN connection status (red `DISCONNECTED` vs teal `<SSID>`/`CONNECTED`). Right pod: audio output activity (`pactl`/`cava`) or Wi-Fi signal bars; click mutes/opens network menu. |
@@ -279,10 +279,29 @@ Consequence: 5 windows total (top, bottom, left, right, background).
 Milestone 2 builds the frame as pieces of these windows, not one fullscreen
 overlay.
 
+### Resolved: Homelab Node Status Placeholder Tabs (was Open Question 1)
+
+Decision: The four top-bar angled parallelogram tabs represent homelab node status slots, NOT dynamic open application windows. Because the homelab cluster is not deployed yet, all four tabs remain as fixed static/placeholder homelab slots matching the labels, prefix tags, and sub-badges in `reference/shield-os.png`:
+1. `8G / Hydra`: amber-orange status badge (`0-0-NE-01`, `urgent: false`)
+2. `UPD / Nebula`: alert red status badge (`SSWS`, `urgent: true`)
+3. `UPD / Spartim`: alert red status badge (`3C2E-0010`, `urgent: true`)
+4. `UPD / Gersfit`: alert red status badge (`SCOREN`, `urgent: true`)
+
+The state contract `schemas/state.schema.json` defines `#/$defs/compositor.tabs` as a 4-item array with strict length limits (`tag` min 1 max 6, `title` min 1 max 16, `badge` min 1 max 16, `urgent` boolean). Both `frozen.json` and `fallback.json` fixtures reflect these 4 fixed placeholder slots.
+
+### Resolved: Multi-Monitor Dual Teal Workspaces 2 & 8 (was Open Question 2)
+
+Decision: The dual teal highlights on workspaces `2` and `8` represent multi-monitor support:
+- **`active`**: Any workspace currently active/displayed on an attached monitor is highlighted in teal (`#4F7E86` fill with bright ice-teal top indicator bar `#AFDBE6` and white text, e.g. workspace 2 on monitor 1 and workspace 8 on monitor 2).
+- **`occupied`**: Workspaces with open windows that are not currently displayed on an attached monitor use grey fill (`#4E4E4E`) with an amber-orange top indicator bar (`#C08333`).
+- **`empty`**: Workspaces with no windows use grey fill (`#4E4E4E`) with a dark top indicator bar.
+
+In `SHIELD_FIXTURE=frozen`, workspaces 2 and 8 both emit `active` state so the rendered top bar matches `reference/shield-os.png`.
+
 ## 8. Open Questions (Ambiguities in Reference Image)
 
-1. **Garbled Window Tab Sub-Badges & Labels**: The four top window tabs (`8G Hydra`, `UPD Nebula`, `UPD Spartim`, `UPD Gersfit`) have tiny orange/red bottom-right badges with unreadable AI-garbled text. Should these tabs represent **open windows on the current workspace** (prefix = app category/tag, title = window title, bottom-right badge = workspace/PID/status), or **pinned system services/containers**?
-2. **Dual Teal Workspaces (`2` and `8`)**: Both workspace `2` and `8` are highlighted in teal (`#4F7E86`), while `4` and `7` have thin orange top bars. Should teal represent **focused workspace on primary + secondary monitor** (with orange top bar = occupied unfocused), or a different state model?
+1. *(Resolved above)* **Homelab Node Status Placeholder Tabs**
+2. *(Resolved above)* **Multi-Monitor Dual Teal Workspaces (2 & 8)**
 3. **Left Side Panel Function**: The left vertical panel has a `▶` icon at the top and vertical segmented slots below, with no text labels. Should we bind this to **MPRIS media controls + volume/progress**, or **minimized/parked window slots**?
 4. **Three Lower-Right Mini-Tabs**: The three small angled tabs on the lower-right frame contain blurry symbols (`ω`, `90`, `ᴗ`). What three quick actions or readouts would you like bound there (e.g., Volume %, Do-Not-Disturb, Keyboard Layout / Night Light)?
 5. **Background Data-Noise Text**: The small monospace blocks in the background canvas are illegible AI placeholder text. Should they remain **static decorative texture**, or should we populate them with **live system logs / process telemetry** (`journalctl`, `uname`, top processes)?

@@ -87,7 +87,7 @@
       "required": [
         "backend",
         "workspaces",
-        "windows"
+        "tabs"
       ],
       "properties": {
         "backend": {
@@ -121,8 +121,49 @@
                 "enum": [
                   "empty",
                   "occupied",
-                  "focused"
+                  "active"
                 ]
+              }
+            }
+          }
+        },
+        "tabs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "tag",
+              "title",
+              "badge",
+              "urgent"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+              },
+              "tag": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 16
+              },
+              "badge": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 16
+              },
+              "urgent": {
+                "type": "boolean"
               }
             }
           }
@@ -144,16 +185,23 @@
             "properties": {
               "id": {
                 "type": "string",
-                "minLength": 1
+                "minLength": 1,
+                "maxLength": 32
               },
               "tag": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6
               },
               "title": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 16
               },
               "badge": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 16
               },
               "urgent": {
                 "type": "boolean"

@@ -30,7 +30,7 @@ SCRIPT_REGISTRY = [
         "schema_def": "compositor",
         "status": "PENDING",
         "milestone": "Milestone 4",
-        "fixtures": ["niri", "hyprland", "fallback"],
+        "fixtures": ["frozen", "fallback", "niri", "hyprland"],
     },
     {
         "name": "network_audio",
@@ -262,6 +262,28 @@ def run_production_proc_fallback_check(script_path, schema):
     if payload.get("weekday") != now.strftime("%a").upper():
         fail("production-proc-fallback", f"Expected real weekday, got {payload.get('weekday')}")
 
+def validate_compositor_fixtures(schema):
+    comp_fixtures_dir = REPO_DIR / "tests" / "fixtures" / "compositor"
+    if not comp_fixtures_dir.is_dir():
+        return []
+    validated = []
+    for fixture_file in sorted(comp_fixtures_dir.glob("*.json")):
+        try:
+            data = json.loads(fixture_file.read_text(encoding="utf-8"))
+        except Exception as exc:
+            fail("compositor-fixture", f"Invalid JSON in {fixture_file.name}: {exc}")
+        validate_payload_against_def(schema, "compositor", data, f"compositor fixture {fixture_file.name}")
+        if fixture_file.stem == "frozen":
+            ws_map = {ws["id"]: ws["state"] for ws in data.get("workspaces", [])}
+            if ws_map.get(2) != "active" or ws_map.get(8) != "active":
+                fail("compositor-fixture-frozen", f"frozen.json workspaces 2 and 8 must be 'active', got: {ws_map}")
+            tabs = data.get("tabs", [])
+            if len(tabs) != 4 or tabs[0]["title"] != "Hydra" or tabs[1]["title"] != "Nebula":
+                fail("compositor-fixture-frozen", f"frozen.json tabs must contain the 4 homelab placeholder slots, got: {tabs}")
+        print(f"VALIDATED [compositor-static:{fixture_file.stem}]: {fixture_file.name} -> #/$defs/compositor OK")
+        validated.append(f"compositor:{fixture_file.stem}")
+    return validated
+
 
 def load_and_verify_layout_schema(schema_path, layout_path):
     if not schema_path.is_file():
@@ -441,6 +463,8 @@ def main():
     checked_refs = check_yuck_references(schema, yuck_files)
 
     active_validated = []
+    comp_validated = validate_compositor_fixtures(schema)
+    active_validated.extend(comp_validated)
     pending_entries = []
 
     for entry in SCRIPT_REGISTRY:

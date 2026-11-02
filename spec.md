@@ -26,9 +26,9 @@ Build `shieldOS-eww` from scratch as a modular Eww (ElKowar's Wacky Widgets) des
 
 ### Workspace Pills (Zones `1`–`10`) & Window Tabs
 9. As an operator, I want ten numbered workspace pills (`1`–`10`) along the top bar, so that I can monitor and switch across all ten virtual workspaces.
-10. As an operator, I want focused workspaces rendered with a steel-teal fill (`#4F7E86`) and bright ice-teal top bar (`#AFDBE6`), occupied unfocused workspaces marked with an amber-orange top bar (`#C08333`), and empty workspaces rendered in dark grey (`#4E4E4E`), so that workspace state is unambiguous.
+10. As an operator, I want any workspace active/displayed on an attached monitor rendered with a steel-teal fill (`#4F7E86`) and bright ice-teal top bar (`#AFDBE6`) in multi-monitor setups (e.g. dual teal pills 2 and 8 in frozen fixture), occupied unfocused workspaces marked with an amber-orange top bar (`#C08333`), and empty workspaces rendered in dark grey (`#4E4E4E`), so that workspace state is unambiguous across single or multi-screen setups.
 11. As an operator, I want to click any workspace pill `1`–`10` to switch directly to that workspace across Niri, Hyprland, or Sway, so that workspace navigation works with mouse or touch.
-12. As an operator, I want up to four angled parallelogram window tabs to the right of workspace `10` showing an app prefix code, window title, and colored status micro-badge (`#C08333` orange or `#AD2927` red), so that active tasks can be identified and focused.
+12. As an operator, I want four angled parallelogram placeholder tabs to the right of workspace `10` showing node status slots matching `reference/shield-os.png` (`8G Hydra` with `#C08333` orange badge, `UPD Nebula`, `UPD Spartim`, and `UPD Gersfit` with `#AD2927` red badges), bound to `compositor.tabs` with strict length limits, so that cluster nodes can be monitored.
 
 ### Right-Edge CPU / RAM Vertical Gauges & Quick Tabs
 13. As an operator, I want a vertical segmented `CPU` ladder gauge (`100`, `80`, `60`, `40`, active `%`, active load) on the upper-right edge with a dark gold header (`#5D440B`) and bright amber active cells (`#FEB703`), so that processor load is visible in real time.
