@@ -18,12 +18,12 @@
     "size": 24
   },
   "operator": {
-    "medallion_size": 64,
-    "icon_size": 14
+    "medallion_size": 92,
+    "icon_size": 22
   },
   "bars": {
     "top": {
-      "height": 90
+      "height": 116
     },
     "bottom": {
       "height": 44
@@ -55,8 +55,8 @@
   },
   "corner_plates": {
     "top_left": {
-      "width": 260,
-      "height": 90,
+      "width": 520,
+      "height": 116,
       "chamfer_cut": 58
     },
     "top_right": {

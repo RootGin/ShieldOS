@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="160 160 480 480" width="64" height="64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="160 160 480 480" width="92" height="92">
   <circle cx="400" cy="400" r="236" fill="{{$bg-canvas}}" stroke="{{$border-panel-outer}}" stroke-width="8"/>
   <circle cx="400" cy="400" r="228" fill="none" stroke="{{$border-panel-groove}}" stroke-width="4"/>
   <circle class="emblem-ring" cx="400" cy="400" r="214" fill="none" stroke="{{$accent-primary}}" stroke-width="18"/>

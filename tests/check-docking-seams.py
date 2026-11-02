@@ -16,6 +16,9 @@ def fail(check_name, message):
     sys.exit(1)
 
 def check_static_docking():
+    layout = json.loads(LAYOUT_FILE.read_text(encoding="utf-8"))
+    tl_w = layout["corner_plates"]["top_left"]["width"]
+
     tl_svg = ASSETS_DIR / "corner-top-left.svg"
     tr_svg = ASSETS_DIR / "corner-top-right.svg"
     bl_svg = ASSETS_DIR / "corner-bottom-left.svg"
@@ -31,12 +34,12 @@ def check_static_docking():
     tl_outer_d = tl_paths[0].attrib.get("d", "")
     tl_groove_d = tl_paths[1].attrib.get("d", "")
 
-    if "L 259,32" in tl_outer_d or "L 260,32" in tl_outer_d or "L 259,1" in tl_outer_d:
+    if f"L {tl_w - 1},32" in tl_outer_d or f"L {tl_w},32" in tl_outer_d or f"L {tl_w - 1},1" in tl_outer_d:
         fail("docking-closed-seam-tl", f"Top-left corner plate contains vertical seam stroke along docking edge: {tl_outer_d}")
-    if "260,31" not in tl_outer_d:
-        fail("docking-outer-endpoint-tl", f"Top-left outer path does not dock at (260, 31): {tl_outer_d}")
-    if "260,27.5" not in tl_groove_d:
-        fail("docking-groove-endpoint-tl", f"Top-left groove path does not dock at (260, 27.5): {tl_groove_d}")
+    if f"{tl_w},31" not in tl_outer_d:
+        fail("docking-outer-endpoint-tl", f"Top-left outer path does not dock at ({tl_w}, 31): {tl_outer_d}")
+    if f"{tl_w},27.5" not in tl_groove_d:
+        fail("docking-groove-endpoint-tl", f"Top-left groove path does not dock at ({tl_w}, 27.5): {tl_groove_d}")
 
     tr_tree = ET.parse(tr_svg)
     tr_paths = tr_tree.getroot().findall(".//{http://www.w3.org/2000/svg}path") or tr_tree.getroot().findall(".//path")

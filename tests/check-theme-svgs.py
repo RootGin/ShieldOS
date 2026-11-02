@@ -200,7 +200,7 @@ def check_corner_plates(repo_dir):
             fail(missing_key, f"assets/panels/{path.name} does not exist")
 
     for file_path, name, expected_w, expected_h, expected_vb, expected_chamfer in [
-        (tl_file, "top-left", "260", "90", "0 0 260 90", "202,89 L 260,31"),
+        (tl_file, "top-left", "520", "116", "0 0 520 116", "501,50 L 520,31"),
         (tr_file, "top-right", "260", "90", "0 0 260 90", "0,31 L 11,42"),
         (bl_file, "bottom-left", "260", "44", "0 0 260 44", "248,1 L 260,13"),
         (br_file, "bottom-right", "260", "44", "0 0 260 44", "0,13 L 12,1"),
@@ -269,8 +269,8 @@ def check_operator_assets(repo_dir):
 
     med_tree = ET.parse(medallion_file)
     med_root = med_tree.getroot()
-    if med_root.attrib.get("width") != "64" or med_root.attrib.get("height") != "64":
-        fail("operator-medallion-dims", f"Expected 64x64 for operator medallion, got {med_root.attrib.get('width')}x{med_root.attrib.get('height')}")
+    if med_root.attrib.get("width") != "92" or med_root.attrib.get("height") != "92":
+        fail("operator-medallion-dims", f"Expected 92x92 for operator medallion, got {med_root.attrib.get('width')}x{med_root.attrib.get('height')}")
     med_content = medallion_file.read_text(encoding="utf-8")
     if "#DBAD4D" not in med_content.upper() or "#C79C4E" not in med_content.upper():
         fail("operator-medallion-colors", "operator-medallion.svg missing tokenized eagle colors ($accent-primary, $accent-primary-mid)")

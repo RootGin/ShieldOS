@@ -26,36 +26,45 @@
              :orientation "horizontal"
              :space-evenly false
           (box :class "operator-medallion-box"
-               :valign "center"
-            (image :path "./assets/panels/operator-medallion.svg"
+               :valign "start"
+            (image :path "./assets/profile.png"
                    :image-width operator_medallion_size
                    :image-height operator_medallion_size))
           (box :class "operator-content"
                :orientation "vertical"
                :space-evenly false
-               :valign "center"
+               :valign "start"
             (box :class "operator-segments"
                  :orientation "horizontal"
                  :space-evenly false
-              (box :class "segment dim")
-              (box :class "segment dim")
-              (box :class "segment bright")
-              (box :class "segment bright"))
+              (box :class "segment dim wide")
+              (box :class "segment dim short")
+              (box :class "segment bright wide")
+              (box :class "segment bright med"))
             (box :class "operator-clock-row"
                  :orientation "horizontal"
                  :space-evenly false
-              (box :class "operator-clock"
-                (label :class "clock-text"
-                       :text {telemetry.time}))
+              (box :class "operator-left-col"
+                   :orientation "vertical"
+                   :space-evenly false
+                   :valign "start"
+                (box :class "operator-clock"
+                     :halign "start"
+                  (label :class "clock-text"
+                         :text {telemetry.time}))
+                (box :class "operator-prefix"
+                     :halign "start"
+                  (label :class "prefix-text"
+                         :text "OPERATOR:")))
               (box :class "operator-version-badge"
                    :valign "center"
                 (overlay
                   (image :path "./assets/panels/version-badge.svg"
-                         :image-width 42
-                         :image-height 26)
+                         :image-width 56
+                         :image-height 42)
                   (box :class "version-badge-content"
-                       :width 42
-                       :height 26
+                       :width 56
+                       :height 42
                        :halign "center"
                        :valign "center"
                     (label :class "version-text"
@@ -63,11 +72,10 @@
             (box :class "operator-id-row"
                  :orientation "horizontal"
                  :space-evenly false
-              (box :class "operator-prefix"
-                (label :class "prefix-text"
-                       :text "OPERATOR. "))
               (box :class "operator-user"
+                   :halign "start"
                 (label :class "user-text"
+                       :halign "start"
                        :text {telemetry.user})))
             (box :class "operator-sub-row"
                  :orientation "horizontal"
