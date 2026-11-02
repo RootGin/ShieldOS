@@ -238,7 +238,7 @@ def collect_metrics(fixture_inputs, prev_cpu_sample):
 def build_payload(fixture_inputs, cached_metrics):
     clock = format_clock_fields(fixture_inputs)
     user = resolve_user(fixture_inputs)
-    return {
+    payload = {
         "time": clock["time"],
         "day": clock["day"],
         "month_year": clock["month_year"],
@@ -250,6 +250,9 @@ def build_payload(fixture_inputs, cached_metrics):
         "kernel": cached_metrics["kernel"],
         "version": HUD_VERSION,
     }
+    if fixture_inputs and fixture_inputs.get("quick_tabs") is not None:
+        payload["quick_tabs"] = fixture_inputs["quick_tabs"]
+    return payload
 
 
 def emit_json_line(payload):

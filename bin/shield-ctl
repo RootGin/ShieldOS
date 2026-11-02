@@ -132,6 +132,19 @@ def format_command(backend, subcommand, target):
                 focus_arg = f"address:{clean_target}"
             return f"hyprctl dispatch focuswindow {focus_arg}"
 
+    if subcommand == "media":
+        action = str(target).strip() if target else "play-pause"
+        return f"playerctl {action}"
+
+    if subcommand == "audio":
+        return "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+
+    if subcommand == "dnd":
+        return "makoctl mode -t dnd"
+
+    if subcommand == "night-light":
+        return "wlsunset -t 4500"
+
     sys.stderr.write(f"error: unknown subcommand '{subcommand}'\n")
     sys.exit(1)
 
@@ -150,12 +163,28 @@ def main():
     focus_parser = subparsers.add_parser("focus", parents=[parent_parser])
     focus_parser.add_argument("target")
 
+    media_parser = subparsers.add_parser("media", parents=[parent_parser])
+    media_parser.add_argument("action", nargs="?", default="play-pause", choices=["play-pause", "next", "prev", "play", "pause"])
+
+    audio_parser = subparsers.add_parser("audio", parents=[parent_parser])
+    audio_parser.add_argument("action", nargs="?", default="mute-toggle", choices=["mute-toggle"])
+
+    dnd_parser = subparsers.add_parser("dnd", parents=[parent_parser])
+    dnd_parser.add_argument("action", nargs="?", default="toggle", choices=["toggle"])
+
+    nl_parser = subparsers.add_parser("night-light", parents=[parent_parser])
+    nl_parser.add_argument("action", nargs="?", default="toggle", choices=["toggle"])
+
     args = parser.parse_args()
 
-    backend = resolve_backend(getattr(args, "backend", None))
     dry_run = is_dry_run(getattr(args, "dry_run", False))
 
-    cmd_str = format_command(backend, args.subcommand, args.target)
+    if args.subcommand in ("workspace", "focus"):
+        backend = resolve_backend(getattr(args, "backend", None))
+        cmd_str = format_command(backend, args.subcommand, args.target)
+    else:
+        target_val = getattr(args, "action", None)
+        cmd_str = format_command(None, args.subcommand, target_val)
 
     if dry_run:
         print(cmd_str)

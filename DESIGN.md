@@ -108,11 +108,11 @@ All hex values are sampled directly from `reference/shield-os.png` and named by 
 | 2 | **Workspace Pills (`1`–`10`)** | Top bar, left-center | **Active** (`2`, `8`): teal fill (`#4F7E86`), bright cyan top bar, white text. **Occupied** (`4`, `7`): grey fill (`#4E4E4E`), orange top bar. **Empty** (`1,3,5,6,9,10`): grey fill, dark top bar. | Bound to Wayland compositor IPC (`niri` / `hyprland` / `sway` event stream). Click switches to workspace `N`; scroll cycles workspaces. |
 | 3 | **Window / Node Tabs** | Top bar, right-center (after pill `10`) | 4 angled parallelogram tabs: `8G / Hydra` (orange badge), `UPD / Nebula` (red badge), `UPD / Spartim` (red badge), `UPD / Gersfit` (red badge). | Static homelab node status placeholder slots matching reference image until homelab deployment. Bound to `compositor.tabs` in state schema with strict length limits. Click toggles node detail/focus. |
 | 4 | **Date Block** | Top-right corner | Giant extended `21`, orange `NOV - 2025` pill with dark text, and `FRI` below inside a chamfered right-corner plate. | System clock/calendar (`%d`, uppercase `%b - %Y`, uppercase `%a`, via `telemetry` `deflisten`). Click toggles calendar popup. |
-| 5 | **CPU / RAM Vertical Gauges** | Right edge, upper-middle | Two stacked vertical segmented ladders (`100, 80, 60, 40, 20, 0`). `CPU` shows active amber blocks at `2` (%) and `1.0` (load/GHz). `RAM` highlights the `42` (%) block in bright amber (`#FEB703`). | `deflisten` (`1s` stream, `2s` internal CPU/RAM refresh) reading `/proc/stat`, `/proc/loadavg`, and `/proc/meminfo`. Segmented rows highlight dynamically at the matching threshold bucket. |
-| 6 | **Status Pill `"DISCONNECTED"` + Equalizer** | Bottom-left corner | Chamfered pill with red top alert bar (`#9D000B`), robot/drone icon, and `DISCONNECTED` text; adjacent hexagonal pod with 4 vertical cyan bars. | Left pill: `nmcli monitor` network/VPN connection status (red `DISCONNECTED` vs teal `<SSID>`/`CONNECTED`). Right pod: audio output activity (`pactl`/`cava`) or Wi-Fi signal bars; click mutes/opens network menu. |
+| 5 | **CPU / RAM Vertical Gauges** | Right edge, upper-middle | Two stacked vertical segmented ladders (`100, 80, 60, 40, 20, 0`). `CPU` shows active amber blocks at `2` (%) and `1.0` (load/GHz). `RAM` highlights the `42` (%) block in bright amber (`#FEB703`). | `deflisten` (`1s` stream, `2s` internal CPU/RAM refresh) reading `/proc/stat`, `/proc/loadavg`, and `/proc/meminfo`. Segmented rows highlight dynamically at fixed threshold buckets: rungs below current percentage light up in `$accent-primary` (`#DBAD4D`); active peak bucket highlights in bright amber `$accent-primary-bright` (`#FEB703`) with dark text `$text-on-accent` (`#0E0F11`) displaying live percentage. |
+| 6 | **Status Pill `"DISCONNECTED"` + Equalizer** | Bottom-left corner | Chamfered pill with red top alert bar (`#9D000B`), robot/drone icon, and `DISCONNECTED` text; adjacent hexagonal pod with 4 vertical cyan bars. | Left pill: `nmcli monitor` network/VPN connection status (red `DISCONNECTED` vs teal `<SSID>`/`CONNECTED`). Right pod: audio activity via `cava` (4-band equalizer) and volume/mute queries via `wpctl` (WirePlumber native CLI; host does not use `pactl`); click mutes/opens network menu. |
 | 7 | **Bottom Menu Tabs** | Bottom edge, center-to-right | **Left recessed strip** (icon + text): `LOCALSHARE`, `WEBSEARCH`, `COLORS`. **Right raised trapezoids**: `POWERMENU`, `BLUETOOTH`, `APPLICATIONS` (active teal `#0B4A5C` with `#AFDBE6` border). | Click actions: `LOCALSHARE` (LocalSend/share script), `WEBSEARCH` (search prompt), `COLORS` (cycle theme palette), `POWERMENU` (session power modal), `BLUETOOTH` (BT manager/popup), `APPLICATIONS` (app launcher). |
-| 8 | **Left Side Panel** | Left edge, vertical middle | Chamfered vertical steel housing with a circular play (`▶`) button at top and segmented vertical slot indicators below. | Bound to MPRIS (`playerctl` play/pause + progress/volume indicator) or quick-dock window slots. |
-| 9 | **Right Corner Widgets** | Lower-right edge & bottom-right corner | Vertical plate with 3 angled mini-tabs containing blurry micro-glyphs *(resembling `ω`, `90`, `ᴗ`)* above a 4-pointed star emblem in the bottom-right corner. | 3 mini-tabs: quick toggles (DND/notifications, volume %, night-light/layout). 4-pointed star: toggle HUD visibility or lock screen. |
+| 8 | **Left Side Panel** | Left edge, vertical middle | Chamfered vertical steel housing with a circular play (`▶`) button at top and segmented vertical slot indicators below. | MPRIS media controller backed by `playerctl`. Circular `▶` button toggles `play-pause` via `bin/shield-ctl media play-pause`. Vertical segmented slots render media track progress/position indicators. |
+| 9 | **Right Corner Widgets** | Lower-right edge & bottom-right corner | Vertical plate with 3 angled mini-tabs containing blurry micro-glyphs *(resembling `ω`, `90`, `ᴗ`)* above a 4-pointed star emblem in the bottom-right corner. | 3 mini-tabs: Tab 1 audio mute toggle (`wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle` via `bin/shield-ctl`), Tab 2 Do Not Disturb toggle (`bin/shield-ctl dnd toggle`), Tab 3 night-light toggle (`bin/shield-ctl night-light toggle`). 4-pointed star: toggle HUD visibility or lock screen. |
 | 10 | **Center Emblem** | Center of background canvas | Large gold S.H.I.E.L.D. eagle medallion with inner bevel shading, soft golden bloom, and an outer perimeter ring of 56 icy-white 5-pointed stars. | Rendered on the `bottom` layer-shell desktop canvas window as layered SVG artwork (radial glow, 56-star ring, and center emblem mounted via Yuck overlay). |
 | 11 | **Background Data-Noise Layer** | Full background behind emblem | Vertical golden-amber waveform lines across the horizontal mid-plane, `+`/`*` reticles, and faint monospace blocks *(all background text in the mockup is garbled AI filler)*. | Static SVG/PNG background layer combined with an optional live monospace telemetry readout (`journalctl` / `top` / network stats) in the text zones. |
 
@@ -180,7 +180,8 @@ shieldOS-eww/
 
 | Component | Technique | Notes |
 |---|---|---|
-| Workspace pills, date pill, small plates (4-6px cuts) | four-corner octagon mixin | opaque colors only (no rgba); never set background-color on the same element |
+| Workspace pills (`1`–`10`) | 2-corner chamfer mixin (`pill-chamfer`: top-right & bottom-left cut) + left vertical pip | opaque colors only; nested inner box with margin for full perimeter border |
+| Date pill, small plates (4-6px cuts) | four-corner octagon mixin | opaque colors only (no rgba); never set background-color on the same element |
 | Frame bevels (#5A5C60 edge, #18191B groove) | nested octagons | measure the diagonal band thickness; spike before committing |
 | Window tabs, bottom trapezoid tabs (slants, variable width) | fixed-size slant caps + stretchy body box | paint in the tab's own color (additive); a $xbg mask is not a real cut and shows over the noise |
 | Frame corner plates (24-44px step-chamfers) | SVG via `image :path`, or stacked boxes | spike one corner both ways in Milestone 2 |
@@ -299,10 +300,46 @@ Decision: The dual teal highlights on workspaces `2` and `8` represent multi-mon
 
 In `SHIELD_FIXTURE=frozen`, workspaces 2 and 8 both emit `active` state so the rendered top bar matches `reference/shield-os.png`.
 
+### Resolved: CPU & RAM Vertical Segmented Ladder Gauges (was Open Question 7)
+
+Decision:
+- Use fixed threshold buckets (`100, 80, 60, 40, 20, 0`) stacked vertically inside the upper-right housing.
+- Rungs below the current live percentage illuminate in `$accent-primary` (`#DBAD4D`).
+- The active peak bucket dynamically highlights in bright amber `$accent-primary-bright` (`#FEB703`) with dark near-black text `$text-on-accent` (`#0E0F11`) and displays the live numeric percentage readout (e.g. `2` for CPU and `42` for RAM under `SHIELD_FIXTURE=frozen`, matching `reference/shield-os.png`).
+- CPU ladder gauge displays a dark amber header block (`#5D440B`) with white text `CPU` at the top and the live system load (`1.0`) at the bottom.
+- RAM ladder gauge displays a dark amber header block (`#5D440B`) with white text `RAM` at the top.
+- Tested and verified against fixture values at `0%`, `19%`, `20%`, and `100%`.
+
+### Resolved: Left Side Panel MPRIS Media Controller (was Open Question 3)
+
+Decision:
+- Functions as an MPRIS media controller backed by `playerctl`.
+- Circular `▶` button toggles `play-pause` via `bin/shield-ctl media play-pause` (or `playerctl play-pause`).
+- Vertical segmented slots inside the steel housing represent media progress/track indicators (reading `network_audio.media.progress` / slots).
+
+### Resolved: Three Lower-Right Quick-Action Mini-Tabs (was Open Question 4)
+
+Decision: The three small angled tabs on the lower-right frame provide rapid tactical toggles:
+1. **Tab 1 (Audio Mute Toggle)**: Mutes/unmutes audio via `wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle` (dispatched via `bin/shield-ctl audio mute-toggle`).
+2. **Tab 2 (Do Not Disturb Toggle)**: Toggles notification DND mode via `bin/shield-ctl dnd toggle` (`makoctl mode -t dnd`).
+3. **Tab 3 (Night-Light / HUD Action Toggle)**: Toggles night-light / blue-light filter via `bin/shield-ctl night-light toggle` (`wlsunset -t 4500`).
+
+### Resolved: Host Binary Stack Dependencies (Audio, Network, Media)
+
+Decision:
+- The host system provides `cava`, `playerctl`, and `nmcli` in `/run/current-system/sw/bin/`, and does NOT use `pactl`.
+- **Audio Control**: WirePlumber native CLI `wpctl` is used instead of `pactl` for volume and mute queries and toggles (`wpctl get-volume @DEFAULT_AUDIO_SINK@`, `wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle`).
+- **Equalizer**: `cava` powers the 4-bar equalizer stream.
+- **Media**: `playerctl` powers MPRIS media state detection and playback control.
+- **Network**: `nmcli` monitors network connectivity and SSID status, with graceful fallback in headless test environments.
+
 ## 8. Open Questions (Ambiguities in Reference Image)
 
 1. *(Resolved above)* **Homelab Node Status Placeholder Tabs**
 2. *(Resolved above)* **Multi-Monitor Dual Teal Workspaces (2 & 8)**
-3. **Left Side Panel Function**: The left vertical panel has a `▶` icon at the top and vertical segmented slots below, with no text labels. Should we bind this to **MPRIS media controls + volume/progress**, or **minimized/parked window slots**?
-4. **Three Lower-Right Mini-Tabs**: The three small angled tabs on the lower-right frame contain blurry symbols (`ω`, `90`, `ᴗ`). What three quick actions or readouts would you like bound there (e.g., Volume %, Do-Not-Disturb, Keyboard Layout / Night Light)?
+3. *(Resolved above)* **Left Side Panel Function (MPRIS Media Controller)**
+4. *(Resolved above)* **Three Lower-Right Quick-Action Mini-Tabs**
 5. **Background Data-Noise Text**: The small monospace blocks in the background canvas are illegible AI placeholder text. Should they remain **static decorative texture**, or should we populate them with **live system logs / process telemetry** (`journalctl`, `uname`, top processes)?
+6. *(Resolved above)* **Window Management Reserve Space**
+7. *(Resolved above)* **CPU & RAM Vertical Segmented Ladder Gauges**
+

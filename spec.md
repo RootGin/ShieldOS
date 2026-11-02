@@ -58,7 +58,8 @@ Build `shieldOS-eww` from scratch as a modular Eww (ElKowar's Wacky Widgets) des
   - **Component -> Technique Mapping**:
     | Component | Technique | Notes |
     |---|---|---|
-    | Workspace pills, date pill, small plates (4-6px cuts) | four-corner octagon mixin | opaque colors only (no rgba); never set background-color on the same element |
+    | Workspace pills (`1`–`10`) | 2-corner chamfer mixin (`pill-chamfer`: top-right & bottom-left cut) + left vertical pip | opaque colors only; nested inner box with margin for full perimeter border |
+    | Date pill, small plates (4-6px cuts) | four-corner octagon mixin | opaque colors only (no rgba); never set background-color on the same element |
     | Frame bevels (#5A5C60 edge, #18191B groove) | nested octagons | measure the diagonal band thickness; spike before committing |
     | Window tabs, bottom trapezoid tabs (slants, variable width) | fixed-size slant caps + stretchy body box | paint in the tab's own color (additive); a $xbg mask is not a real cut and shows over the noise |
     | Frame corner plates (24-44px step-chamfers) | SVG via `image :path`, or stacked boxes | spike one corner both ways in Milestone 2 |

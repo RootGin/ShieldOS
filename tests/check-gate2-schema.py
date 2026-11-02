@@ -577,6 +577,7 @@ def lint_scss_layout_text(text, label, governed_dims):
         clean_line = line.strip()
         if not clean_line or clean_line.startswith("$") or clean_line.startswith("@import"):
             continue
+        clean_line = re.sub(r"\b(font(-size)?|letter-spacing)\s*:[^;]+;?", "", clean_line)
         for match in re.finditer(r"\bdpi\((\d+)px\)", clean_line):
             val = int(match.group(1))
             if val in governed_dims:
@@ -628,6 +629,11 @@ def run_layout_selftest(governed_dims):
     pos_scss_errors = lint_scss_layout_text(pos_scss, "<pos-scss>", governed_dims)
     if pos_scss_errors:
         fail("layout-selftest", f"Positive SCSS test had false positive: {pos_scss_errors}")
+
+    pos_font_scss = f".test {{ font-size: dpi({sample_dim}px); }}"
+    pos_font_errors = lint_scss_layout_text(pos_font_scss, "<pos-font-scss>", governed_dims)
+    if pos_font_errors:
+        fail("layout-selftest", f"Typography SCSS test had false positive: {pos_font_errors}")
 
     pos_yuck = "(box :width canvas_width :height canvas_height)"
     pos_yuck_errors = lint_yuck_layout_text(pos_yuck, "<pos-yuck>", governed_dims)

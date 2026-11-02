@@ -78,6 +78,26 @@
         "version": {
           "type": "string",
           "minLength": 1
+        },
+        "quick_tabs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mute",
+            "dnd",
+            "night_light"
+          ],
+          "properties": {
+            "mute": {
+              "type": "boolean"
+            },
+            "dnd": {
+              "type": "boolean"
+            },
+            "night_light": {
+              "type": "boolean"
+            }
+          }
         }
       }
     },
@@ -244,6 +264,14 @@
             "maximum": 100
           }
         },
+        "muted": {
+          "type": "boolean"
+        },
+        "volume": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
         "media": {
           "type": "object",
           "additionalProperties": false,
@@ -256,6 +284,39 @@
             },
             "title": {
               "type": "string"
+            },
+            "artist": {
+              "type": "string"
+            },
+            "progress": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "slots": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            }
+          }
+        },
+        "quick_tabs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mute",
+            "dnd",
+            "night_light"
+          ],
+          "properties": {
+            "mute": {
+              "type": "boolean"
+            },
+            "dnd": {
+              "type": "boolean"
+            },
+            "night_light": {
+              "type": "boolean"
             }
           }
         }

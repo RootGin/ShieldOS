@@ -18,6 +18,26 @@ fail() {
 
 resolve_target() {
   local target="$1"
+  if [[ "${target}" == "ref" || "${target}" == "reference" ]]; then
+    local ref_raw=""
+    if [[ -f "${REPO_DIR}/reference/shield-os.png" ]]; then
+      ref_raw="${REPO_DIR}/reference/shield-os.png"
+    elif [[ -f "${WORKSPACE_DIR}/reference/shield-os.png" ]]; then
+      ref_raw="${WORKSPACE_DIR}/reference/shield-os.png"
+    else
+      fail "reference-missing" "Reference image reference/shield-os.png not found"
+    fi
+    CAPTURE_FILE="${REPO_DIR}/tests/captures/ref-1080p.png"
+    GOLDEN_FILE="${ref_raw}"
+    DIFF_FILE="${REPO_DIR}/tests/captures/diff-ref.png"
+    COMPARE_FILE="${REPO_DIR}/tests/captures/compare-ref.png"
+    if [[ ! -f "${CAPTURE_FILE}" || "${ref_raw}" -nt "${CAPTURE_FILE}" ]]; then
+      mkdir -p "$(dirname "${CAPTURE_FILE}")"
+      magick "${ref_raw}" -resize 1920x1080\! "${CAPTURE_FILE}"
+    fi
+    return
+  fi
+
   if [[ "${target}" == *"/"* ]] || [[ "${target}" == *.png ]]; then
     local cleaned="${target%.png}"
     CAPTURE_FILE="${REPO_DIR}/tests/captures/${cleaned}.png"

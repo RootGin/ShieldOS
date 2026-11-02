@@ -320,10 +320,9 @@ window.top,
 .window-tab-eventbox,
 .window-tab-slot,
 .window-tab,
-.tab-main,
 .tab-tag-box,
 .tab-title-box,
-.tab-sub-row {
+.tab-badge {
   background-color: transparent;
 }
 
@@ -332,61 +331,42 @@ window.top,
 }
 
 .window-tab-slot {
-  margin-right: dpi(10px);
+  margin-right: dpi(1px);
 }
 
 .tab-anchor {
-  color: $border-panel-outer;
+  color: $text-muted;
   font-family: $font-hud-condensed;
   font-size: dpi(11px);
   font-weight: $weight-lg;
-  margin-right: dpi(3px);
-  margin-top: dpi(1px);
-}
-
-@mixin tab-main-chamfer($bg, $leg-bl, $leg-tr) {
-  $stop-bl: $leg-bl * 0.70710678;
-  $stop-tr: $leg-tr * 0.70710678;
-  $aa: dpi(0.6px);
-
-  background-image:
-    linear-gradient($bg, $bg),
-    linear-gradient(-120deg, transparent ($stop-tr * 1.4 - $aa), $bg ($stop-tr * 1.4 + $aa)),
-    linear-gradient(45deg, transparent ($stop-bl - $aa), $bg ($stop-bl + $aa)),
-    linear-gradient(-45deg, transparent ($stop-tr - $aa), $bg ($stop-tr + $aa));
-  background-size: 55% 55%;
-  background-position: top left, top right, bottom left, bottom right;
-  background-repeat: no-repeat;
+  margin-right: dpi(2px);
+  margin-top: dpi(5px);
 }
 
 .window-tab {
   min-width: dpi(104px);
-}
-
-.tab-main {
-  min-width: dpi(104px);
-  min-height: $rail-top-height;
-  @include tab-main-chamfer($surface-control, dpi(10px), dpi(15px));
-  padding-left: dpi(8px);
-  padding-top: dpi(2px);
+  min-height: dpi(45px);
+  margin-top: dpi(3px);
 }
 
 .tab-tag-box {
-  margin-right: dpi(4px);
+  min-width: dpi(58px);
+  min-height: dpi(34px);
 }
 
 .tab-tag-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: $text-workspace-pill;
+  font-size: dpi(22px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-sm;
-  margin-top: dpi(-4px);
+  margin-top: dpi(2px);
+  margin-left: dpi(8px);
 }
 
 .tab-title-box {
-  margin-top: dpi(7px);
-  margin-left: dpi(4px);
+  min-width: dpi(46px);
+  min-height: dpi(34px);
 }
 
 .tab-title-text {
@@ -395,46 +375,15 @@ window.top,
   font-size: dpi(15px);
   font-weight: $weight-md;
   letter-spacing: $tracking-md;
-  margin-top: dpi(-3px);
-}
-
-.tab-sub-row {
-  margin-top: dpi(-1px);
-  min-width: dpi(104px);
-}
-
-.window-tab.normal .tab-sub-line {
-  border-bottom: dpi(1px) solid $accent-secondary;
-  margin-top: dpi(5px);
-  margin-right: dpi(2px);
-  min-height: dpi(1px);
-}
-
-.window-tab.urgent .tab-sub-line {
-  border-bottom: dpi(1px) solid $state-danger-badge;
-  margin-top: dpi(5px);
-  margin-right: dpi(2px);
-  min-height: dpi(1px);
-}
-
-@mixin tab-badge-chamfer($bg) {
-  background-image: linear-gradient(45deg, transparent dpi(3.5px), $bg dpi(4px));
+  margin-top: dpi(6px);
+  margin-left: dpi(2px);
 }
 
 .tab-badge {
-  min-height: dpi(11px);
-  padding-left: dpi(5px);
-  padding-right: dpi(5px);
-  padding-top: dpi(1px);
-  padding-bottom: dpi(1px);
-}
-
-.tab-badge.normal {
-  @include tab-badge-chamfer($accent-secondary-bright);
-}
-
-.tab-badge.urgent {
-  @include tab-badge-chamfer($state-danger-badge);
+  min-width: dpi(30px);
+  min-height: dpi(7px);
+  margin-right: dpi(2px);
+  margin-bottom: dpi(0px);
 }
 
 .tab-badge-text {
@@ -442,8 +391,8 @@ window.top,
   font-size: dpi(8px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-xs;
-  margin-top: dpi(-2px);
-  margin-bottom: dpi(-2px);
+  margin-top: dpi(0px);
+  margin-left: dpi(3px);
 }
 
 .tab-badge-text.normal {
