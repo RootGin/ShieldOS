@@ -44,6 +44,7 @@ def generate_scss(layout):
     bv = cp["bevel"]
     se = layout.get("star_emblem", {"size": 24})
     op = layout.get("operator", {"medallion_size": 64, "icon_size": 14})
+    wp = layout["workspace_pills"]
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -55,6 +56,13 @@ def generate_scss(layout):
         f"$star-emblem-size: dpi({se['size']}px);",
         f"$operator-medallion-size: dpi({op['medallion_size']}px);",
         f"$operator-icon-size: dpi({op['icon_size']}px);",
+        f"$workspace-pill-width: dpi({wp['width']}px);",
+        f"$workspace-pill-height: dpi({wp['height']}px);",
+        f"$workspace-pill-gap: dpi({wp['gap']}px);",
+        f"$workspace-pill-cut: dpi({wp['chamfer_cut']}px);",
+        f"$workspace-pill-bar-height: dpi({wp['bar_height']}px);",
+        f"$workspace-pill-top-offset: dpi({wp['top_offset']}px);",
+        f"$workspace-pill-left-offset: dpi({wp['left_offset']}px);",
         f"$bar-top-height: dpi({b['top']['height']}px);",
         f"$bar-bottom-height: dpi({b['bottom']['height']}px);",
         f"$side-left-width: dpi({sp['left']['width']}px);",
@@ -94,6 +102,7 @@ def generate_yuck(layout):
     bv = cp["bevel"]
     se = layout.get("star_emblem", {"size": 24})
     op = layout.get("operator", {"medallion_size": 64, "icon_size": 14})
+    wp = layout["workspace_pills"]
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -105,6 +114,13 @@ def generate_yuck(layout):
         f"(defvar star_emblem_size {se['size']})",
         f"(defvar operator_medallion_size {op['medallion_size']})",
         f"(defvar operator_icon_size {op['icon_size']})",
+        f"(defvar workspace_pill_width {wp['width']})",
+        f"(defvar workspace_pill_height {wp['height']})",
+        f"(defvar workspace_pill_gap {wp['gap']})",
+        f"(defvar workspace_pill_cut {wp['chamfer_cut']})",
+        f"(defvar workspace_pill_bar_height {wp['bar_height']})",
+        f"(defvar workspace_pill_top_offset {wp['top_offset']})",
+        f"(defvar workspace_pill_left_offset {wp['left_offset']})",
         f"(defvar bar_top_height {b['top']['height']})",
         f"(defvar bar_bottom_height {b['bottom']['height']})",
         f"(defvar side_left_width {sp['left']['width']})",

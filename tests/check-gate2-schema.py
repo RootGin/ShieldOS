@@ -408,10 +408,16 @@ def run_shield_ctl_checks():
 
     cases = [
         (["--backend", "niri", "--dry-run", "workspace", "3"], {}, "niri msg action focus-workspace 3"),
+        (["--backend", "niri", "--dry-run", "workspace", "next"], {}, "niri msg action focus-workspace-down"),
+        (["--backend", "niri", "--dry-run", "workspace", "prev"], {}, "niri msg action focus-workspace-up"),
         (["--backend", "niri", "--dry-run", "focus", "42"], {}, "niri msg action focus-window --id 42"),
         (["workspace", "3", "--backend", "sway", "--dry-run"], {}, "swaymsg workspace number 3"),
+        (["workspace", "next", "--backend", "sway", "--dry-run"], {}, "swaymsg workspace next"),
+        (["workspace", "prev", "--backend", "sway", "--dry-run"], {}, "swaymsg workspace prev"),
         (["focus", "42", "--backend", "sway", "--dry-run"], {}, "swaymsg [con_id=42] focus"),
         (["--backend", "hyprland", "--dry-run", "workspace", "3"], {}, "hyprctl dispatch workspace 3"),
+        (["--backend", "hyprland", "--dry-run", "workspace", "next"], {}, "hyprctl dispatch workspace e+1"),
+        (["--backend", "hyprland", "--dry-run", "workspace", "prev"], {}, "hyprctl dispatch workspace e-1"),
         (["--backend", "hyprland", "--dry-run", "focus", "0x1234"], {}, "hyprctl dispatch focuswindow address:0x1234"),
         (["--backend", "hyprland", "--dry-run", "focus", "address:0x5678"], {}, "hyprctl dispatch focuswindow address:0x5678"),
         (["workspace", "2"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "/mock/niri.sock", "SWAYSOCK": "", "HYPRLAND_INSTANCE_SIGNATURE": ""}, "niri msg action focus-workspace 2"),
@@ -551,7 +557,7 @@ def extract_governed_dimensions(layout):
     def walk(obj):
         if isinstance(obj, dict):
             for k, v in obj.items():
-                if k in ("outer_border", "inner_groove"):
+                if k in ("outer_border", "inner_groove", "bar_height", "top_offset"):
                     continue
                 walk(v)
         elif isinstance(obj, list):

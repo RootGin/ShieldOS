@@ -15,7 +15,8 @@
     "rails",
     "corner_plates",
     "star_emblem",
-    "operator"
+    "operator",
+    "workspace_pills"
   ],
   "properties": {
     "$schema": {
@@ -111,6 +112,49 @@
         "icon_size": {
           "type": "integer",
           "minimum": 1
+        }
+      }
+    },
+    "workspace_pills": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height",
+        "gap",
+        "chamfer_cut",
+        "bar_height",
+        "top_offset",
+        "left_offset"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "chamfer_cut": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bar_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "top_offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "left_offset": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     },

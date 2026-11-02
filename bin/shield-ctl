@@ -87,12 +87,27 @@ def is_dry_run(cli_dry_run):
 
 def format_command(backend, subcommand, target):
     if subcommand == "workspace":
+        clean_ws = str(target).strip().lower()
+        if clean_ws in ("next", "down"):
+            if backend == "niri":
+                return "niri msg action focus-workspace-down"
+            if backend == "sway":
+                return "swaymsg workspace next"
+            if backend == "hyprland":
+                return "hyprctl dispatch workspace e+1"
+        if clean_ws in ("prev", "up"):
+            if backend == "niri":
+                return "niri msg action focus-workspace-up"
+            if backend == "sway":
+                return "swaymsg workspace prev"
+            if backend == "hyprland":
+                return "hyprctl dispatch workspace e-1"
         try:
             ws_num = int(target)
             if ws_num < 1:
                 raise ValueError
         except ValueError:
-            sys.stderr.write(f"error: workspace target must be a positive integer, got '{target}'\n")
+            sys.stderr.write(f"error: workspace target must be a positive integer or next/prev, got '{target}'\n")
             sys.exit(1)
         if backend == "niri":
             return f"niri msg action focus-workspace {ws_num}"

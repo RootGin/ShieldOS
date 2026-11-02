@@ -95,13 +95,48 @@
               (image :path "./assets/panels/icon-radar-target.svg"
                      :image-width operator_icon_size
                      :image-height operator_icon_size))))))
-    (box :class "top-rail"
+    (box :class "top-center"
+         :orientation "vertical"
+         :space-evenly false
          :hexpand true
-         :height rail_top_height
          :valign "start"
-      (box :class "top-rail-groove"
+      (box :class "top-rail"
            :hexpand true
-           :vexpand true))
+           :height rail_top_height
+           :valign "start"
+        (box :class "top-rail-groove"
+             :hexpand true
+             :vexpand true))
+      (box :class "top-bar-deck"
+           :orientation "horizontal"
+           :space-evenly false
+           :valign "start"
+        (eventbox :class "workspace-strip-eventbox"
+                  :valign "start"
+                  :onscroll "if [ '{}' = 'up' ]; then bin/shield-ctl workspace prev; else bin/shield-ctl workspace next; fi"
+          (box :class "workspace-strip"
+               :orientation "horizontal"
+               :space-evenly false
+               :valign "start"
+            (for ws in {compositor.workspaces}
+              (eventbox :class "workspace-pill-eventbox"
+                        :valign "start"
+                        :onclick "bin/shield-ctl workspace ${ws.id}"
+                (box :class "workspace-pill ${ws.state}"
+                     :orientation "vertical"
+                     :space-evenly false
+                     :width workspace_pill_width
+                     :height workspace_pill_height
+                     :valign "start"
+                  (box :class "workspace-pill-bar ${ws.state}"
+                       :height workspace_pill_bar_height
+                       :valign "start")
+                  (box :class "workspace-pill-body"
+                       :vexpand true
+                       :halign "center"
+                       :valign "center"
+                    (label :class "workspace-pill-label ${ws.state}"
+                           :text "${ws.id}")))))))))
     (box :class "corner-housing-tr"
          :width corner_top_right_width
          :height corner_top_right_height
