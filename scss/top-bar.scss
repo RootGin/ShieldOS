@@ -132,7 +132,7 @@ window.top,
 
 .date-block {
   background-color: transparent;
-  padding-right: dpi(40px);
+  padding-right: dpi(46px);
 }
 
 .date-column {
@@ -141,8 +141,7 @@ window.top,
 
 .date-day {
   background-color: transparent;
-  margin-top: dpi(2px);
-  margin-bottom: dpi(2px);
+  margin-bottom: dpi(4px);
 }
 
 .date-day .day-text {
@@ -155,8 +154,7 @@ window.top,
 
 .date-pill {
   background-color: transparent;
-  margin-top: dpi(2px);
-  margin-bottom: dpi(2px);
+  margin-bottom: dpi(4px);
 }
 
 .date-pill-content {
@@ -165,22 +163,26 @@ window.top,
 
 .date-pill-content .pill-text {
   color: $text-on-accent;
-  font-family: $font-hud;
-  font-size: $text-lg;
-  font-weight: $weight-lg;
-  letter-spacing: $tracking-lg;
+  font-family: $font-hud-condensed;
+  font-size: $text-date-pill;
+  font-weight: $weight-md;
+  letter-spacing: $tracking-xl;
+  margin-top: dpi(-5px);
+  margin-bottom: dpi(-3px);
 }
 
 .date-weekday {
   background-color: transparent;
-  margin-right: dpi(4px);
+  margin-right: dpi(3px);
 }
 
 .date-weekday .weekday-text {
   color: $text-primary;
-  font-family: $font-hud;
-  font-size: $text-md;
+  font-family: $font-hud-condensed;
+  font-size: $text-date-weekday;
   font-weight: $weight-lg;
-  letter-spacing: $tracking-sm;
+  letter-spacing: $tracking-lg;
+  margin-top: dpi(-4px);
+  margin-bottom: dpi(-4px);
 }
 

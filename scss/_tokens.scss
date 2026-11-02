@@ -1,4 +1,5 @@
 $font-hud: "Rajdhani", "Teko", "Barlow Condensed", sans-serif;
+$font-hud-condensed: "Barlow Condensed", "Teko", "Rajdhani", sans-serif;
 $font-display: "Orbitron", "Michroma", "Syncopate", sans-serif;
 $font-mono: "Share Tech Mono", "JetBrains Mono", "IBM Plex Mono", monospace;
 
@@ -6,7 +7,9 @@ $text-xs: dpi(9px);
 $text-sm: dpi(11px);
 $text-md: dpi(13px);
 $text-lg: dpi(16px);
+$text-date-weekday: dpi(19px);
 $text-xl: dpi(24px);
+$text-date-pill: dpi(25px);
 $text-display: dpi(42px);
 
 $weight-xs: 400;

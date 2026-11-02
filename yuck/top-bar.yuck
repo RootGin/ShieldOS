@@ -105,7 +105,7 @@
         (box :class "date-block"
              :width corner_top_right_width
              :height corner_top_right_height
-             :orientation "vertical"
+             :orientation "horizontal"
              :space-evenly false
              :halign "end"
              :valign "center"
@@ -113,22 +113,24 @@
                :width 108
                :orientation "vertical"
                :space-evenly false
+               :hexpand true
                :halign "end"
+               :valign "center"
             (box :class "date-day"
                  :halign "center"
                  :tooltip {telemetry.day}
               (image :path "./assets/panels/date-day.svg"
-                     :image-width 104
-                     :image-height 28))
+                     :image-width 103
+                     :image-height 26))
             (box :class "date-pill"
                  :halign "center"
               (overlay
                 (image :path "./assets/panels/date-pill.svg"
                        :image-width 108
-                       :image-height 26)
+                       :image-height 25)
                 (box :class "date-pill-content"
                      :width 108
-                     :height 26
+                     :height 25
                      :halign "center"
                      :valign "center"
                   (label :class "pill-text"

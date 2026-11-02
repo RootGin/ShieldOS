@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="260" height="90" viewBox="0 0 260 90">
-  <path fill="#2C2D2F" stroke="#5A5C60" stroke-width="2" d="M 0,31 L 58,89 L 259,89 L 259,1 L 0,1" />
-  <path fill="none" stroke="#18191B" stroke-width="1" d="M 0,27.5 L 59,86.5 L 256.5,86.5 L 256.5,3.5 L 0,3.5" />
+  <polygon points="205,0 260,0 260,55" fill="#0A0B0F" />
+  <path fill="#2C2D2F" stroke="#5A5C60" stroke-width="2" d="M 0,31 L 11,42 L 48,42 L 66,60 L 66,74 L 81,89 L 259,89 L 259,55 L 205,1 L 0,1" />
+  <path fill="none" stroke="#18191B" stroke-width="1" d="M 0,27.5 L 12.5,39.5 L 49.5,39.5 L 68.5,58.5 L 68.5,73 L 82,86.5 L 256.5,86.5 L 256.5,56 L 204,3.5 L 0,3.5" />
 </svg>
