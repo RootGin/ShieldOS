@@ -399,6 +399,83 @@ def run_compositor_checks(script_path, schema):
         fail("compositor-sway-mapping", f"Unexpected sway multi-monitor mapping: {sway_map}")
 
 
+def run_shield_ctl_checks():
+    shield_ctl_path = REPO_DIR / "bin" / "shield-ctl"
+    if not shield_ctl_path.is_file():
+        fail("shield-ctl-missing", f"CLI entrypoint not found: {shield_ctl_path}")
+    if not os.access(shield_ctl_path, os.X_OK):
+        fail("shield-ctl-executable", f"CLI entrypoint not executable: {shield_ctl_path}")
+
+    cases = [
+        (["--backend", "niri", "--dry-run", "workspace", "3"], {}, "niri msg action focus-workspace 3"),
+        (["--backend", "niri", "--dry-run", "focus", "42"], {}, "niri msg action focus-window --id 42"),
+        (["workspace", "3", "--backend", "sway", "--dry-run"], {}, "swaymsg workspace number 3"),
+        (["focus", "42", "--backend", "sway", "--dry-run"], {}, "swaymsg [con_id=42] focus"),
+        (["--backend", "hyprland", "--dry-run", "workspace", "3"], {}, "hyprctl dispatch workspace 3"),
+        (["--backend", "hyprland", "--dry-run", "focus", "0x1234"], {}, "hyprctl dispatch focuswindow address:0x1234"),
+        (["--backend", "hyprland", "--dry-run", "focus", "address:0x5678"], {}, "hyprctl dispatch focuswindow address:0x5678"),
+        (["workspace", "2"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "/mock/niri.sock", "SWAYSOCK": "", "HYPRLAND_INSTANCE_SIGNATURE": ""}, "niri msg action focus-workspace 2"),
+        (["focus", "99"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "/mock/niri.sock", "SWAYSOCK": "", "HYPRLAND_INSTANCE_SIGNATURE": ""}, "niri msg action focus-window --id 99"),
+        (["workspace", "4"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "", "SWAYSOCK": "/mock/sway.sock", "HYPRLAND_INSTANCE_SIGNATURE": ""}, "swaymsg workspace number 4"),
+        (["focus", "88"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "", "SWAYSOCK": "/mock/sway.sock", "HYPRLAND_INSTANCE_SIGNATURE": ""}, "swaymsg [con_id=88] focus"),
+        (["workspace", "5"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "", "SWAYSOCK": "", "HYPRLAND_INSTANCE_SIGNATURE": "mock_sig"}, "hyprctl dispatch workspace 5"),
+        (["focus", "0xdead"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "", "SWAYSOCK": "", "HYPRLAND_INSTANCE_SIGNATURE": "mock_sig"}, "hyprctl dispatch focuswindow address:0xdead"),
+    ]
+
+    for args, env_overrides, expected_cmd in cases:
+        env = os.environ.copy()
+        env.update(env_overrides)
+        proc = subprocess.run(
+            [str(shield_ctl_path)] + args,
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+        if proc.returncode != 0:
+            fail("shield-ctl-dry-run", f"shield-ctl {' '.join(args)} failed with code {proc.returncode}: {proc.stderr.strip()}")
+        out = proc.stdout.strip()
+        if out != expected_cmd:
+            fail("shield-ctl-dry-run", f"shield-ctl {' '.join(args)} expected '{expected_cmd}', got '{out}'")
+
+    neg_cases = [
+        [],
+        ["invalid_subcommand"],
+        ["workspace"],
+        ["workspace", "0"],
+        ["workspace", "-1"],
+        ["workspace", "abc"],
+        ["focus"],
+        ["focus", ""],
+        ["--backend", "invalid_backend", "workspace", "1"],
+    ]
+
+    for args in neg_cases:
+        proc = subprocess.run(
+            [str(shield_ctl_path)] + args,
+            capture_output=True,
+            text=True,
+        )
+        if proc.returncode == 0:
+            fail("shield-ctl-negative", f"Expected non-zero exit for shield-ctl {' '.join(args)}, got 0")
+
+    no_backend_env = os.environ.copy()
+    no_backend_env.pop("NIRI_SOCKET", None)
+    no_backend_env.pop("SWAYSOCK", None)
+    no_backend_env.pop("HYPRLAND_INSTANCE_SIGNATURE", None)
+    no_backend_env.pop("SHIELD_BACKEND", None)
+    no_backend_env["XDG_RUNTIME_DIR"] = "/tmp/shield-test-empty-runtime"
+    proc_no_backend = subprocess.run(
+        [str(shield_ctl_path), "workspace", "1"],
+        capture_output=True,
+        text=True,
+        env=no_backend_env,
+    )
+    if proc_no_backend.returncode == 0:
+        fail("shield-ctl-negative", "Expected non-zero exit when no compositor backend is detected, got 0")
+
+    print("VALIDATED [shield-ctl]: dry-run IPC commands across backends and negative cases OK")
+
+
 def validate_compositor_fixtures(schema):
     comp_fixtures_dir = REPO_DIR / "tests" / "fixtures" / "compositor"
     if not comp_fixtures_dir.is_dir():
@@ -630,6 +707,8 @@ def main():
             run_production_proc_fallback_check(script_path, schema)
         if name == "compositor":
             run_compositor_checks(script_path, schema)
+
+    run_shield_ctl_checks()
 
     print(
         f"PASS [gate2-schema]: schema strict, layout verified ({len(governed_dims)} governed dims), "

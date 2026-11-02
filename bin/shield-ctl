@@ -1,0 +1,162 @@
+#!/usr/bin/env python3
+import argparse
+import glob
+import os
+import shlex
+import subprocess
+import sys
+
+
+def find_niri_socket():
+    if "NIRI_SOCKET" in os.environ:
+        sock = os.environ.get("NIRI_SOCKET", "").strip()
+        if sock:
+            return sock
+    runtime_dir = os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}"
+    matches = sorted(glob.glob(f"{runtime_dir}/niri.*.sock"))
+    if matches and os.path.exists(matches[0]):
+        return matches[0]
+    return None
+
+
+def find_hyprland_socket():
+    if "HYPRLAND_INSTANCE_SIGNATURE" in os.environ:
+        sig = os.environ.get("HYPRLAND_INSTANCE_SIGNATURE", "").strip()
+        if sig:
+            return sig
+    runtime_dir = os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}"
+    matches = glob.glob(f"{runtime_dir}/hypr/*/.socket*.sock") + glob.glob("/tmp/hypr/*/.socket*.sock")
+    if matches:
+        return matches[0]
+    return None
+
+
+def find_sway_socket():
+    if "SWAYSOCK" in os.environ:
+        sock = os.environ.get("SWAYSOCK", "").strip()
+        if sock:
+            return sock
+    runtime_dir = os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}"
+    matches = sorted(glob.glob(f"{runtime_dir}/sway-ipc.*.sock"))
+    if matches and os.path.exists(matches[0]):
+        return matches[0]
+    return None
+
+
+def detect_backend():
+    if os.environ.get("NIRI_SOCKET", "").strip():
+        return "niri"
+    if os.environ.get("SWAYSOCK", "").strip():
+        return "sway"
+    if os.environ.get("HYPRLAND_INSTANCE_SIGNATURE", "").strip():
+        return "hyprland"
+    if find_niri_socket():
+        return "niri"
+    if find_hyprland_socket():
+        return "hyprland"
+    if find_sway_socket():
+        return "sway"
+    return None
+
+
+def resolve_backend(cli_backend):
+    if cli_backend:
+        backend = cli_backend.strip().lower()
+        if backend in ("niri", "sway", "hyprland"):
+            return backend
+        sys.stderr.write(f"error: unsupported backend '{cli_backend}'\n")
+        sys.exit(2)
+    env_backend = os.environ.get("SHIELD_BACKEND", "").strip().lower()
+    if env_backend:
+        if env_backend in ("niri", "sway", "hyprland"):
+            return env_backend
+        sys.stderr.write(f"error: unsupported SHIELD_BACKEND '{env_backend}'\n")
+        sys.exit(2)
+    detected = detect_backend()
+    if detected:
+        return detected
+    sys.stderr.write("error: no supported compositor backend detected\n")
+    sys.exit(1)
+
+
+def is_dry_run(cli_dry_run):
+    if cli_dry_run:
+        return True
+    return os.environ.get("SHIELD_DRY_RUN", "").strip().lower() in ("1", "true", "yes")
+
+
+def format_command(backend, subcommand, target):
+    if subcommand == "workspace":
+        try:
+            ws_num = int(target)
+            if ws_num < 1:
+                raise ValueError
+        except ValueError:
+            sys.stderr.write(f"error: workspace target must be a positive integer, got '{target}'\n")
+            sys.exit(1)
+        if backend == "niri":
+            return f"niri msg action focus-workspace {ws_num}"
+        if backend == "sway":
+            return f"swaymsg workspace number {ws_num}"
+        if backend == "hyprland":
+            return f"hyprctl dispatch workspace {ws_num}"
+
+    if subcommand == "focus":
+        clean_target = str(target).strip()
+        if not clean_target:
+            sys.stderr.write("error: focus target window id cannot be empty\n")
+            sys.exit(1)
+        if backend == "niri":
+            return f"niri msg action focus-window --id {clean_target}"
+        if backend == "sway":
+            return f"swaymsg [con_id={clean_target}] focus"
+        if backend == "hyprland":
+            if any(clean_target.startswith(p) for p in ("address:", "pid:", "class:", "title:")):
+                focus_arg = clean_target
+            else:
+                focus_arg = f"address:{clean_target}"
+            return f"hyprctl dispatch focuswindow {focus_arg}"
+
+    sys.stderr.write(f"error: unknown subcommand '{subcommand}'\n")
+    sys.exit(1)
+
+
+def main():
+    parent_parser = argparse.ArgumentParser(add_help=False)
+    parent_parser.add_argument("--dry-run", action="store_true", default=argparse.SUPPRESS)
+    parent_parser.add_argument("--backend", choices=["niri", "sway", "hyprland"], default=argparse.SUPPRESS)
+
+    parser = argparse.ArgumentParser(prog="shield-ctl", parents=[parent_parser])
+    subparsers = parser.add_subparsers(dest="subcommand", required=True)
+
+    ws_parser = subparsers.add_parser("workspace", parents=[parent_parser])
+    ws_parser.add_argument("target")
+
+    focus_parser = subparsers.add_parser("focus", parents=[parent_parser])
+    focus_parser.add_argument("target")
+
+    args = parser.parse_args()
+
+    backend = resolve_backend(getattr(args, "backend", None))
+    dry_run = is_dry_run(getattr(args, "dry_run", False))
+
+    cmd_str = format_command(backend, args.subcommand, args.target)
+
+    if dry_run:
+        print(cmd_str)
+        sys.exit(0)
+
+    cmd_args = shlex.split(cmd_str)
+    try:
+        proc = subprocess.run(cmd_args)
+        sys.exit(proc.returncode)
+    except FileNotFoundError:
+        sys.stderr.write(f"error: command '{cmd_args[0]}' not found\n")
+        sys.exit(127)
+    except Exception as exc:
+        sys.stderr.write(f"error: {exc}\n")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
