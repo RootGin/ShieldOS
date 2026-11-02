@@ -94,5 +94,14 @@
     "header_height": 20,
     "rung_height": 18,
     "gap": 18
+  },
+  "volume_cluster": {
+    "width": 38,
+    "height": 28,
+    "gap": 8,
+    "chamfer_cut": 8,
+    "bar_width": 2,
+    "bar_height": 8,
+    "bar_gap": 4
   }
 }

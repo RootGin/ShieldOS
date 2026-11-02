@@ -46,6 +46,7 @@ def generate_scss(layout):
     op = layout.get("operator", {"medallion_size": 64, "icon_size": 14})
     wp = layout["workspace_pills"]
     gg = layout.get("gauges", {"width": 48, "header_height": 20, "rung_height": 18, "gap": 18})
+    vc = layout.get("volume_cluster", {"width": 38, "height": 28, "gap": 8, "chamfer_cut": 8, "bar_width": 2, "bar_height": 8, "bar_gap": 4})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -93,6 +94,13 @@ def generate_scss(layout):
         f"$gauge-header-height: dpi({gg['header_height']}px);",
         f"$gauge-rung-height: dpi({gg['rung_height']}px);",
         f"$gauge-gap: dpi({gg['gap']}px);",
+        f"$volume-pill-width: dpi({vc['width']}px);",
+        f"$volume-pill-height: dpi({vc['height']}px);",
+        f"$volume-pill-gap: dpi({vc['gap']}px);",
+        f"$volume-pill-cut: dpi({vc['chamfer_cut']}px);",
+        f"$volume-bar-width: dpi({vc['bar_width']}px);",
+        f"$volume-bar-height: dpi({vc['bar_height']}px);",
+        f"$volume-bar-gap: dpi({vc['bar_gap']}px);",
     ]
     return "\n".join(lines) + "\n"
 
@@ -110,6 +118,7 @@ def generate_yuck(layout):
     op = layout.get("operator", {"medallion_size": 64, "icon_size": 14})
     wp = layout["workspace_pills"]
     gg = layout.get("gauges", {"width": 48, "header_height": 20, "rung_height": 18, "gap": 18})
+    vc = layout.get("volume_cluster", {"width": 38, "height": 28, "gap": 8, "chamfer_cut": 8, "bar_width": 2, "bar_height": 8, "bar_gap": 4})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -157,6 +166,13 @@ def generate_yuck(layout):
         f"(defvar gauge_header_height {gg['header_height']})",
         f"(defvar gauge_rung_height {gg['rung_height']})",
         f"(defvar gauge_gap {gg['gap']})",
+        f"(defvar volume_pill_width {vc['width']})",
+        f"(defvar volume_pill_height {vc['height']})",
+        f"(defvar volume_pill_gap {vc['gap']})",
+        f"(defvar volume_pill_cut {vc['chamfer_cut']})",
+        f"(defvar volume_bar_width {vc['bar_width']})",
+        f"(defvar volume_bar_height {vc['bar_height']})",
+        f"(defvar volume_bar_gap {vc['bar_gap']})",
     ]
     return "\n".join(lines) + "\n"
 

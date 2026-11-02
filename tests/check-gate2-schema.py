@@ -464,6 +464,16 @@ def run_shield_ctl_checks():
         (["focus", "88"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "", "SWAYSOCK": "/mock/sway.sock", "HYPRLAND_INSTANCE_SIGNATURE": ""}, "swaymsg [con_id=88] focus"),
         (["workspace", "5"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "", "SWAYSOCK": "", "HYPRLAND_INSTANCE_SIGNATURE": "mock_sig"}, "hyprctl dispatch workspace 5"),
         (["focus", "0xdead"], {"SHIELD_DRY_RUN": "1", "NIRI_SOCKET": "", "SWAYSOCK": "", "HYPRLAND_INSTANCE_SIGNATURE": "mock_sig"}, "hyprctl dispatch focuswindow address:0xdead"),
+        (["--dry-run", "volume", "up"], {}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"),
+        (["--dry-run", "volume", "down"], {}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+        (["--dry-run", "volume", "get"], {}, "wpctl get-volume @DEFAULT_AUDIO_SINK@"),
+        (["--dry-run", "volume", "set", "50%"], {}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 50%"),
+        (["--dry-run", "volume", "set", "75"], {}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 75%"),
+        (["volume", "up"], {"SHIELD_DRY_RUN": "1"}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"),
+        (["volume", "down"], {"SHIELD_DRY_RUN": "1"}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+        (["volume", "get"], {"SHIELD_DRY_RUN": "1"}, "wpctl get-volume @DEFAULT_AUDIO_SINK@"),
+        (["volume", "set", "60%"], {"SHIELD_DRY_RUN": "1"}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 60%"),
+        (["volume", "set", "80"], {"SHIELD_DRY_RUN": "1"}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 80%"),
     ]
 
     for args, env_overrides, expected_cmd in cases:
@@ -490,6 +500,9 @@ def run_shield_ctl_checks():
         ["workspace", "abc"],
         ["focus"],
         ["focus", ""],
+        ["volume"],
+        ["volume", "invalid_action"],
+        ["volume", "set"],
         ["--backend", "invalid_backend", "workspace", "1"],
     ]
 
@@ -595,7 +608,7 @@ def extract_governed_dimensions(layout):
     def walk(obj):
         if isinstance(obj, dict):
             for k, v in obj.items():
-                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "chamfer_cut"):
+                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "chamfer_cut", "bar_gap"):
                     continue
                 walk(v)
         elif isinstance(obj, list):

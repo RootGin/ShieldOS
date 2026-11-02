@@ -85,7 +85,7 @@ def is_dry_run(cli_dry_run):
     return os.environ.get("SHIELD_DRY_RUN", "").strip().lower() in ("1", "true", "yes")
 
 
-def format_command(backend, subcommand, target):
+def format_command(backend, subcommand, target, extra=None):
     if subcommand == "workspace":
         clean_ws = str(target).strip().lower()
         if clean_ws in ("next", "down"):
@@ -139,6 +139,25 @@ def format_command(backend, subcommand, target):
     if subcommand == "audio":
         return "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 
+    if subcommand == "volume":
+        clean_action = str(target).strip().lower() if target else ""
+        if clean_action == "up":
+            return "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        if clean_action == "down":
+            return "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        if clean_action == "get":
+            return "wpctl get-volume @DEFAULT_AUDIO_SINK@"
+        if clean_action == "set":
+            if not extra or not str(extra).strip():
+                sys.stderr.write("error: volume set requires a value\n")
+                sys.exit(1)
+            val = str(extra).strip()
+            if val.isdigit():
+                val = f"{val}%"
+            return f"wpctl set-volume @DEFAULT_AUDIO_SINK@ {val}"
+        sys.stderr.write(f"error: unknown volume action '{target}'\n")
+        sys.exit(1)
+
     if subcommand == "dnd":
         return "makoctl mode -t dnd"
 
@@ -169,6 +188,10 @@ def main():
     audio_parser = subparsers.add_parser("audio", parents=[parent_parser])
     audio_parser.add_argument("action", nargs="?", default="mute-toggle", choices=["mute-toggle"])
 
+    vol_parser = subparsers.add_parser("volume", parents=[parent_parser])
+    vol_parser.add_argument("action", choices=["up", "down", "set", "get"])
+    vol_parser.add_argument("value", nargs="?", default=None)
+
     dnd_parser = subparsers.add_parser("dnd", parents=[parent_parser])
     dnd_parser.add_argument("action", nargs="?", default="toggle", choices=["toggle"])
 
@@ -182,6 +205,8 @@ def main():
     if args.subcommand in ("workspace", "focus"):
         backend = resolve_backend(getattr(args, "backend", None))
         cmd_str = format_command(backend, args.subcommand, args.target)
+    elif args.subcommand == "volume":
+        cmd_str = format_command(None, args.subcommand, args.action, getattr(args, "value", None))
     else:
         target_val = getattr(args, "action", None)
         cmd_str = format_command(None, args.subcommand, target_val)

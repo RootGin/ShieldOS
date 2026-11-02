@@ -121,3 +121,94 @@ window.right,
 .gauge-gap {
   min-height: $gauge-gap;
 }
+
+@mixin volume-pill-chamfer($color, $leg) {
+  $stop: $leg * 0.70710678;
+  $aa: dpi(0.6px);
+
+  background-image:
+    linear-gradient($color, $color),
+    linear-gradient(-135deg, transparent ($stop - $aa), $color ($stop + $aa)),
+    linear-gradient(45deg, transparent ($stop - $aa), $color ($stop + $aa)),
+    linear-gradient($color, $color);
+  background-size: 54% 54%;
+  background-position: top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+}
+
+.right-controls {
+  min-width: $gauge-width;
+  background-color: transparent;
+}
+
+.volume-spacer {
+  background-color: transparent;
+}
+
+.volume-cluster {
+  min-width: $gauge-width;
+  background-color: transparent;
+}
+
+.volume-btn-eventbox,
+.volume-slot {
+  background-color: transparent;
+}
+
+.volume-bar {
+  min-width: $volume-bar-width;
+  min-height: $volume-bar-height;
+  background-color: $text-ice;
+}
+
+.volume-bar-gap {
+  min-width: $volume-bar-gap;
+  background-color: transparent;
+}
+
+.volume-gap {
+  min-height: $volume-pill-gap;
+  background-color: transparent;
+}
+
+.volume-pill {
+  min-width: $volume-pill-width;
+  min-height: $volume-pill-height;
+  @include volume-pill-chamfer(mix($border-panel-outer, $text-muted, 50%), $volume-pill-cut);
+}
+
+.volume-pill-body {
+  margin: $bevel-outer-border;
+  min-width: $volume-pill-width - (2 * $bevel-outer-border);
+  min-height: $volume-pill-height - (2 * $bevel-outer-border);
+  @include volume-pill-chamfer($surface-pill-inactive, $volume-pill-cut - dpi(1px));
+}
+
+.volume-pill-label {
+  color: $text-primary;
+  font-family: $font-hud-condensed;
+  font-size: $text-lg;
+  font-weight: $weight-lg;
+}
+
+.volume-display-label {
+  font-size: $text-md;
+  font-weight: $weight-lg;
+  letter-spacing: $tracking-sm;
+}
+
+.volume-btn-eventbox:hover .volume-bar {
+  background-color: $state-active-border;
+}
+
+.volume-btn-eventbox:hover .volume-pill {
+  @include volume-pill-chamfer($state-active-border, $volume-pill-cut);
+}
+
+.volume-btn-eventbox:hover .volume-pill-body {
+  @include volume-pill-chamfer($state-active-fill, $volume-pill-cut - dpi(1px));
+}
+
+.volume-btn-eventbox:hover .volume-pill-label {
+  color: $text-primary;
+}

@@ -17,7 +17,8 @@
     "star_emblem",
     "operator",
     "workspace_pills",
-    "gauges"
+    "gauges",
+    "volume_cluster"
   ],
   "properties": {
     "$schema": {
@@ -456,6 +457,49 @@
           "minimum": 1
         },
         "gap": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "volume_cluster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height",
+        "gap",
+        "chamfer_cut",
+        "bar_width",
+        "bar_height",
+        "bar_gap"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "chamfer_cut": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bar_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bar_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bar_gap": {
           "type": "integer",
           "minimum": 0
         }
