@@ -28,11 +28,11 @@
              :orientation "horizontal"
              :space-evenly false
              :halign "start"
-             :valign "center"
+             :valign "end"
           (box :class "status-pill"
                :width status_pill_width
                :height status_pill_height
-               :valign "center"
+               :valign "end"
             (overlay
               (image :path {network_audio.connected ? "./assets/panels/status-pill-connected.svg" : "./assets/panels/status-pill-disconnected.svg"}
                      :image-width status_pill_width
@@ -57,11 +57,11 @@
                :width status_pill_gap)
           (eventbox :class "equalizer-pod-eventbox"
                     :onclick "bin/shield-ctl toggle-mute"
-                    :valign "center"
+                    :valign "end"
             (box :class "equalizer-pod"
                  :width equalizer_pod_width
                  :height equalizer_pod_height
-                 :valign "center"
+                 :valign "end"
               (overlay
                 (image :path "./assets/panels/equalizer-pod.svg"
                        :image-width equalizer_pod_width
@@ -105,17 +105,8 @@
          :width corner_bottom_right_width
          :height corner_bottom_right_height
          :valign "end"
-      (overlay
-        (image :path "./assets/panels/corner-bottom-right.svg"
-               :image-width corner_bottom_right_width
-               :image-height corner_bottom_right_height
-               :width corner_bottom_right_width
-               :height corner_bottom_right_height)
-        (box :class "star-emblem-container"
+      (image :path "./assets/panels/corner-bottom-right.svg"
+             :image-width corner_bottom_right_width
+             :image-height corner_bottom_right_height
              :width corner_bottom_right_width
-             :height corner_bottom_right_height
-             :halign "end"
-             :valign "center"
-          (image :path "./assets/panels/star-emblem.svg"
-                 :image-width star_emblem_size
-                 :image-height star_emblem_size))))))
+             :height corner_bottom_right_height))))

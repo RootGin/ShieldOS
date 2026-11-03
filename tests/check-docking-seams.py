@@ -55,6 +55,7 @@ def check_static_docking():
     if "0,27.5" not in tr_groove_d:
         fail("docking-groove-endpoint-tr", f"Top-right groove path does not dock at (0, 27.5): {tr_groove_d}")
 
+    bl_w = layout["corner_plates"]["bottom_left"]["width"]
     bl_tree = ET.parse(bl_svg)
     bl_paths = bl_tree.getroot().findall(".//{http://www.w3.org/2000/svg}path") or bl_tree.getroot().findall(".//path")
     if len(bl_paths) < 2:
@@ -62,12 +63,12 @@ def check_static_docking():
     bl_outer_d = bl_paths[0].attrib.get("d", "")
     bl_groove_d = bl_paths[1].attrib.get("d", "")
 
-    if "L 259,44" in bl_outer_d or "L 260,44" in bl_outer_d or "L 259,13" in bl_outer_d:
+    if f"L {bl_w - 1},160" in bl_outer_d or f"L {bl_w},160" in bl_outer_d or f"L {bl_w - 1},155" in bl_outer_d:
         fail("docking-closed-seam-bl", f"Bottom-left corner plate contains vertical seam stroke along docking edge: {bl_outer_d}")
-    if "260,13" not in bl_outer_d or "260,43" not in bl_outer_d:
-        fail("docking-outer-endpoint-bl", f"Bottom-left outer path does not dock at (260, 13) and (260, 43): {bl_outer_d}")
-    if "260,16.5" not in bl_groove_d or "260,40.5" not in bl_groove_d:
-        fail("docking-groove-endpoint-bl", f"Bottom-left groove path does not dock at (260, 16.5) and (260, 40.5): {bl_groove_d}")
+    if f"{bl_w},155" not in bl_outer_d or f"{bl_w},159" not in bl_outer_d:
+        fail("docking-outer-endpoint-bl", f"Bottom-left outer path does not dock at ({bl_w}, 155) and ({bl_w}, 159): {bl_outer_d}")
+    if f"{bl_w},156.5" not in bl_groove_d or f"{bl_w},157.5" not in bl_groove_d:
+        fail("docking-groove-endpoint-bl", f"Bottom-left groove path does not dock at ({bl_w}, 156.5) and ({bl_w}, 157.5): {bl_groove_d}")
 
     br_tree = ET.parse(br_svg)
     br_paths = br_tree.getroot().findall(".//{http://www.w3.org/2000/svg}path") or br_tree.getroot().findall(".//path")
@@ -76,12 +77,12 @@ def check_static_docking():
     br_outer_d = br_paths[0].attrib.get("d", "")
     br_groove_d = br_paths[1].attrib.get("d", "")
 
-    if "L 1,44" in br_outer_d or "L 0,44" in br_outer_d or "L 1,13" in br_outer_d:
+    if "L 1,160" in br_outer_d or "L 0,160" in br_outer_d or "L 1,155" in br_outer_d:
         fail("docking-closed-seam-br", f"Bottom-right corner plate contains vertical seam stroke along docking edge: {br_outer_d}")
-    if "0,13" not in br_outer_d or "0,43" not in br_outer_d:
-        fail("docking-outer-endpoint-br", f"Bottom-right outer path does not dock at (0, 13) and (0, 43): {br_outer_d}")
-    if "0,16.5" not in br_groove_d or "0,40.5" not in br_groove_d:
-        fail("docking-groove-endpoint-br", f"Bottom-right groove path does not dock at (0, 16.5) and (0, 40.5): {br_groove_d}")
+    if "0,155" not in br_outer_d or "0,159" not in br_outer_d:
+        fail("docking-outer-endpoint-br", f"Bottom-right outer path does not dock at (0, 155) and (0, 159): {br_outer_d}")
+    if "0,156.5" not in br_groove_d or "0,157.5" not in br_groove_d:
+        fail("docking-groove-endpoint-br", f"Bottom-right groove path does not dock at (0, 156.5) and (0, 157.5): {br_groove_d}")
 
 def parse_pixels(txt_output):
     pixel_map = {}

@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="260" height="44" viewBox="0 0 260 44">
-  <path fill="{{$surface-panel}}" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 0,13 L 12,1 L 259,1 L 259,43 L 0,43" />
-  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 0,16.5 L 13,3.5 L 256.5,3.5 L 256.5,40.5 L 0,40.5" />
+<svg xmlns="http://www.w3.org/2000/svg" width="1156" height="160" viewBox="0 0 1156 160">
+  <polygon points="1133,160 1156,160 1156,137" fill="{{$bg-void}}" />
+  <path fill="{{$surface-panel}}" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 0,155 L 2,155 L 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1030,86 L 1053,63 L 1155,63 L 1155,137 L 1133,159 L 0,159" />
+  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 0,156.5 L 3,156.5 L 13,147.5 L 390,147.5 L 413,124.5 L 801,124.5 L 837,88.5 L 1031,88.5 L 1054,65.5 L 1152.5,65.5 L 1152.5,136 L 1132,157.5 L 0,157.5" />
 </svg>

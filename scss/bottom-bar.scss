@@ -17,13 +17,14 @@ window.bottom,
 
 .bottom-left-container {
   background-color: transparent;
-  padding-left: dpi(14px);
+  padding-left: $workspace-pill-left-offset;
 }
 
 .status-pill {
   min-width: $status-pill-width;
   min-height: $status-pill-height;
   background-color: transparent;
+  margin-bottom: $corner-bottom-right-cut;
 }
 
 .status-pill-content {
@@ -64,6 +65,7 @@ window.bottom,
   min-width: $equalizer-pod-width;
   min-height: $equalizer-pod-height;
   background-color: transparent;
+  margin-bottom: dpi(29px);
 }
 
 .equalizer-bars {
@@ -115,15 +117,10 @@ window.bottom,
 .bottom-rail-groove {
   border-top: $bevel-inner-groove solid $border-panel-groove;
   border-bottom: $bevel-inner-groove solid $border-panel-groove;
-  margin-top: dpi(2px);
-  margin-bottom: dpi(1px);
+  margin-top: dpi(0px);
+  margin-bottom: dpi(0px);
 }
 
 .bottom-dock-slot {
   background-color: transparent;
-}
-
-.star-emblem-container {
-  background-color: transparent;
-  padding-right: $void-padding;
 }

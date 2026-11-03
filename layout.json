@@ -36,7 +36,7 @@
       "height": 116
     },
     "bottom": {
-      "height": 44
+      "height": 160
     }
   },
   "side_panels": {
@@ -59,7 +59,7 @@
       "height": 32
     },
     "bottom": {
-      "height": 32
+      "height": 6
     },
     "left": {
       "width": 12
@@ -80,14 +80,14 @@
       "chamfer_cut": 58
     },
     "bottom_left": {
-      "width": 260,
-      "height": 44,
-      "chamfer_cut": 12
+      "width": 520,
+      "height": 160,
+      "chamfer_cut": 42
     },
     "bottom_right": {
-      "width": 260,
-      "height": 44,
-      "chamfer_cut": 12
+      "width": 1156,
+      "height": 160,
+      "chamfer_cut": 22
     },
     "bevel": {
       "outer_border": 2,

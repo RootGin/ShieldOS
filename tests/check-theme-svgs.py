@@ -202,8 +202,8 @@ def check_corner_plates(repo_dir):
     for file_path, name, expected_w, expected_h, expected_vb, expected_chamfer in [
         (tl_file, "top-left", "520", "116", "0 0 520 116", "501,50 L 520,31"),
         (tr_file, "top-right", "260", "90", "0 0 260 90", "0,31 L 11,42"),
-        (bl_file, "bottom-left", "260", "44", "0 0 260 44", "248,1 L 260,13"),
-        (br_file, "bottom-right", "260", "44", "0 0 260 44", "0,13 L 12,1"),
+        (bl_file, "bottom-left", "520", "160", "0 0 520 160", "235,138 L 256,159"),
+        (br_file, "bottom-right", "1156", "160", "0 0 1156 160", "1030,86 L 1053,63"),
     ]:
         try:
             tree = ET.parse(file_path)
