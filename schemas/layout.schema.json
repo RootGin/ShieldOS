@@ -18,7 +18,9 @@
     "operator",
     "workspace_pills",
     "gauges",
-    "volume_cluster"
+    "volume_cluster",
+    "status_pill",
+    "equalizer_pod"
   ],
   "properties": {
     "$schema": {
@@ -532,6 +534,82 @@
           "minimum": 0
         },
         "housing_pad_top": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "status_pill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height",
+        "gap",
+        "chamfer_cut",
+        "indicator_height",
+        "glyph_size"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "chamfer_cut": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "indicator_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "glyph_size": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "equalizer_pod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height",
+        "chamfer_cut",
+        "bar_width",
+        "bar_height",
+        "bar_gap"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "chamfer_cut": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bar_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bar_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bar_gap": {
           "type": "integer",
           "minimum": 0
         }

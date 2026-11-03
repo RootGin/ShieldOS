@@ -16,9 +16,81 @@
          :width corner_bottom_left_width
          :height corner_bottom_left_height
          :valign "end"
-      (image :path "./assets/panels/corner-bottom-left.svg"
-             :image-width corner_bottom_left_width
-             :image-height corner_bottom_left_height))
+      (overlay
+        (image :path "./assets/panels/corner-bottom-left.svg"
+               :image-width corner_bottom_left_width
+               :image-height corner_bottom_left_height
+               :width corner_bottom_left_width
+               :height corner_bottom_left_height)
+        (box :class "bottom-left-container"
+             :width corner_bottom_left_width
+             :height corner_bottom_left_height
+             :orientation "horizontal"
+             :space-evenly false
+             :halign "start"
+             :valign "center"
+          (box :class "status-pill ${network_audio.connected ? 'connected' : 'disconnected'}"
+               :width status_pill_width
+               :height status_pill_height
+               :orientation "vertical"
+               :space-evenly false
+               :valign "center"
+            (box :class "status-pill-indicator ${network_audio.connected ? 'connected' : 'disconnected'}"
+                 :width status_pill_width
+                 :height status_pill_indicator_height)
+            (box :class "status-pill-content"
+                 :orientation "horizontal"
+                 :space-evenly false
+                 :halign "center"
+                 :valign "center"
+                 :vexpand true
+              (box :class "status-pill-glyph"
+                   :valign "center"
+                (image :path "./assets/panels/robot-glyph.svg"
+                       :image-width status_pill_glyph_size
+                       :image-height status_pill_glyph_size))
+              (box :class "status-pill-label-box"
+                   :valign "center"
+                (label :class "status-pill-label ${network_audio.connected ? 'connected' : 'disconnected'}"
+                       :text {network_audio.label}))))
+          (box :class "status-equalizer-gap"
+               :width status_pill_gap)
+          (eventbox :class "equalizer-pod-eventbox"
+                    :onclick "bin/shield-ctl toggle-mute"
+            (box :class "equalizer-pod"
+                 :width equalizer_pod_width
+                 :height equalizer_pod_height
+                 :orientation "horizontal"
+                 :space-evenly false
+                 :halign "center"
+                 :valign "center"
+              (box :class "equalizer-bars"
+                   :orientation "horizontal"
+                   :space-evenly false
+                   :halign "center"
+                   :valign "center"
+                (progress :class "equalizer-bar"
+                          :orientation "vertical"
+                          :flipped true
+                          :value {network_audio.audio_level[0]})
+                (box :class "equalizer-bar-spacing"
+                     :width equalizer_bar_gap)
+                (progress :class "equalizer-bar"
+                          :orientation "vertical"
+                          :flipped true
+                          :value {network_audio.audio_level[1]})
+                (box :class "equalizer-bar-spacing"
+                     :width equalizer_bar_gap)
+                (progress :class "equalizer-bar"
+                          :orientation "vertical"
+                          :flipped true
+                          :value {network_audio.audio_level[2]})
+                (box :class "equalizer-bar-spacing"
+                     :width equalizer_bar_gap)
+                (progress :class "equalizer-bar"
+                          :orientation "vertical"
+                          :flipped true
+                          :value {network_audio.audio_level[3]})))))))
     (box :class "bottom-rail"
          :hexpand true
          :height rail_bottom_height

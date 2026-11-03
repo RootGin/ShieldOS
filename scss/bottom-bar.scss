@@ -1,3 +1,17 @@
+@mixin octagon($color, $leg) {
+  $stop: $leg * 0.70710678;
+  $aa: dpi(0.6px);
+
+  background-image:
+    linear-gradient(135deg, transparent ($stop - $aa), $color ($stop + $aa)),
+    linear-gradient(-135deg, transparent ($stop - $aa), $color ($stop + $aa)),
+    linear-gradient(45deg, transparent ($stop - $aa), $color ($stop + $aa)),
+    linear-gradient(-45deg, transparent ($stop - $aa), $color ($stop + $aa));
+  background-size: 51% 51%;
+  background-position: top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+}
+
 .bottom-bar-window,
 window#bottom,
 window.bottom,
@@ -12,6 +26,101 @@ window.bottom,
 
 .corner-housing-bl,
 .corner-housing-br {
+  background-color: transparent;
+}
+
+.bottom-left-container {
+  background-color: transparent;
+  padding-left: $void-padding;
+}
+
+.status-pill {
+  min-width: $status-pill-width;
+  min-height: $status-pill-height;
+  @include octagon($surface-pill-inactive, $status-pill-cut);
+}
+
+.status-pill-indicator {
+  min-width: $status-pill-width;
+  min-height: $status-pill-indicator-height;
+}
+
+.status-pill-indicator.disconnected {
+  background-color: $state-danger;
+}
+
+.status-pill-indicator.connected {
+  background-color: $state-active-border;
+}
+
+.status-pill-content {
+  background-color: transparent;
+}
+
+.status-pill-glyph {
+  background-color: transparent;
+  margin-left: dpi(8px);
+  margin-right: dpi(6px);
+}
+
+.status-pill-label-box {
+  background-color: transparent;
+  margin-right: dpi(8px);
+}
+
+.status-pill-label {
+  font-family: $font-hud-condensed;
+  font-size: $text-md;
+  font-weight: $weight-md;
+  letter-spacing: $tracking-md;
+  color: $text-primary;
+}
+
+.status-equalizer-gap {
+  min-width: $status-pill-gap;
+  background-color: transparent;
+}
+
+.equalizer-pod-eventbox {
+  background-color: transparent;
+}
+
+.equalizer-pod {
+  min-width: $equalizer-pod-width;
+  min-height: $equalizer-pod-height;
+  @include octagon($surface-pill-inactive, $equalizer-pod-cut);
+}
+
+.equalizer-pod-eventbox:hover .equalizer-pod {
+  @include octagon(mix($surface-pill-inactive, $state-active-border, 85%), $equalizer-pod-cut);
+}
+
+.equalizer-bars {
+  background-color: transparent;
+}
+
+.equalizer-bar {
+  min-width: $equalizer-bar-width;
+  min-height: $equalizer-bar-height;
+  background-color: transparent;
+  border-radius: 0;
+
+  trough {
+    min-width: $equalizer-bar-width;
+    min-height: $equalizer-bar-height;
+    background-color: $state-active-surface;
+    border-radius: 0;
+  }
+
+  progress {
+    min-width: $equalizer-bar-width;
+    background-color: $state-active-border;
+    border-radius: 0;
+  }
+}
+
+.equalizer-bar-spacing {
+  min-width: $equalizer-bar-gap;
   background-color: transparent;
 }
 
@@ -33,4 +142,3 @@ window.bottom,
   background-color: transparent;
   padding-right: $void-padding;
 }
-

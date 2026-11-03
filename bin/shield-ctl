@@ -136,7 +136,7 @@ def format_command(backend, subcommand, target, extra=None):
         action = str(target).strip() if target else "play-pause"
         return f"playerctl {action}"
 
-    if subcommand == "audio":
+    if subcommand in ("audio", "toggle-mute"):
         return "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 
     if subcommand == "volume":
@@ -187,6 +187,8 @@ def main():
 
     audio_parser = subparsers.add_parser("audio", parents=[parent_parser])
     audio_parser.add_argument("action", nargs="?", default="mute-toggle", choices=["mute-toggle"])
+
+    subparsers.add_parser("toggle-mute", parents=[parent_parser])
 
     vol_parser = subparsers.add_parser("volume", parents=[parent_parser])
     vol_parser.add_argument("action", choices=["up", "down", "set", "get"])

@@ -47,6 +47,8 @@ def generate_scss(layout):
     wp = layout["workspace_pills"]
     gg = layout.get("gauges", {"width": 48, "header_height": 20, "rung_height": 18, "gap": 18})
     vc = layout.get("volume_cluster", {"width": 38, "height": 28, "gap": 8, "chamfer_cut": 8, "bar_width": 2, "bar_height": 8, "bar_gap": 4})
+    sp_pill = layout.get("status_pill", {"width": 132, "height": 26, "gap": 8, "chamfer_cut": 4, "indicator_height": 3, "glyph_size": 14})
+    eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -109,6 +111,18 @@ def generate_scss(layout):
         f"$volume-bar-height: dpi({vc['bar_height']}px);",
         f"$volume-bar-gap: dpi({vc['bar_gap']}px);",
         f"$volume-housing-pad-top: dpi({vc.get('housing_pad_top', 110)}px);",
+        f"$status-pill-width: dpi({sp_pill['width']}px);",
+        f"$status-pill-height: dpi({sp_pill['height']}px);",
+        f"$status-pill-gap: dpi({sp_pill['gap']}px);",
+        f"$status-pill-cut: dpi({sp_pill['chamfer_cut']}px);",
+        f"$status-pill-indicator-height: dpi({sp_pill['indicator_height']}px);",
+        f"$status-pill-glyph-size: dpi({sp_pill['glyph_size']}px);",
+        f"$equalizer-pod-width: dpi({eq_pod['width']}px);",
+        f"$equalizer-pod-height: dpi({eq_pod['height']}px);",
+        f"$equalizer-pod-cut: dpi({eq_pod['chamfer_cut']}px);",
+        f"$equalizer-bar-width: dpi({eq_pod['bar_width']}px);",
+        f"$equalizer-bar-height: dpi({eq_pod['bar_height']}px);",
+        f"$equalizer-bar-gap: dpi({eq_pod['bar_gap']}px);",
     ]
     return "\n".join(lines) + "\n"
 
@@ -127,6 +141,8 @@ def generate_yuck(layout):
     wp = layout["workspace_pills"]
     gg = layout.get("gauges", {"width": 48, "header_height": 20, "rung_height": 18, "gap": 18})
     vc = layout.get("volume_cluster", {"width": 38, "height": 28, "gap": 8, "chamfer_cut": 8, "bar_width": 2, "bar_height": 8, "bar_gap": 4})
+    sp_pill = layout.get("status_pill", {"width": 132, "height": 26, "gap": 8, "chamfer_cut": 4, "indicator_height": 3, "glyph_size": 14})
+    eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -189,6 +205,18 @@ def generate_yuck(layout):
         f"(defvar volume_bar_height {vc['bar_height']})",
         f"(defvar volume_bar_gap {vc['bar_gap']})",
         f"(defvar volume_housing_pad_top {vc.get('housing_pad_top', 110)})",
+        f"(defvar status_pill_width {sp_pill['width']})",
+        f"(defvar status_pill_height {sp_pill['height']})",
+        f"(defvar status_pill_gap {sp_pill['gap']})",
+        f"(defvar status_pill_cut {sp_pill['chamfer_cut']})",
+        f"(defvar status_pill_indicator_height {sp_pill['indicator_height']})",
+        f"(defvar status_pill_glyph_size {sp_pill['glyph_size']})",
+        f"(defvar equalizer_pod_width {eq_pod['width']})",
+        f"(defvar equalizer_pod_height {eq_pod['height']})",
+        f"(defvar equalizer_pod_cut {eq_pod['chamfer_cut']})",
+        f"(defvar equalizer_bar_width {eq_pod['bar_width']})",
+        f"(defvar equalizer_bar_height {eq_pod['bar_height']})",
+        f"(defvar equalizer_bar_gap {eq_pod['bar_gap']})",
     ]
     return "\n".join(lines) + "\n"
 

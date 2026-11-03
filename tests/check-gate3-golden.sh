@@ -135,7 +135,7 @@ EOF
   export GDK_SCALE=1
   export GDK_DPI_SCALE=1
   export GDK_BACKEND=wayland
-  export SHIELD_FIXTURE="frozen"
+  export SHIELD_FIXTURE="${SHIELD_FIXTURE:-frozen}"
 
   local sway_cfg="${work_dir}/sway.cfg"
   cat > "${sway_cfg}" << 'EOF'

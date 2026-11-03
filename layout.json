@@ -111,5 +111,21 @@
     "bar_height": 8,
     "bar_gap": 4,
     "housing_pad_top": 110
+  },
+  "status_pill": {
+    "width": 132,
+    "height": 26,
+    "gap": 8,
+    "chamfer_cut": 4,
+    "indicator_height": 3,
+    "glyph_size": 14
+  },
+  "equalizer_pod": {
+    "width": 36,
+    "height": 26,
+    "chamfer_cut": 4,
+    "bar_width": 3,
+    "bar_height": 16,
+    "bar_gap": 3
   }
 }
