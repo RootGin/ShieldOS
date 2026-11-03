@@ -141,11 +141,11 @@
     "slot_tall_height": 28,
     "slot_short_height": 8,
     "slot_gap": 3,
-    "slot_pad_left": 49,
+    "slot_pad_left": 40,
     "pip_size": 6,
     "pip_gap": 4,
-    "pip_pad_top": 12,
-    "pip_pad_left": 51,
+    "pip_pad_top": 8,
+    "pip_pad_left": 36,
     "rail_gap": 20,
     "rail_height": 484
   }

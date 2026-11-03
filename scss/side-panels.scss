@@ -37,92 +37,106 @@ window.right,
   background-color: transparent;
 }
 
-.dock-play-row {
+.dock-reticle-row {
   background-color: transparent;
 }
 
-.dock-play-indent {
+.dock-reticle-indent {
   min-width: $left-dock-play-pad-left;
   background-color: transparent;
 }
 
-.play-trigger-eventbox {
+.reticle-trigger-eventbox {
   background-color: transparent;
 }
 
-.play-trigger {
+.reticle-trigger {
   min-width: $left-dock-play-size;
   min-height: $left-dock-play-size;
   border-radius: $rail-left-width;
-  border: $bevel-outer-border solid $text-ice;
+  border: $bevel-outer-border solid $state-active-border;
   background-color: $surface-panel-recessed;
 }
 
-.play-trigger:hover {
-  border-color: $state-active-border;
+.reticle-trigger:hover {
+  border-color: $text-ice;
   background-color: $state-active-fill;
 }
 
-.play-glyph-image {
+.reticle-glyph-image {
   background-color: transparent;
 }
 
-.dock-slot-pad {
+.dock-text-pad {
   min-height: $left-dock-slot-gap;
   background-color: transparent;
 }
 
-.dock-slots-row {
+.dock-text-row {
   background-color: transparent;
 }
 
-.dock-slots-indent {
+.dock-text-indent {
   min-width: $left-dock-slot-pad-left;
   background-color: transparent;
 }
 
-.dock-slots {
-  min-width: $left-dock-slot-width;
+.dock-text-columns {
   background-color: transparent;
 }
 
-.dock-slot {
-  min-width: $left-dock-slot-width;
-  background-color: $surface-pill-inactive;
-  border: $bevel-inner-groove solid $border-panel-groove;
+.dock-title-label {
+  color: $text-primary;
+  font-family: $font-hud-condensed;
+  font-size: dpi(9px);
+  font-weight: $weight-lg;
+  letter-spacing: dpi(1px);
 }
 
-.dock-slot.slot-4 {
-  min-height: $left-dock-slot-tall-height;
+.dock-subtitle-label {
+  color: $text-muted;
+  font-family: $font-hud-condensed;
+  font-size: dpi(6.5px);
+  font-weight: $weight-md;
+  letter-spacing: dpi(0.5px);
+  margin-right: dpi(2px);
 }
 
-.dock-slot.slot-3,
-.dock-slot.slot-2,
-.dock-slot.slot-1 {
-  min-height: $left-dock-slot-short-height;
-}
-
-.dock-slot.active {
-  background-color: $accent-primary-bright;
-  border-color: $accent-primary;
-}
-
-.dock-slot-gap {
-  min-height: $left-dock-slot-gap;
-  background-color: transparent;
-}
-
-.dock-pips-pad {
+.dock-status-pad {
   min-height: $left-dock-pip-pad-top;
   background-color: transparent;
 }
 
-.dock-pips-row {
+.dock-status-row {
   background-color: transparent;
 }
 
-.dock-pips-indent {
+.dock-status-indent {
   min-width: $left-dock-pip-pad-left;
+  background-color: transparent;
+}
+
+.dock-status-cluster {
+  background-color: transparent;
+}
+
+.dock-status-badge {
+  background-color: $surface-panel-recessed;
+  border: $bevel-inner-groove solid $border-panel-outer;
+  border-radius: dpi(2px);
+  padding: dpi(1px) dpi(3px);
+}
+
+.dock-status-text {
+  color: $text-muted;
+  font-family: $font-hud-condensed;
+  font-size: dpi(6.5px);
+  font-weight: $weight-lg;
+  letter-spacing: dpi(0.5px);
+}
+
+.dock-pips-gap {
+  min-height: $left-dock-pip-gap;
   background-color: transparent;
 }
 
@@ -134,11 +148,16 @@ window.right,
 .dock-pip {
   min-width: $left-dock-pip-size;
   min-height: $left-dock-pip-size;
-  background-color: $text-muted;
+  border-radius: $workspace-pill-cut;
+  background-color: $surface-control;
 }
 
 .dock-pip.active {
-  background-color: $text-ice;
+  background-color: $state-active-border;
+}
+
+.dock-pip.standby {
+  background-color: $surface-control;
 }
 
 .dock-pip-gap {

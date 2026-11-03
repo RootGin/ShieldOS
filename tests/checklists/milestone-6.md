@@ -18,10 +18,10 @@ Side-by-Side Path: `tests/captures/compare-6.png`
 - [x] Gauge headers (CPU and RAM) in dark amber `#5D440B` bounds pass: `48x221 +1859+274` (`tests/check-gate3-golden.sh measure 6 '#5D440B'`)
 
 ## Visual Fidelity Review (Milestone 6)
-- [x] Left side panel dock: Chamfered vertical dock housing styled in steel-grey $surface-control (#45464A) with 58px chamfer cut at 45°
-- [x] Circular play trigger: Circular button with dark recessed interior and crisp vector play glyph wired to `bin/shield-ctl play-pause`
-- [x] Left vertical slots: 4-segment indicator slot cluster (1 tall + 3 short) reflecting media state
-- [x] Left status pips: 3-pip indicator cluster underneath slots with active ice-blue accent
+- [x] Bridge Control Dock: Chamfered vertical dock housing styled in steel-grey $surface-control (#45464A) with 58px chamfer cut at 45°
+- [x] Radar reticle: Concentric cyan/ice-white radar rings with outer bracket and ice-blue glow wired to `bin/shield-ctl bridge-toggle`
+- [x] Vertical typography: Dual columns with :angle 270 rendering bold BRIDGE CONTROL and muted SHIELD OS / SUB-SEC 4
+- [x] Status badge & pips: Chamfered STATUS badge and dual status indicator pips reflecting compositor session readiness
 - [x] Left rail docking: Perimeter vertical rail (12px width, 484px height) docked below chamfered housing with 20px gap
 - [x] Bottom-left status pill: Stepped tab indicator in crimson `#AD2927` showing `DISCONNECTED` with recessed inner groove hairline and notch serrations
 - [x] Bottom-left equalizer pod: Recessed pod housing 4 vertical equalizer bars bound to audio levels

@@ -136,6 +136,9 @@ def format_command(backend, subcommand, target, extra=None):
         action = str(target).strip() if (target and subcommand != "play-pause") else "play-pause"
         return f"playerctl {action}"
 
+    if subcommand in ("bridge-toggle", "bridge"):
+        return "true"
+
     if subcommand in ("audio", "toggle-mute"):
         return "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 
@@ -201,6 +204,8 @@ def main():
 
     nl_parser = subparsers.add_parser("night-light", parents=[parent_parser])
     nl_parser.add_argument("action", nargs="?", default="toggle", choices=["toggle"])
+
+    subparsers.add_parser("bridge-toggle", parents=[parent_parser])
 
     args = parser.parse_args()
 
