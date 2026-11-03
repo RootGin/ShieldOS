@@ -23,177 +23,184 @@
 (defwindow right
   :monitor 0
   :geometry (geometry :x "0px"
-                      :y "0px"
-                      :anchor "right center")
+                      :y "-26px"
+                      :anchor "top right")
   :layer "top"
   :exclusive false
   :focusable false
   :namespace "shield-right-panel"
   (box :class "right-panel"
-       :orientation "horizontal"
+       :orientation "vertical"
        :space-evenly false
        :halign "end"
        :width side_right_width
        :height side_right_height
-    (box :class "right-controls"
+    (box :class "right-upper-rail-container"
+         :halign "end"
+         :width side_right_upper_width
+         :height side_right_upper_height
+      (image :path "./assets/panels/rail-right-upper.svg"
+             :image-width side_right_upper_width
+             :image-height side_right_upper_height))
+    (box :class "right-gap-1"
+         :height gauge_gap_upper)
+    (box :class "right-gauges"
          :orientation "vertical"
          :space-evenly false
-         :width gauge_width
-         :height side_right_height
-      (box :class "right-gauges"
-           :orientation "vertical"
-           :space-evenly false
-           :valign "start"
-           :width gauge_width
-        (box :class "gauge cpu-gauge"
-             :orientation "vertical"
-             :space-evenly false
-             :width gauge_width
-          (box :class "gauge-header cpu-header"
-               :width gauge_width
-               :height gauge_header_height
-            (box :class "gauge-header-label-box"
-                 :halign "center"
-                 :valign "center"
-              (label :class "gauge-header-text"
-                     :text "CPU")))
-          (box :class "gauge-rungs cpu-rungs"
-               :orientation "vertical"
-               :space-evenly false
-               :width gauge_width
-            (for rung in {telemetry.cpu_ladder.rungs}
-              (box :class "gauge-rung ${rung.state} ${rung.sublabel != '' ? 'dual' : 'single'}"
-                   :orientation "vertical"
-                   :space-evenly false
-                   :width gauge_width
-                (box :class "rung-label-box"
-                     :halign "center"
-                     :valign "center"
-                  (label :class "rung-label-text ${rung.state}"
-                         :text "${rung.label}"))
-                (box :class "rung-sublabel-box"
-                     :visible {rung.sublabel != ""}
-                     :halign "center"
-                     :valign "center"
-                  (label :class "rung-sublabel-text ${rung.state}"
-                         :text "${rung.sublabel}"))))))
-        (box :class "gauge-gap"
-             :height gauge_gap)
-        (box :class "gauge ram-gauge"
-             :orientation "vertical"
-             :space-evenly false
-             :width gauge_width
-          (box :class "gauge-header ram-header"
-               :width gauge_width
-               :height gauge_header_height
-            (box :class "gauge-header-label-box"
-                 :halign "center"
-                 :valign "center"
-              (label :class "gauge-header-text"
-                     :text "RAM")))
-          (box :class "gauge-rungs ram-rungs"
-               :orientation "vertical"
-               :space-evenly false
-               :width gauge_width
-            (for rung in {telemetry.ram_ladder.rungs}
-              (box :class "gauge-rung ${rung.state} single"
-                   :orientation "vertical"
-                   :space-evenly false
-                   :width gauge_width
-                (box :class "rung-label-box"
-                     :halign "center"
-                     :valign "center"
-                  (label :class "rung-label-text ${rung.state}"
-                         :text "${rung.label}")))))))
-      (box :class "volume-spacer"
-           :vexpand true)
-      (box :class "volume-cluster"
-           :orientation "vertical"
-           :space-evenly false
-           :valign "end"
-           :halign "end"
-           :width gauge_width
-        (eventbox :class "volume-btn-eventbox volume-up"
-                  :onclick "bin/shield-ctl volume up"
-          (box :class "volume-slot"
-               :orientation "horizontal"
-               :space-evenly false
-               :halign "end"
-            (box :class "volume-bar"
-                 :width volume_bar_width
-                 :height volume_bar_height
-                 :valign "center")
-            (box :class "volume-bar-gap"
-                 :width volume_bar_gap)
-            (box :class "volume-pill"
-                 :width volume_pill_width
-                 :height volume_pill_height
-              (box :class "volume-pill-body"
-                   :vexpand true
-                   :hexpand true
-                   :halign "fill"
-                   :valign "fill"
-                (label :class "volume-pill-label"
-                       :halign "center"
-                       :valign "center"
-                       :text "+")))))
-        (box :class "volume-gap"
-             :height volume_pill_gap)
-        (eventbox :class "volume-btn-eventbox volume-display-eventbox"
-                  :onscroll "if [ '{}' = 'up' ]; then bin/shield-ctl volume up; else bin/shield-ctl volume down; fi"
-          (box :class "volume-slot"
-               :orientation "horizontal"
-               :space-evenly false
-               :halign "end"
-            (box :class "volume-bar"
-                 :width volume_bar_width
-                 :height volume_bar_height
-                 :valign "center")
-            (box :class "volume-bar-gap"
-                 :width volume_bar_gap)
-            (box :class "volume-pill volume-display-pill"
-                 :width volume_pill_width
-                 :height volume_pill_height
-              (box :class "volume-pill-body volume-display-body"
-                   :vexpand true
-                   :hexpand true
-                   :halign "fill"
-                   :valign "fill"
-                (label :class "volume-pill-label volume-display-label"
-                       :halign "center"
-                       :valign "center"
-                       :text "${current_volume}")))))
-        (box :class "volume-gap"
-             :height volume_pill_gap)
-        (eventbox :class "volume-btn-eventbox volume-down"
-                  :onclick "bin/shield-ctl volume down"
-          (box :class "volume-slot"
-               :orientation "horizontal"
-               :space-evenly false
-               :halign "end"
-            (box :class "volume-bar"
-                 :width volume_bar_width
-                 :height volume_bar_height
-                 :valign "center")
-            (box :class "volume-bar-gap"
-                 :width volume_bar_gap)
-            (box :class "volume-pill"
-                 :width volume_pill_width
-                 :height volume_pill_height
-              (box :class "volume-pill-body"
-                   :vexpand true
-                   :hexpand true
-                   :halign "fill"
-                   :valign "fill"
-                (label :class "volume-pill-label"
-                       :halign "center"
-                       :valign "center"
-                       :text "-")))))))
-    (box :class "right-rail"
-         :width rail_right_width
-         :height side_right_height
          :halign "end"
-         :valign "center"
-      (image :path "./assets/panels/rail-right.svg"
-             :image-width rail_right_width
-             :image-height side_right_height))))
+         :width gauge_width
+      (box :class "gauge cpu-gauge"
+           :orientation "vertical"
+           :space-evenly false
+           :width gauge_width
+        (box :class "gauge-header cpu-header"
+             :width gauge_width
+             :height gauge_header_height
+          (box :class "gauge-header-label-box"
+               :halign "center"
+               :valign "center"
+            (label :class "gauge-header-text"
+                   :text "CPU")))
+        (box :class "gauge-rungs cpu-rungs"
+             :orientation "vertical"
+             :space-evenly false
+             :width gauge_width
+          (for rung in {telemetry.cpu_ladder.rungs}
+            (box :class "gauge-rung ${rung.state} ${rung.sublabel != '' ? 'dual' : 'single'}"
+                 :orientation "vertical"
+                 :space-evenly false
+                 :width gauge_width
+              (box :class "rung-label-box"
+                   :halign "center"
+                   :valign "center"
+                (label :class "rung-label-text ${rung.state}"
+                       :text "${rung.label}"))
+              (box :class "rung-sublabel-box"
+                   :visible {rung.sublabel != ""}
+                   :halign "center"
+                   :valign "center"
+                (label :class "rung-sublabel-text ${rung.state}"
+                       :text "${rung.sublabel}"))))))
+      (box :class "gauge-gap"
+           :height gauge_gap)
+      (box :class "gauge ram-gauge"
+           :orientation "vertical"
+           :space-evenly false
+           :width gauge_width
+        (box :class "gauge-header ram-header"
+             :width gauge_width
+             :height gauge_header_height
+          (box :class "gauge-header-label-box"
+               :halign "center"
+               :valign "center"
+            (label :class "gauge-header-text"
+                   :text "RAM")))
+        (box :class "gauge-rungs ram-rungs"
+             :orientation "vertical"
+             :space-evenly false
+             :width gauge_width
+          (for rung in {telemetry.ram_ladder.rungs}
+            (box :class "gauge-rung ${rung.state} single"
+                 :orientation "vertical"
+                 :space-evenly false
+                 :width gauge_width
+              (box :class "rung-label-box"
+                   :halign "center"
+                   :valign "center"
+                (label :class "rung-label-text ${rung.state}"
+                       :text "${rung.label}")))))))
+    (box :class "right-gap-2"
+         :height gauge_gap_lower)
+    (box :class "right-lower-housing-container"
+         :halign "end"
+         :width side_right_lower_width
+         :height side_right_lower_height
+      (overlay
+        (image :path "./assets/panels/rail-right-lower.svg"
+               :image-width side_right_lower_width
+               :image-height side_right_lower_height)
+        (box :class "volume-cluster"
+             :orientation "vertical"
+             :space-evenly false
+             :width side_right_lower_width
+             :height side_right_lower_height
+             :valign "start"
+             :halign "end"
+          (box :class "lower-housing-pad"
+               :height volume_housing_pad_top)
+          (eventbox :class "volume-btn-eventbox volume-up"
+                    :onclick "bin/shield-ctl volume up"
+            (box :class "volume-slot"
+                 :orientation "horizontal"
+                 :space-evenly false
+                 :halign "end"
+              (box :class "volume-bar"
+                   :width volume_bar_width
+                   :height volume_bar_height
+                   :valign "center")
+              (box :class "volume-bar-gap"
+                   :width volume_bar_gap)
+              (box :class "volume-pill"
+                   :width volume_pill_width
+                   :height volume_pill_height
+                (box :class "volume-pill-body"
+                     :vexpand true
+                     :hexpand true
+                     :halign "fill"
+                     :valign "fill"
+                  (label :class "volume-pill-label"
+                         :halign "center"
+                         :valign "center"
+                         :text "E")))))
+          (box :class "volume-gap"
+               :height volume_pill_gap)
+          (eventbox :class "volume-btn-eventbox volume-display-eventbox"
+                    :onscroll "if [ '{}' = 'up' ]; then bin/shield-ctl volume up; else bin/shield-ctl volume down; fi"
+            (box :class "volume-slot"
+                 :orientation "horizontal"
+                 :space-evenly false
+                 :halign "end"
+              (box :class "volume-bar"
+                   :width volume_bar_width
+                   :height volume_bar_height
+                   :valign "center")
+              (box :class "volume-bar-gap"
+                   :width volume_bar_gap)
+              (box :class "volume-pill volume-display-pill"
+                   :width volume_pill_width
+                   :height volume_pill_height
+                (box :class "volume-pill-body volume-display-body"
+                     :vexpand true
+                     :hexpand true
+                     :halign "fill"
+                     :valign "fill"
+                  (label :class "volume-pill-label volume-display-label"
+                         :halign "center"
+                         :valign "center"
+                         :text "${current_volume}")))))
+          (box :class "volume-gap"
+               :height volume_pill_gap)
+          (eventbox :class "volume-btn-eventbox volume-down"
+                    :onclick "bin/shield-ctl volume down"
+            (box :class "volume-slot"
+                 :orientation "horizontal"
+                 :space-evenly false
+                 :halign "end"
+              (box :class "volume-bar"
+                   :width volume_bar_width
+                   :height volume_bar_height
+                   :valign "center")
+              (box :class "volume-bar-gap"
+                   :width volume_bar_gap)
+              (box :class "volume-pill"
+                   :width volume_pill_width
+                   :height volume_pill_height
+                (box :class "volume-pill-body"
+                     :vexpand true
+                     :hexpand true
+                     :halign "fill"
+                     :valign "fill"
+                  (label :class "volume-pill-label"
+                         :halign "center"
+                         :valign "center"
+                         :text "L"))))))))))

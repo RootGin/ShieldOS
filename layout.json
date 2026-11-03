@@ -45,8 +45,13 @@
       "height": 400
     },
     "right": {
-      "width": 60,
-      "height": 520
+      "width": 180,
+      "height": 886,
+      "top_offset": -26,
+      "upper_width": 74,
+      "upper_height": 164,
+      "lower_width": 80,
+      "lower_height": 310
     }
   },
   "rails": {
@@ -91,17 +96,20 @@
   },
   "gauges": {
     "width": 48,
-    "header_height": 20,
-    "rung_height": 18,
-    "gap": 18
+    "header_height": 22,
+    "rung_height": 26,
+    "gap": 25,
+    "gap_upper": 20,
+    "gap_lower": 17
   },
   "volume_cluster": {
-    "width": 38,
-    "height": 28,
+    "width": 34,
+    "height": 30,
     "gap": 8,
     "chamfer_cut": 8,
     "bar_width": 2,
     "bar_height": 8,
-    "bar_gap": 4
+    "bar_gap": 4,
+    "housing_pad_top": 110
   }
 }

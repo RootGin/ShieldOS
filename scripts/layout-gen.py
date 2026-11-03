@@ -72,6 +72,11 @@ def generate_scss(layout):
         f"$side-left-height: dpi({sp['left']['height']}px);",
         f"$side-right-width: dpi({sp['right']['width']}px);",
         f"$side-right-height: dpi({sp['right']['height']}px);",
+        f"$side-right-top-offset: dpi({sp['right'].get('top_offset', 125)}px);",
+        f"$side-right-upper-width: dpi({sp['right'].get('upper_width', 60)}px);",
+        f"$side-right-upper-height: dpi({sp['right'].get('upper_height', 130)}px);",
+        f"$side-right-lower-width: dpi({sp['right'].get('lower_width', 80)}px);",
+        f"$side-right-lower-height: dpi({sp['right'].get('lower_height', 310)}px);",
         f"$rail-top-height: dpi({r['top']['height']}px);",
         f"$rail-bottom-height: dpi({r['bottom']['height']}px);",
         f"$rail-left-width: dpi({r['left']['width']}px);",
@@ -94,6 +99,8 @@ def generate_scss(layout):
         f"$gauge-header-height: dpi({gg['header_height']}px);",
         f"$gauge-rung-height: dpi({gg['rung_height']}px);",
         f"$gauge-gap: dpi({gg['gap']}px);",
+        f"$gauge-gap-upper: dpi({gg.get('gap_upper', 18)}px);",
+        f"$gauge-gap-lower: dpi({gg.get('gap_lower', 17)}px);",
         f"$volume-pill-width: dpi({vc['width']}px);",
         f"$volume-pill-height: dpi({vc['height']}px);",
         f"$volume-pill-gap: dpi({vc['gap']}px);",
@@ -101,6 +108,7 @@ def generate_scss(layout):
         f"$volume-bar-width: dpi({vc['bar_width']}px);",
         f"$volume-bar-height: dpi({vc['bar_height']}px);",
         f"$volume-bar-gap: dpi({vc['bar_gap']}px);",
+        f"$volume-housing-pad-top: dpi({vc.get('housing_pad_top', 110)}px);",
     ]
     return "\n".join(lines) + "\n"
 
@@ -144,6 +152,11 @@ def generate_yuck(layout):
         f"(defvar side_left_height {sp['left']['height']})",
         f"(defvar side_right_width {sp['right']['width']})",
         f"(defvar side_right_height {sp['right']['height']})",
+        f"(defvar side_right_top_offset {sp['right'].get('top_offset', 125)})",
+        f"(defvar side_right_upper_width {sp['right'].get('upper_width', 60)})",
+        f"(defvar side_right_upper_height {sp['right'].get('upper_height', 130)})",
+        f"(defvar side_right_lower_width {sp['right'].get('lower_width', 80)})",
+        f"(defvar side_right_lower_height {sp['right'].get('lower_height', 310)})",
         f"(defvar rail_top_height {r['top']['height']})",
         f"(defvar rail_bottom_height {r['bottom']['height']})",
         f"(defvar rail_left_width {r['left']['width']})",
@@ -166,6 +179,8 @@ def generate_yuck(layout):
         f"(defvar gauge_header_height {gg['header_height']})",
         f"(defvar gauge_rung_height {gg['rung_height']})",
         f"(defvar gauge_gap {gg['gap']})",
+        f"(defvar gauge_gap_upper {gg.get('gap_upper', 18)})",
+        f"(defvar gauge_gap_lower {gg.get('gap_lower', 17)})",
         f"(defvar volume_pill_width {vc['width']})",
         f"(defvar volume_pill_height {vc['height']})",
         f"(defvar volume_pill_gap {vc['gap']})",
@@ -173,6 +188,7 @@ def generate_yuck(layout):
         f"(defvar volume_bar_width {vc['bar_width']})",
         f"(defvar volume_bar_height {vc['bar_height']})",
         f"(defvar volume_bar_gap {vc['bar_gap']})",
+        f"(defvar volume_housing_pad_top {vc.get('housing_pad_top', 110)})",
     ]
     return "\n".join(lines) + "\n"
 

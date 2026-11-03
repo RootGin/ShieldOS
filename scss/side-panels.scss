@@ -14,9 +14,14 @@ window.right,
   background-color: transparent;
 }
 
-.left-panel,
+.left-panel {
+  background-color: transparent;
+}
+
 .right-panel {
   background-color: transparent;
+  min-width: $side-right-width;
+  min-height: $side-right-height;
 }
 
 .left-rail,
@@ -35,8 +40,25 @@ window.right,
   border-right: $bevel-inner-groove solid $border-panel-groove;
 }
 
+.right-upper-rail-container {
+  background-color: transparent;
+  min-width: $side-right-upper-width;
+  min-height: $side-right-upper-height;
+}
+
+.right-gap-1 {
+  min-height: $gauge-gap-upper;
+  background-color: transparent;
+}
+
+.right-gap-2 {
+  min-height: $gauge-gap-lower;
+  background-color: transparent;
+}
+
 .right-gauges {
   min-width: $gauge-width;
+  margin-right: dpi(11px);
   background-color: transparent;
 }
 
@@ -50,7 +72,7 @@ window.right,
   min-width: $gauge-width;
   min-height: $gauge-header-height;
   background-color: $accent-primary-dim;
-  padding: 1px 0;
+  padding: dpi(1px) 0;
 }
 
 .gauge-header-label-box {
@@ -77,8 +99,8 @@ window.right,
 }
 
 .gauge-rung.dual {
-  min-height: $gauge-rung-height * 2;
-  padding: 2px 0;
+  min-height: ($gauge-rung-height * 2) - $rail-left-width;
+  padding: dpi(2px) 0;
 }
 
 .gauge-rung.active {
@@ -122,31 +144,35 @@ window.right,
   min-height: $gauge-gap;
 }
 
-@mixin volume-pill-chamfer($color, $leg) {
+.right-lower-housing-container {
+  background-color: transparent;
+  min-width: $side-right-lower-width;
+  min-height: $side-right-lower-height;
+}
+
+.lower-housing-pad {
+  min-height: $volume-housing-pad-top;
+  background-color: transparent;
+}
+
+@mixin mini-tab-cut($color, $leg) {
   $stop: $leg * 0.70710678;
   $aa: dpi(0.6px);
 
   background-image:
     linear-gradient($color, $color),
-    linear-gradient(-135deg, transparent ($stop - $aa), $color ($stop + $aa)),
+    linear-gradient($color, $color),
     linear-gradient(45deg, transparent ($stop - $aa), $color ($stop + $aa)),
     linear-gradient($color, $color);
-  background-size: 54% 54%;
+  background-size: 51% 51%;
   background-position: top left, top right, bottom left, bottom right;
   background-repeat: no-repeat;
-}
-
-.right-controls {
-  min-width: $gauge-width;
-  background-color: transparent;
-}
-
-.volume-spacer {
-  background-color: transparent;
+  border-top-right-radius: dpi(6px);
 }
 
 .volume-cluster {
-  min-width: $gauge-width;
+  min-width: $side-right-lower-width;
+  padding-right: dpi(8px);
   background-color: transparent;
 }
 
@@ -174,25 +200,25 @@ window.right,
 .volume-pill {
   min-width: $volume-pill-width;
   min-height: $volume-pill-height;
-  @include volume-pill-chamfer(mix($border-panel-outer, $text-muted, 50%), $volume-pill-cut);
+  @include mini-tab-cut(mix($border-panel-outer, $text-muted, 50%), $volume-pill-cut);
 }
 
 .volume-pill-body {
   margin: $bevel-outer-border;
   min-width: $volume-pill-width - (2 * $bevel-outer-border);
   min-height: $volume-pill-height - (2 * $bevel-outer-border);
-  @include volume-pill-chamfer($surface-pill-inactive, $volume-pill-cut - dpi(1px));
+  @include mini-tab-cut($surface-control, $volume-pill-cut - dpi(1px));
 }
 
 .volume-pill-label {
-  color: $text-primary;
+  color: $text-ice;
   font-family: $font-hud-condensed;
-  font-size: $text-lg;
+  font-size: $text-md;
   font-weight: $weight-lg;
 }
 
 .volume-display-label {
-  font-size: $text-md;
+  font-size: $text-sm;
   font-weight: $weight-lg;
   letter-spacing: $tracking-sm;
 }
@@ -202,13 +228,14 @@ window.right,
 }
 
 .volume-btn-eventbox:hover .volume-pill {
-  @include volume-pill-chamfer($state-active-border, $volume-pill-cut);
+  @include mini-tab-cut($state-active-border, $volume-pill-cut);
 }
 
 .volume-btn-eventbox:hover .volume-pill-body {
-  @include volume-pill-chamfer($state-active-fill, $volume-pill-cut - dpi(1px));
+  @include mini-tab-cut($state-active-fill, $volume-pill-cut - dpi(1px));
 }
 
 .volume-btn-eventbox:hover .volume-pill-label {
   color: $text-primary;
 }
+

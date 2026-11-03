@@ -242,6 +242,26 @@
             "height": {
               "type": "integer",
               "minimum": 1
+            },
+            "top_offset": {
+              "type": "integer",
+              "minimum": -100
+            },
+            "upper_width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "upper_height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "lower_width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "lower_height": {
+              "type": "integer",
+              "minimum": 1
             }
           }
         }
@@ -459,6 +479,14 @@
         "gap": {
           "type": "integer",
           "minimum": 0
+        },
+        "gap_upper": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "gap_lower": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     },
@@ -500,6 +528,10 @@
           "minimum": 1
         },
         "bar_gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "housing_pad_top": {
           "type": "integer",
           "minimum": 0
         }
