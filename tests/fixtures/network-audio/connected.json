@@ -1,0 +1,20 @@
+{
+  "connected": true,
+  "label": "SHIELD-NET",
+  "signal": 4,
+  "audio_level": [0, 0, 0, 0],
+  "muted": false,
+  "volume": 65,
+  "media": {
+    "playing": false,
+    "title": "",
+    "artist": "",
+    "progress": 0,
+    "slots": 0
+  },
+  "quick_tabs": {
+    "mute": false,
+    "dnd": false,
+    "night_light": false
+  }
+}

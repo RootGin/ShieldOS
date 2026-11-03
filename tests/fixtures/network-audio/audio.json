@@ -1,0 +1,20 @@
+{
+  "connected": true,
+  "label": "SHIELD-SECURE",
+  "signal": 3,
+  "audio_level": [45, 82, 60, 25],
+  "muted": false,
+  "volume": 80,
+  "media": {
+    "playing": true,
+    "title": "Avenger Initiative",
+    "artist": "Alan Silvestri",
+    "progress": 42,
+    "slots": 4
+  },
+  "quick_tabs": {
+    "mute": false,
+    "dnd": false,
+    "night_light": false
+  }
+}

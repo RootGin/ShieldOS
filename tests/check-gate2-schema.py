@@ -36,9 +36,9 @@ SCRIPT_REGISTRY = [
         "name": "network_audio",
         "script": "scripts/network-audio.py",
         "schema_def": "network_audio",
-        "status": "PENDING",
+        "status": "ACTIVE",
         "milestone": "Milestone 6",
-        "fixtures": ["connected", "disconnected", "fallback"],
+        "fixtures": ["connected", "disconnected", "audio", "frozen", "fallback"],
     },
 ]
 
@@ -556,6 +556,87 @@ def validate_compositor_fixtures(schema):
     return validated
 
 
+def validate_network_audio_fixtures(schema):
+    net_fixtures_dir = REPO_DIR / "tests" / "fixtures" / "network-audio"
+    if not net_fixtures_dir.is_dir():
+        return []
+    validated = []
+    for fixture_file in sorted(net_fixtures_dir.glob("*.json")):
+        try:
+            data = json.loads(fixture_file.read_text(encoding="utf-8"))
+        except Exception as exc:
+            fail("network-audio-fixture", f"Invalid JSON in {fixture_file.name}: {exc}")
+        validate_payload_against_def(schema, "network_audio", data, f"network_audio fixture {fixture_file.name}")
+        if fixture_file.stem in ("frozen", "disconnected"):
+            if data.get("connected") is not False:
+                fail("network-audio-fixture", f"{fixture_file.name} connected must be False, got {data.get('connected')}")
+            if data.get("label") != "DISCONNECTED":
+                fail("network-audio-fixture", f"{fixture_file.name} label must be 'DISCONNECTED', got {data.get('label')}")
+        if fixture_file.stem == "connected":
+            if data.get("connected") is not True:
+                fail("network-audio-fixture", f"connected.json connected must be True, got {data.get('connected')}")
+        if fixture_file.stem == "audio":
+            media = data.get("media", {})
+            if media.get("playing") is not True:
+                fail("network-audio-fixture", f"audio.json media.playing must be True, got {media.get('playing')}")
+            levels = data.get("audio_level", [])
+            if len(levels) != 4 or any(not isinstance(x, int) or x < 0 or x > 100 for x in levels):
+                fail("network-audio-fixture", f"audio.json audio_level must have 4 integers 0-100, got {levels}")
+        print(f"VALIDATED [network-audio-static:{fixture_file.stem}]: {fixture_file.name} -> #/$defs/network_audio OK")
+        validated.append(f"network_audio:{fixture_file.stem}")
+    return validated
+
+
+def run_network_audio_checks(script_path, schema):
+    env_frozen = os.environ.copy()
+    env_frozen["SHIELD_FIXTURE"] = "frozen"
+    proc_frozen = subprocess.run(
+        [sys.executable, str(script_path), "--once"],
+        cwd=str(REPO_DIR),
+        env=env_frozen,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    if proc_frozen.returncode != 0:
+        fail("fixture-env-network-audio", f"SHIELD_FIXTURE=frozen {script_path.name} --once exited {proc_frozen.returncode}")
+    lines = proc_frozen.stdout.splitlines()
+    if len(lines) != 1:
+        fail("fixture-env-network-audio", f"SHIELD_FIXTURE=frozen {script_path.name} --once printed {len(lines)} lines")
+    frozen_payload = json.loads(lines[0])
+    validate_payload_against_def(schema, "network_audio", frozen_payload, "SHIELD_FIXTURE=frozen network-audio.py --once")
+    if frozen_payload.get("connected") is not False or frozen_payload.get("label") != "DISCONNECTED":
+        fail("fixture-env-network-audio", f"SHIELD_FIXTURE=frozen unexpected payload: {frozen_payload}")
+
+    override_payload = run_script_fixture(
+        script_path,
+        "connected",
+        "network_audio",
+        schema,
+        extra_env={"SHIELD_FIXTURE": "disconnected"},
+    )
+    if override_payload.get("connected") is not True:
+        fail("fixture-precedence-network-audio", f"--fixture connected did not override SHIELD_FIXTURE=disconnected: {override_payload}")
+
+    env_live = os.environ.copy()
+    env_live.pop("SHIELD_FIXTURE", None)
+    proc_live = subprocess.run(
+        [sys.executable, str(script_path), "--once"],
+        cwd=str(REPO_DIR),
+        env=env_live,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    if proc_live.returncode != 0:
+        fail("network-audio-live", f"{script_path.name} --once exited {proc_live.returncode}: {proc_live.stderr}")
+    live_lines = proc_live.stdout.splitlines()
+    if len(live_lines) != 1:
+        fail("network-audio-live", f"{script_path.name} --once printed {len(live_lines)} lines")
+    live_payload = json.loads(live_lines[0])
+    validate_payload_against_def(schema, "network_audio", live_payload, "network-audio.py live --once")
+
+
 def load_and_verify_layout_schema(schema_path, layout_path):
     if not schema_path.is_file():
         fail("layout-schema-load", f"Layout schema file not found: {schema_path}")
@@ -608,7 +689,7 @@ def extract_governed_dimensions(layout):
     def walk(obj):
         if isinstance(obj, dict):
             for k, v in obj.items():
-                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "chamfer_cut", "bar_gap"):
+                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "gap_upper", "gap_lower", "chamfer_cut", "bar_gap", "housing_pad_top", "rung_height", "header_height", "volume_cluster", "upper_width", "upper_height", "lower_width", "lower_height"):
                     continue
                 walk(v)
         elif isinstance(obj, list):
@@ -742,6 +823,8 @@ def main():
     active_validated = []
     comp_validated = validate_compositor_fixtures(schema)
     active_validated.extend(comp_validated)
+    net_validated = validate_network_audio_fixtures(schema)
+    active_validated.extend(net_validated)
     pending_entries = []
 
     for entry in SCRIPT_REGISTRY:
@@ -771,6 +854,8 @@ def main():
             run_ladder_gauge_boundary_checks(schema)
         if name == "compositor":
             run_compositor_checks(script_path, schema)
+        if name == "network_audio":
+            run_network_audio_checks(script_path, schema)
 
     run_shield_ctl_checks()
 
@@ -778,7 +863,7 @@ def main():
         f"PASS [gate2-schema]: schema strict, layout verified ({len(governed_dims)} governed dims), "
         f"yuck refs valid ({checked_refs} checked), "
         f"active fixtures valid ({', '.join(active_validated)}), "
-        f"pending ({', '.join(pending_entries)})."
+        f"pending ({', '.join(pending_entries) if pending_entries else 'none'})."
     )
     return 0
 
