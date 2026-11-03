@@ -1,17 +1,3 @@
-@mixin octagon($color, $leg) {
-  $stop: $leg * 0.70710678;
-  $aa: dpi(0.6px);
-
-  background-image:
-    linear-gradient(135deg, transparent ($stop - $aa), $color ($stop + $aa)),
-    linear-gradient(-135deg, transparent ($stop - $aa), $color ($stop + $aa)),
-    linear-gradient(45deg, transparent ($stop - $aa), $color ($stop + $aa)),
-    linear-gradient(-45deg, transparent ($stop - $aa), $color ($stop + $aa));
-  background-size: 51% 51%;
-  background-position: top left, top right, bottom left, bottom right;
-  background-repeat: no-repeat;
-}
-
 .bottom-bar-window,
 window#bottom,
 window.bottom,
@@ -31,26 +17,13 @@ window.bottom,
 
 .bottom-left-container {
   background-color: transparent;
-  padding-left: $void-padding;
+  padding-left: dpi(14px);
 }
 
 .status-pill {
   min-width: $status-pill-width;
   min-height: $status-pill-height;
-  @include octagon($surface-pill-inactive, $status-pill-cut);
-}
-
-.status-pill-indicator {
-  min-width: $status-pill-width;
-  min-height: $status-pill-indicator-height;
-}
-
-.status-pill-indicator.disconnected {
-  background-color: $state-danger;
-}
-
-.status-pill-indicator.connected {
-  background-color: $state-active-border;
+  background-color: transparent;
 }
 
 .status-pill-content {
@@ -59,21 +32,23 @@ window.bottom,
 
 .status-pill-glyph {
   background-color: transparent;
-  margin-left: dpi(8px);
+  margin-left: dpi(10px);
   margin-right: dpi(6px);
+  margin-top: dpi(4px);
 }
 
 .status-pill-label-box {
   background-color: transparent;
-  margin-right: dpi(8px);
+  margin-right: dpi(10px);
+  margin-top: dpi(5px);
 }
 
 .status-pill-label {
   font-family: $font-hud-condensed;
   font-size: $text-md;
-  font-weight: $weight-md;
+  font-weight: $weight-lg;
   letter-spacing: $tracking-md;
-  color: $text-primary;
+  color: $text-ice;
 }
 
 .status-equalizer-gap {
@@ -88,11 +63,7 @@ window.bottom,
 .equalizer-pod {
   min-width: $equalizer-pod-width;
   min-height: $equalizer-pod-height;
-  @include octagon($surface-pill-inactive, $equalizer-pod-cut);
-}
-
-.equalizer-pod-eventbox:hover .equalizer-pod {
-  @include octagon(mix($surface-pill-inactive, $state-active-border, 85%), $equalizer-pod-cut);
+  background-color: transparent;
 }
 
 .equalizer-bars {
@@ -101,27 +72,37 @@ window.bottom,
 
 .equalizer-bar {
   min-width: $equalizer-bar-width;
-  min-height: $equalizer-bar-height;
-  background-color: transparent;
-  border-radius: 0;
+  background-color: $state-active-fill;
+  border-radius: dpi(2px);
+}
 
-  trough {
-    min-width: $equalizer-bar-width;
-    min-height: $equalizer-bar-height;
-    background-color: $state-active-surface;
-    border-radius: 0;
-  }
+.equalizer-bar.bar-1 {
+  min-height: dpi(8px);
+}
 
-  progress {
-    min-width: $equalizer-bar-width;
-    background-color: $state-active-border;
-    border-radius: 0;
-  }
+.equalizer-bar.bar-2 {
+  min-height: dpi(13px);
+}
+
+.equalizer-bar.bar-3 {
+  min-height: dpi(18px);
+}
+
+.equalizer-bar.bar-4 {
+  min-height: dpi(13px);
+}
+
+.equalizer-bar.bar-5 {
+  min-height: dpi(8px);
 }
 
 .equalizer-bar-spacing {
   min-width: $equalizer-bar-gap;
   background-color: transparent;
+}
+
+.equalizer-pod-eventbox:hover .equalizer-bar {
+  background-color: $state-active-border;
 }
 
 .bottom-rail {
@@ -136,6 +117,10 @@ window.bottom,
   border-bottom: $bevel-inner-groove solid $border-panel-groove;
   margin-top: dpi(2px);
   margin-bottom: dpi(1px);
+}
+
+.bottom-dock-slot {
+  background-color: transparent;
 }
 
 .star-emblem-container {

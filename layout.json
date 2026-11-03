@@ -113,19 +113,19 @@
     "housing_pad_top": 110
   },
   "status_pill": {
-    "width": 132,
-    "height": 26,
-    "gap": 8,
-    "chamfer_cut": 4,
-    "indicator_height": 3,
-    "glyph_size": 14
+    "width": 140,
+    "height": 32,
+    "gap": 10,
+    "chamfer_cut": 5,
+    "indicator_height": 6,
+    "glyph_size": 15
   },
   "equalizer_pod": {
-    "width": 36,
+    "width": 80,
     "height": 26,
-    "chamfer_cut": 4,
+    "chamfer_cut": 8,
     "bar_width": 3,
-    "bar_height": 16,
-    "bar_gap": 3
+    "bar_height": 20,
+    "bar_gap": 5
   }
 }

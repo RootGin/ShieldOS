@@ -29,75 +29,78 @@
              :space-evenly false
              :halign "start"
              :valign "center"
-          (box :class "status-pill ${network_audio.connected ? 'connected' : 'disconnected'}"
+          (box :class "status-pill"
                :width status_pill_width
                :height status_pill_height
-               :orientation "vertical"
-               :space-evenly false
                :valign "center"
-            (box :class "status-pill-indicator ${network_audio.connected ? 'connected' : 'disconnected'}"
-                 :width status_pill_width
-                 :height status_pill_indicator_height)
-            (box :class "status-pill-content"
-                 :orientation "horizontal"
-                 :space-evenly false
-                 :halign "center"
-                 :valign "center"
-                 :vexpand true
-              (box :class "status-pill-glyph"
+            (overlay
+              (image :path {network_audio.connected ? "./assets/panels/status-pill-connected.svg" : "./assets/panels/status-pill-disconnected.svg"}
+                     :image-width status_pill_width
+                     :image-height status_pill_height
+                     :width status_pill_width
+                     :height status_pill_height)
+              (box :class "status-pill-content"
+                   :orientation "horizontal"
+                   :space-evenly false
+                   :halign "start"
                    :valign "center"
-                (image :path "./assets/panels/robot-glyph.svg"
-                       :image-width status_pill_glyph_size
-                       :image-height status_pill_glyph_size))
-              (box :class "status-pill-label-box"
-                   :valign "center"
-                (label :class "status-pill-label ${network_audio.connected ? 'connected' : 'disconnected'}"
-                       :text {network_audio.label}))))
+                (box :class "status-pill-glyph"
+                     :valign "center"
+                  (image :path "./assets/panels/robot-glyph.svg"
+                         :image-width status_pill_glyph_size
+                         :image-height status_pill_glyph_size))
+                (box :class "status-pill-label-box"
+                     :valign "center"
+                  (label :class "status-pill-label"
+                         :text {network_audio.label})))))
           (box :class "status-equalizer-gap"
                :width status_pill_gap)
           (eventbox :class "equalizer-pod-eventbox"
                     :onclick "bin/shield-ctl toggle-mute"
+                    :valign "center"
             (box :class "equalizer-pod"
                  :width equalizer_pod_width
                  :height equalizer_pod_height
-                 :orientation "horizontal"
-                 :space-evenly false
-                 :halign "center"
                  :valign "center"
-              (box :class "equalizer-bars"
-                   :orientation "horizontal"
-                   :space-evenly false
-                   :halign "center"
-                   :valign "center"
-                (progress :class "equalizer-bar"
-                          :orientation "vertical"
-                          :flipped true
-                          :value {network_audio.audio_level[0]})
-                (box :class "equalizer-bar-spacing"
-                     :width equalizer_bar_gap)
-                (progress :class "equalizer-bar"
-                          :orientation "vertical"
-                          :flipped true
-                          :value {network_audio.audio_level[1]})
-                (box :class "equalizer-bar-spacing"
-                     :width equalizer_bar_gap)
-                (progress :class "equalizer-bar"
-                          :orientation "vertical"
-                          :flipped true
-                          :value {network_audio.audio_level[2]})
-                (box :class "equalizer-bar-spacing"
-                     :width equalizer_bar_gap)
-                (progress :class "equalizer-bar"
-                          :orientation "vertical"
-                          :flipped true
-                          :value {network_audio.audio_level[3]})))))))
+              (overlay
+                (image :path "./assets/panels/equalizer-pod.svg"
+                       :image-width equalizer_pod_width
+                       :image-height equalizer_pod_height
+                       :width equalizer_pod_width
+                       :height equalizer_pod_height)
+                (box :class "equalizer-bars"
+                     :orientation "horizontal"
+                     :space-evenly false
+                     :halign "center"
+                     :valign "center"
+                  (box :class "equalizer-bar bar-1"
+                       :valign "center")
+                  (box :class "equalizer-bar-spacing"
+                       :width equalizer_bar_gap)
+                  (box :class "equalizer-bar bar-2"
+                       :valign "center")
+                  (box :class "equalizer-bar-spacing"
+                       :width equalizer_bar_gap)
+                  (box :class "equalizer-bar bar-3"
+                       :valign "center")
+                  (box :class "equalizer-bar-spacing"
+                       :width equalizer_bar_gap)
+                  (box :class "equalizer-bar bar-4"
+                       :valign "center")
+                  (box :class "equalizer-bar-spacing"
+                       :width equalizer_bar_gap)
+                  (box :class "equalizer-bar bar-5"
+                       :valign "center"))))))))
     (box :class "bottom-rail"
          :hexpand true
          :height rail_bottom_height
          :valign "end"
       (box :class "bottom-rail-groove"
            :hexpand true
-           :vexpand true))
+           :vexpand true
+        (box :class "bottom-dock-slot"
+             :hexpand true
+             :space-evenly false)))
     (box :class "corner-housing-br"
          :width corner_bottom_right_width
          :height corner_bottom_right_height
