@@ -132,8 +132,8 @@ def format_command(backend, subcommand, target, extra=None):
                 focus_arg = f"address:{clean_target}"
             return f"hyprctl dispatch focuswindow {focus_arg}"
 
-    if subcommand == "media":
-        action = str(target).strip() if target else "play-pause"
+    if subcommand in ("media", "play-pause"):
+        action = str(target).strip() if (target and subcommand != "play-pause") else "play-pause"
         return f"playerctl {action}"
 
     if subcommand in ("audio", "toggle-mute"):
@@ -184,6 +184,8 @@ def main():
 
     media_parser = subparsers.add_parser("media", parents=[parent_parser])
     media_parser.add_argument("action", nargs="?", default="play-pause", choices=["play-pause", "next", "prev", "play", "pause"])
+
+    subparsers.add_parser("play-pause", parents=[parent_parser])
 
     audio_parser = subparsers.add_parser("audio", parents=[parent_parser])
     audio_parser.add_argument("action", nargs="?", default="mute-toggle", choices=["mute-toggle"])

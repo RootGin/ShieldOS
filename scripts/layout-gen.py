@@ -49,6 +49,7 @@ def generate_scss(layout):
     vc = layout.get("volume_cluster", {"width": 38, "height": 28, "gap": 8, "chamfer_cut": 8, "bar_width": 2, "bar_height": 8, "bar_gap": 4})
     sp_pill = layout.get("status_pill", {"width": 132, "height": 26, "gap": 8, "chamfer_cut": 4, "indicator_height": 3, "glyph_size": 14})
     eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
+    ld = layout.get("left_dock", {})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -72,6 +73,7 @@ def generate_scss(layout):
         f"$bar-bottom-height: dpi({b['bottom']['height']}px);",
         f"$side-left-width: dpi({sp['left']['width']}px);",
         f"$side-left-height: dpi({sp['left']['height']}px);",
+        f"$side-left-top-offset: dpi({sp['left'].get('top_offset', 30)}px);",
         f"$side-right-width: dpi({sp['right']['width']}px);",
         f"$side-right-height: dpi({sp['right']['height']}px);",
         f"$side-right-top-offset: dpi({sp['right'].get('top_offset', 125)}px);",
@@ -123,6 +125,24 @@ def generate_scss(layout):
         f"$equalizer-bar-width: dpi({eq_pod['bar_width']}px);",
         f"$equalizer-bar-height: dpi({eq_pod['bar_height']}px);",
         f"$equalizer-bar-gap: dpi({eq_pod['bar_gap']}px);",
+        f"$left-dock-width: dpi({ld.get('width', 74)}px);",
+        f"$left-dock-height: dpi({ld.get('height', 240)}px);",
+        f"$left-dock-chamfer-cut: dpi({ld.get('chamfer_cut', 58)}px);",
+        f"$left-dock-play-size: dpi({ld.get('play_size', 24)}px);",
+        f"$left-dock-play-pad-top: dpi({ld.get('play_pad_top', 58)}px);",
+        f"$left-dock-play-pad-left: dpi({ld.get('play_pad_left', 42)}px);",
+        f"$left-dock-slot-width: dpi({ld.get('slot_width', 10)}px);",
+        f"$left-dock-slot-height: dpi({ld.get('slot_height', 61)}px);",
+        f"$left-dock-slot-tall-height: dpi({ld.get('slot_tall_height', 28)}px);",
+        f"$left-dock-slot-short-height: dpi({ld.get('slot_short_height', 8)}px);",
+        f"$left-dock-slot-gap: dpi({ld.get('slot_gap', 3)}px);",
+        f"$left-dock-slot-pad-left: dpi({ld.get('slot_pad_left', 49)}px);",
+        f"$left-dock-pip-size: dpi({ld.get('pip_size', 6)}px);",
+        f"$left-dock-pip-gap: dpi({ld.get('pip_gap', 4)}px);",
+        f"$left-dock-pip-pad-top: dpi({ld.get('pip_pad_top', 12)}px);",
+        f"$left-dock-pip-pad-left: dpi({ld.get('pip_pad_left', 51)}px);",
+        f"$left-dock-rail-gap: dpi({ld.get('rail_gap', 20)}px);",
+        f"$left-dock-rail-height: dpi({ld.get('rail_height', 484)}px);",
     ]
     return "\n".join(lines) + "\n"
 
@@ -143,6 +163,7 @@ def generate_yuck(layout):
     vc = layout.get("volume_cluster", {"width": 38, "height": 28, "gap": 8, "chamfer_cut": 8, "bar_width": 2, "bar_height": 8, "bar_gap": 4})
     sp_pill = layout.get("status_pill", {"width": 132, "height": 26, "gap": 8, "chamfer_cut": 4, "indicator_height": 3, "glyph_size": 14})
     eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
+    ld = layout.get("left_dock", {})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -166,6 +187,7 @@ def generate_yuck(layout):
         f"(defvar bar_bottom_height {b['bottom']['height']})",
         f"(defvar side_left_width {sp['left']['width']})",
         f"(defvar side_left_height {sp['left']['height']})",
+        f"(defvar side_left_top_offset {sp['left'].get('top_offset', 30)})",
         f"(defvar side_right_width {sp['right']['width']})",
         f"(defvar side_right_height {sp['right']['height']})",
         f"(defvar side_right_top_offset {sp['right'].get('top_offset', 125)})",
@@ -217,6 +239,24 @@ def generate_yuck(layout):
         f"(defvar equalizer_bar_width {eq_pod['bar_width']})",
         f"(defvar equalizer_bar_height {eq_pod['bar_height']})",
         f"(defvar equalizer_bar_gap {eq_pod['bar_gap']})",
+        f"(defvar left_dock_width {ld.get('width', 74)})",
+        f"(defvar left_dock_height {ld.get('height', 240)})",
+        f"(defvar left_dock_chamfer_cut {ld.get('chamfer_cut', 58)})",
+        f"(defvar left_dock_play_size {ld.get('play_size', 24)})",
+        f"(defvar left_dock_play_pad_top {ld.get('play_pad_top', 58)})",
+        f"(defvar left_dock_play_pad_left {ld.get('play_pad_left', 42)})",
+        f"(defvar left_dock_slot_width {ld.get('slot_width', 10)})",
+        f"(defvar left_dock_slot_height {ld.get('slot_height', 61)})",
+        f"(defvar left_dock_slot_tall_height {ld.get('slot_tall_height', 28)})",
+        f"(defvar left_dock_slot_short_height {ld.get('slot_short_height', 8)})",
+        f"(defvar left_dock_slot_gap {ld.get('slot_gap', 3)})",
+        f"(defvar left_dock_slot_pad_left {ld.get('slot_pad_left', 49)})",
+        f"(defvar left_dock_pip_size {ld.get('pip_size', 6)})",
+        f"(defvar left_dock_pip_gap {ld.get('pip_gap', 4)})",
+        f"(defvar left_dock_pip_pad_top {ld.get('pip_pad_top', 12)})",
+        f"(defvar left_dock_pip_pad_left {ld.get('pip_pad_left', 51)})",
+        f"(defvar left_dock_rail_gap {ld.get('rail_gap', 20)})",
+        f"(defvar left_dock_rail_height {ld.get('rail_height', 484)})",
     ]
     return "\n".join(lines) + "\n"
 

@@ -20,7 +20,8 @@
     "gauges",
     "volume_cluster",
     "status_pill",
-    "equalizer_pod"
+    "equalizer_pod",
+    "left_dock"
   ],
   "properties": {
     "$schema": {
@@ -226,6 +227,10 @@
             "height": {
               "type": "integer",
               "minimum": 1
+            },
+            "top_offset": {
+              "type": "integer",
+              "minimum": -100
             }
           }
         },
@@ -612,6 +617,104 @@
         "bar_gap": {
           "type": "integer",
           "minimum": 0
+        }
+      }
+    },
+    "left_dock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height",
+        "chamfer_cut",
+        "play_size",
+        "play_pad_top",
+        "play_pad_left",
+        "slot_width",
+        "slot_height",
+        "slot_tall_height",
+        "slot_short_height",
+        "slot_gap",
+        "slot_pad_left",
+        "pip_size",
+        "pip_gap",
+        "pip_pad_top",
+        "pip_pad_left",
+        "rail_gap",
+        "rail_height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "chamfer_cut": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "play_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "play_pad_top": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "play_pad_left": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "slot_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "slot_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "slot_tall_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "slot_short_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "slot_gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "slot_pad_left": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pip_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "pip_gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pip_pad_top": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pip_pad_left": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rail_gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rail_height": {
+          "type": "integer",
+          "minimum": 1
         }
       }
     }

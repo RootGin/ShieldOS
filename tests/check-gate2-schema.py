@@ -474,6 +474,10 @@ def run_shield_ctl_checks():
         (["volume", "get"], {"SHIELD_DRY_RUN": "1"}, "wpctl get-volume @DEFAULT_AUDIO_SINK@"),
         (["volume", "set", "60%"], {"SHIELD_DRY_RUN": "1"}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 60%"),
         (["volume", "set", "80"], {"SHIELD_DRY_RUN": "1"}, "wpctl set-volume @DEFAULT_AUDIO_SINK@ 80%"),
+        (["--dry-run", "play-pause"], {}, "playerctl play-pause"),
+        (["play-pause"], {"SHIELD_DRY_RUN": "1"}, "playerctl play-pause"),
+        (["--dry-run", "media", "play-pause"], {}, "playerctl play-pause"),
+        (["media", "play-pause"], {"SHIELD_DRY_RUN": "1"}, "playerctl play-pause"),
     ]
 
     for args, env_overrides, expected_cmd in cases:
@@ -689,7 +693,7 @@ def extract_governed_dimensions(layout):
     def walk(obj):
         if isinstance(obj, dict):
             for k, v in obj.items():
-                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "gap_upper", "gap_lower", "chamfer_cut", "bar_gap", "housing_pad_top", "rung_height", "header_height", "volume_cluster", "status_pill", "equalizer_pod", "upper_width", "upper_height", "lower_width", "lower_height", "indicator_height", "glyph_size", "rails"):
+                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "gap_upper", "gap_lower", "chamfer_cut", "bar_gap", "housing_pad_top", "rung_height", "header_height", "volume_cluster", "status_pill", "equalizer_pod", "upper_width", "upper_height", "lower_width", "lower_height", "indicator_height", "glyph_size", "rails", "left_dock"):
                     continue
                 walk(v)
         elif isinstance(obj, list):

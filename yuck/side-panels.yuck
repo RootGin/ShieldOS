@@ -1,24 +1,116 @@
 (defwindow left
   :monitor 0
   :geometry (geometry :x "0px"
-                      :y "0px"
+                      :y "30px"
                       :anchor "left center")
   :layer "top"
   :exclusive false
   :focusable false
   :namespace "shield-left-panel"
   (box :class "left-panel"
-       :orientation "horizontal"
+       :orientation "vertical"
        :space-evenly false
        :width side_left_width
        :height side_left_height
+    (box :class "left-dock-container"
+         :halign "start"
+         :width left_dock_width
+         :height left_dock_height
+      (overlay
+        (image :path "./assets/panels/dock-left.svg"
+               :image-width left_dock_width
+               :image-height left_dock_height
+               :width left_dock_width
+               :height left_dock_height)
+        (box :class "left-dock-content"
+             :orientation "vertical"
+             :space-evenly false
+             :width left_dock_width
+             :height left_dock_height
+          (box :class "dock-pad-top"
+               :height left_dock_play_pad_top)
+          (box :class "dock-play-row"
+               :orientation "horizontal"
+               :space-evenly false
+            (box :class "dock-play-indent"
+                 :width left_dock_play_pad_left)
+            (eventbox :class "play-trigger-eventbox"
+                      :onclick "bin/shield-ctl play-pause"
+              (box :class "play-trigger"
+                   :width left_dock_play_size
+                   :height left_dock_play_size
+                   :halign "center"
+                   :valign "center"
+                (image :class "play-glyph-image"
+                       :path {network_audio.media.playing ? "./assets/panels/icon-pause.svg" : "./assets/panels/icon-play.svg"}
+                       :image-width left_dock_play_size
+                       :image-height left_dock_play_size
+                       :width left_dock_play_size
+                       :height left_dock_play_size))))
+          (box :class "dock-slot-pad"
+               :height left_dock_slot_gap)
+          (box :class "dock-slots-row"
+               :orientation "horizontal"
+               :space-evenly false
+            (box :class "dock-slots-indent"
+                 :width left_dock_slot_pad_left)
+            (box :class "dock-slots"
+                 :orientation "vertical"
+                 :space-evenly false
+                 :width left_dock_slot_width
+              (box :class "dock-slot slot-4 ${network_audio.media.slots >= 4 ? 'active' : ''}"
+                   :width left_dock_slot_width
+                   :height left_dock_slot_tall_height)
+              (box :class "dock-slot-gap"
+                   :height left_dock_slot_gap)
+              (box :class "dock-slot slot-3 ${network_audio.media.slots >= 3 ? 'active' : ''}"
+                   :width left_dock_slot_width
+                   :height left_dock_slot_short_height)
+              (box :class "dock-slot-gap"
+                   :height left_dock_slot_gap)
+              (box :class "dock-slot slot-2 ${network_audio.media.slots >= 2 ? 'active' : ''}"
+                   :width left_dock_slot_width
+                   :height left_dock_slot_short_height)
+              (box :class "dock-slot-gap"
+                   :height left_dock_slot_gap)
+              (box :class "dock-slot slot-1 ${network_audio.media.slots >= 1 ? 'active' : ''}"
+                   :width left_dock_slot_width
+                   :height left_dock_slot_short_height)))
+          (box :class "dock-pips-pad"
+               :height left_dock_pip_pad_top)
+          (box :class "dock-pips-row"
+               :orientation "horizontal"
+               :space-evenly false
+            (box :class "dock-pips-indent"
+                 :width left_dock_pip_pad_left)
+            (box :class "dock-pips"
+                 :orientation "vertical"
+                 :space-evenly false
+                 :width left_dock_pip_size
+              (box :class "dock-pip pip-1"
+                   :width left_dock_pip_size
+                   :height left_dock_pip_size)
+              (box :class "dock-pip-gap"
+                   :height left_dock_pip_gap)
+              (box :class "dock-pip pip-2"
+                   :width left_dock_pip_size
+                   :height left_dock_pip_size)
+              (box :class "dock-pip-gap"
+                   :height left_dock_pip_gap)
+              (box :class "dock-pip pip-3 active"
+                   :width left_dock_pip_size
+                   :height left_dock_pip_size))))))
+    (box :class "left-gap"
+         :height left_dock_rail_gap)
     (box :class "left-rail"
+         :halign "start"
          :width rail_left_width
-         :height side_left_height
-         :valign "center"
+         :height left_dock_rail_height
       (image :path "./assets/panels/rail-left.svg"
              :image-width rail_left_width
-             :image-height side_left_height))))
+             :image-height left_dock_rail_height
+             :width rail_left_width
+             :height left_dock_rail_height))))
 
 (defwindow right
   :monitor 0

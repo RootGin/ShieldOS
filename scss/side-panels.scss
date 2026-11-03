@@ -16,6 +16,139 @@ window.right,
 
 .left-panel {
   background-color: transparent;
+  min-width: $side-left-width;
+  min-height: $side-left-height;
+}
+
+.left-dock-container {
+  min-width: $left-dock-width;
+  min-height: $left-dock-height;
+  background-color: transparent;
+}
+
+.left-dock-content {
+  min-width: $left-dock-width;
+  min-height: $left-dock-height;
+  background-color: transparent;
+}
+
+.dock-pad-top {
+  min-height: $left-dock-play-pad-top;
+  background-color: transparent;
+}
+
+.dock-play-row {
+  background-color: transparent;
+}
+
+.dock-play-indent {
+  min-width: $left-dock-play-pad-left;
+  background-color: transparent;
+}
+
+.play-trigger-eventbox {
+  background-color: transparent;
+}
+
+.play-trigger {
+  min-width: $left-dock-play-size;
+  min-height: $left-dock-play-size;
+  border-radius: $rail-left-width;
+  border: $bevel-outer-border solid $text-ice;
+  background-color: $surface-panel-recessed;
+}
+
+.play-trigger:hover {
+  border-color: $state-active-border;
+  background-color: $state-active-fill;
+}
+
+.play-glyph-image {
+  background-color: transparent;
+}
+
+.dock-slot-pad {
+  min-height: $left-dock-slot-gap;
+  background-color: transparent;
+}
+
+.dock-slots-row {
+  background-color: transparent;
+}
+
+.dock-slots-indent {
+  min-width: $left-dock-slot-pad-left;
+  background-color: transparent;
+}
+
+.dock-slots {
+  min-width: $left-dock-slot-width;
+  background-color: transparent;
+}
+
+.dock-slot {
+  min-width: $left-dock-slot-width;
+  background-color: $surface-pill-inactive;
+  border: $bevel-inner-groove solid $border-panel-groove;
+}
+
+.dock-slot.slot-4 {
+  min-height: $left-dock-slot-tall-height;
+}
+
+.dock-slot.slot-3,
+.dock-slot.slot-2,
+.dock-slot.slot-1 {
+  min-height: $left-dock-slot-short-height;
+}
+
+.dock-slot.active {
+  background-color: $accent-primary-bright;
+  border-color: $accent-primary;
+}
+
+.dock-slot-gap {
+  min-height: $left-dock-slot-gap;
+  background-color: transparent;
+}
+
+.dock-pips-pad {
+  min-height: $left-dock-pip-pad-top;
+  background-color: transparent;
+}
+
+.dock-pips-row {
+  background-color: transparent;
+}
+
+.dock-pips-indent {
+  min-width: $left-dock-pip-pad-left;
+  background-color: transparent;
+}
+
+.dock-pips {
+  min-width: $left-dock-pip-size;
+  background-color: transparent;
+}
+
+.dock-pip {
+  min-width: $left-dock-pip-size;
+  min-height: $left-dock-pip-size;
+  background-color: $text-muted;
+}
+
+.dock-pip.active {
+  background-color: $text-ice;
+}
+
+.dock-pip-gap {
+  min-height: $left-dock-pip-gap;
+  background-color: transparent;
+}
+
+.left-gap {
+  min-height: $left-dock-rail-gap;
+  background-color: transparent;
 }
 
 .right-panel {
