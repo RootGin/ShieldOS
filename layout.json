@@ -41,9 +41,9 @@
   },
   "side_panels": {
     "left": {
-      "width": 78,
+      "width": 82,
       "height": 744,
-      "top_offset": 30
+      "top_offset": 60
     },
     "right": {
       "width": 180,

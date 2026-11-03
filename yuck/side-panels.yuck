@@ -1,12 +1,8 @@
-(defvar bridge_title "BRIDGE CONTROL")
-(defvar bridge_subtitle "SHIELD OS / SUB-SEC 4")
-(defvar bridge_status_tag "STATUS")
-
 (defwindow left
   :monitor 0
   :geometry (geometry :x "0px"
-                      :y "30px"
-                      :anchor "left center")
+                      :y "60px"
+                      :anchor "top left")
   :layer "top"
   :exclusive false
   :focusable false
@@ -16,98 +12,15 @@
        :space-evenly false
        :width side_left_width
        :height side_left_height
-    (box :class "left-dock-container"
-         :halign "start"
-         :width left_dock_width
-         :height left_dock_height
-      (overlay
-        (image :path "./assets/panels/dock-left.svg"
-               :image-width left_dock_width
-               :image-height left_dock_height
-               :width left_dock_width
-               :height left_dock_height)
-        (box :class "left-dock-content"
-             :orientation "vertical"
-             :space-evenly false
-             :width left_dock_width
-             :height left_dock_height
-          (box :class "dock-pad-top"
-               :height left_dock_play_pad_top)
-          (box :class "dock-reticle-row"
-               :orientation "horizontal"
-               :space-evenly false
-            (box :class "dock-reticle-indent"
-                 :width left_dock_play_pad_left)
-            (eventbox :class "reticle-trigger-eventbox"
-                      :onclick "bin/shield-ctl bridge-toggle"
-              (box :class "reticle-trigger"
-                   :width left_dock_play_size
-                   :height left_dock_play_size
-                   :halign "center"
-                   :valign "center"
-                (image :class "reticle-glyph-image"
-                       :path "./assets/panels/icon-radar-reticle.svg"
-                       :image-width left_dock_play_size
-                       :image-height left_dock_play_size
-                       :width left_dock_play_size
-                       :height left_dock_play_size))))
-          (box :class "dock-text-pad"
-               :height left_dock_slot_gap)
-          (box :class "dock-text-row"
-               :orientation "horizontal"
-               :space-evenly false
-            (box :class "dock-text-indent"
-                 :width left_dock_slot_pad_left)
-            (box :class "dock-text-columns"
-                 :orientation "horizontal"
-                 :space-evenly false
-              (label :class "dock-subtitle-label"
-                     :angle 270
-                     :text bridge_subtitle)
-              (label :class "dock-title-label"
-                     :angle 270
-                     :text bridge_title)))
-          (box :class "dock-status-pad"
-               :height left_dock_pip_pad_top)
-          (box :class "dock-status-row"
-               :orientation "horizontal"
-               :space-evenly false
-            (box :class "dock-status-indent"
-                 :width left_dock_pip_pad_left)
-            (box :class "dock-status-cluster"
-                 :orientation "vertical"
-                 :space-evenly false
-                 :halign "center"
-              (box :class "dock-status-badge"
-                   :halign "center"
-                   :valign "center"
-                (label :class "dock-status-text"
-                       :text bridge_status_tag))
-              (box :class "dock-pips-gap"
-                   :height left_dock_pip_gap)
-              (box :class "dock-pips"
-                   :orientation "vertical"
-                   :space-evenly false
-                   :halign "center"
-                (box :class "dock-pip ${compositor.backend != 'none' ? 'active' : 'standby'}"
-                     :width left_dock_pip_size
-                     :height left_dock_pip_size)
-                (box :class "dock-pip-gap"
-                     :height left_dock_pip_gap)
-                (box :class "dock-pip standby"
-                     :width left_dock_pip_size
-                     :height left_dock_pip_size)))))))
-    (box :class "left-gap"
-         :height left_dock_rail_gap)
     (box :class "left-rail"
          :halign "start"
-         :width rail_left_width
-         :height left_dock_rail_height
+         :width side_left_width
+         :height side_left_height
       (image :path "./assets/panels/rail-left.svg"
-             :image-width rail_left_width
-             :image-height left_dock_rail_height
-             :width rail_left_width
-             :height left_dock_rail_height))))
+             :image-width side_left_width
+             :image-height side_left_height
+             :width side_left_width
+             :height side_left_height))))
 
 (defwindow right
   :monitor 0

@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <circle cx="12" cy="12" r="10.5" fill="none" stroke="{{$text-ice}}" stroke-width="0.8" opacity="0.6" stroke-dasharray="8 3" />
-  <circle cx="12" cy="12" r="7.5" fill="none" stroke="{{$state-active-border}}" stroke-width="2.2" />
-  <circle cx="12" cy="12" r="3" fill="{{$state-active-border}}" />
-</svg>
