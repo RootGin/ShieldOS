@@ -109,9 +109,11 @@ window.bottom,
 
 .bottom-rail {
   background-color: $surface-panel;
+  background-image: linear-gradient(to bottom, $surface-panel-lit-top, $surface-panel-lit-bottom);
   border-top: $bevel-outer-border solid $border-panel-outer;
   border-bottom: $bevel-outer-border solid $border-panel-outer;
   min-height: $rail-bottom-height - (2 * $bevel-outer-border);
+  box-shadow: inset 0 1px 0 $bevel-highlight-bottom, inset 0 -1px 0 $bevel-shadow-bottom, 0 -4px 14px $elevation-shadow-bottom;
 }
 
 .bottom-rail-groove {

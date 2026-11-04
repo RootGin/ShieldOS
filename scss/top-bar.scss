@@ -17,9 +17,11 @@ window.top,
 
 .top-rail {
   background-color: $surface-panel;
+  background-image: linear-gradient(to bottom, $surface-panel-lit-top, $surface-panel-lit-bottom);
   border-top: $bevel-outer-border solid $border-panel-outer;
   border-bottom: $bevel-outer-border solid $border-panel-outer;
   min-height: $rail-top-height - (2 * $bevel-outer-border);
+  box-shadow: inset 0 1px 0 $specular-rim-top;
 }
 
 .top-rail-groove {
@@ -305,6 +307,7 @@ window.top,
 .workspace-pill-body.occupied,
 .workspace-pill-body.empty {
   @include pill-chamfer($surface-pill-inactive, $workspace-pill-cut - dpi(1px));
+  box-shadow: inset 0 1px 0 $bevel-highlight-pill, inset 0 -1px 0 $bevel-shadow-top;
 }
 
 .workspace-pill-label {

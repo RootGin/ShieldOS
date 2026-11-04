@@ -1,6 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="260" height="90" viewBox="0 0 260 90">
+  <defs>
+    <linearGradient id="specular-corner-top-right" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="90">
+      <stop offset="0" stop-color="{{$specular-rim-top.color}}" stop-opacity="{{$specular-rim-top.opacity}}" />
+      <stop offset="1" stop-color="{{$specular-rim-fade.color}}" stop-opacity="{{$specular-rim-fade.opacity}}" />
+    </linearGradient>
+    <linearGradient id="sheen-corner-top-right" gradientUnits="userSpaceOnUse" x1="0" y1="2" x2="0" y2="30">
+      <stop offset="0" stop-color="{{$surface-panel-lit-top}}" />
+      <stop offset="1" stop-color="{{$surface-panel-lit-bottom}}" />
+    </linearGradient>
+  </defs>
   <polygon points="205,0 260,0 260,55" fill="{{$bg-void}}" />
-  <polygon points="0,31 11,42 48,42 66,60 66,74 81,89 186,89 187,90 259,90 259,55 205,1 0,1" fill="{{$surface-panel}}" />
+  <polygon points="0,31 11,42 48,42 66,60 66,74 81,89 186,89 187,90 259,90 259,55 205,1 0,1" fill="url(#sheen-corner-top-right)" />
   <path fill="none" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 0,31 L 11,42 L 48,42 L 66,60 L 66,74 L 81,89 L 186,89 L 187,90 M 259,90 L 259,55 L 205,1 L 0,1" />
   <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 0,27.5 L 12.5,39.5 L 49.5,39.5 L 68.5,58.5 L 68.5,73 L 82,86.5 L 184.5,86.5 L 188.5,90 M 256.5,90 L 256.5,56 L 204,3.5 L 0,3.5" />
+  <path fill="none" stroke="url(#specular-corner-top-right)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M -2,1 L 205,1 L 259,55" />
 </svg>

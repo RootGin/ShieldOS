@@ -1,16 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14">
-  <!-- Antenna Knob and Stem -->
   <circle cx="8" cy="1.5" r="1.1" fill="#FBFDFC" />
   <line x1="8" y1="2.6" x2="8" y2="4.2" stroke="#FBFDFC" stroke-width="1.2" />
-
-  <!-- Stadium Head Outline -->
   <rect x="2" y="4.2" width="12" height="8.8" rx="3.2" fill="none" stroke="#FBFDFC" stroke-width="1.4" />
-
-  <!-- Left and Right Ear Nubs -->
   <rect x="0.5" y="7" width="1" height="2.8" rx="0.4" fill="#FBFDFC" />
   <rect x="14.5" y="7" width="1" height="2.8" rx="0.4" fill="#FBFDFC" />
-
-  <!-- Spark Eyes -->
   <polygon points="5.2,7.2 5.9,8.4 5.2,9.6 4.5,8.4" fill="#FBFDFC" />
   <polygon points="10.8,7.2 11.5,8.4 10.8,9.6 10.1,8.4" fill="#FBFDFC" />
 </svg>

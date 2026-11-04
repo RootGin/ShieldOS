@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="310" viewBox="0 0 80 310">
-  <path fill="{{$surface-panel}}" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 62,1 L 79,1 L 79,40 L 64,55 L 64,100 L 79,115 L 79,309 L 64,309 L 40,285 L 40,230 L 1,200 L 1,100 L 38,75 L 38,15 Z" />
+  <defs>
+    <linearGradient id="specular-rail-right-lower" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="310">
+      <stop offset="0" stop-color="{{$specular-rim-top.color}}" stop-opacity="{{$specular-rim-top.opacity}}" />
+      <stop offset="1" stop-color="{{$specular-rim-fade.color}}" stop-opacity="{{$specular-rim-fade.opacity}}" />
+    </linearGradient>
+    <linearGradient id="sheen-rail-right-lower" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="310">
+      <stop offset="0" stop-color="{{$surface-panel-lit-top}}" />
+      <stop offset="1" stop-color="{{$surface-panel-lit-bottom}}" />
+    </linearGradient>
+  </defs>
+  <path fill="url(#sheen-rail-right-lower)" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 62,1 L 79,1 L 79,40 L 64,55 L 64,100 L 79,115 L 79,309 L 64,309 L 40,285 L 40,230 L 1,200 L 1,100 L 38,75 L 38,15 Z" />
   <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 63,3.5 L 76.5,3.5 L 76.5,38.5 L 61.5,53.5 L 61.5,101.5 L 76.5,116.5 L 76.5,306.5 L 63,306.5 L 42.5,283.5 L 42.5,231 L 3.5,201 L 3.5,99 L 40.5,74 L 40.5,16.5 Z" />
+  <path fill="none" stroke="url(#specular-rail-right-lower)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 1,200 L 1,100 L 38,75 L 38,15 L 62,1 L 79,1" />
 </svg>

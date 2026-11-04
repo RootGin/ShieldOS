@@ -1,18 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="104" height="45" viewBox="0 0 104 45">
-  <!-- Outer chamfered shell with bevel outline -->
+  <defs>
+    <linearGradient id="specular-homelab-tab-urgent" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="45">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45" />
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.08" />
+    </linearGradient>
+    <linearGradient id="sheen-homelab-tab-urgent" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="45">
+      <stop offset="0" stop-color="#58595C" />
+      <stop offset="1" stop-color="#303134" />
+    </linearGradient>
+  </defs>
   <polygon points="0.5,0.5 57.5,0.5 64.5,7.5 80.5,7.5 103.5,30.5 103.5,44.5 65.5,44.5 58.5,37.5 15.5,37.5 0.5,22.5"
-           fill="#45464A" stroke="#5A5C60" stroke-width="1" stroke-linejoin="round" />
-
-  <!-- Inset facet on right title plateau -->
+           fill="url(#sheen-homelab-tab-urgent)" stroke="#5A5C60" stroke-width="1" stroke-linejoin="round" />
   <polygon points="57.5,0.5 64.5,7.5 80.5,7.5 103.5,30.5 103.5,44.5 65.5,44.5 58.5,37.5"
            fill="#18191B" fill-opacity="0.25" />
-
-  <!-- Top-left rivet / notch -->
   <rect x="3" y="3" width="2" height="2" fill="#18191B" />
-
-  <!-- Contour hairline -->
   <path d="M 16,33.5 L 58,33.5 L 65,40.5 L 103,40.5" stroke="#AD2927" stroke-width="1" stroke-opacity="0.7" fill="none" />
-
-  <!-- Docked urgent alert status badge -->
   <polygon points="78.5,37.5 103.5,37.5 103.5,44.5 71.5,44.5" fill="#AD2927" />
+  <path fill="none" stroke="url(#specular-homelab-tab-urgent)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 0.5,22.5 L 0.5,0.5 L 57.5,0.5 L 64.5,7.5 L 80.5,7.5 L 103.5,30.5" />
 </svg>

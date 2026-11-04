@@ -1,6 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="74" height="164" viewBox="0 0 74 164">
-  <polygon points="1,0 1,1 31,30 31,145 49,163 73,163 73,0" fill="{{$surface-panel}}" />
+  <defs>
+    <linearGradient id="specular-rail-right-upper" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="164">
+      <stop offset="0" stop-color="{{$specular-rim-top.color}}" stop-opacity="{{$specular-rim-top.opacity}}" />
+      <stop offset="1" stop-color="{{$specular-rim-fade.color}}" stop-opacity="{{$specular-rim-fade.opacity}}" />
+    </linearGradient>
+    <linearGradient id="sheen-rail-right-upper" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="164">
+      <stop offset="0" stop-color="{{$surface-panel-lit-bottom}}" />
+      <stop offset="1" stop-color="{{$surface-panel-lit-bottom}}" />
+    </linearGradient>
+  </defs>
+  <polygon points="1,0 1,1 31,30 31,145 49,163 73,163 73,0" fill="url(#sheen-rail-right-upper)" />
   <path fill="none" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 1,0 L 31,30 L 31,145 L 49,163 L 73,163 L 73,0" />
   <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 2.5,0 L 33.5,30 L 33.5,144 L 50,160.5 L 70.5,160.5 L 70.5,0" />
   <text x="-88" y="52" transform="rotate(-90)" text-anchor="middle" fill="{{$text-muted}}" font-family="'Orbitron', sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.5">HARDWARE MONITOR</text>
+  <path fill="none" stroke="url(#specular-rail-right-upper)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 1,0 L 31,30 L 31,145" />
 </svg>

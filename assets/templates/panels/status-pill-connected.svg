@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="140" height="32" viewBox="0 0 140 32">
-  <!-- Stepped Indicator Tab (Connected: Active Cyan) -->
+  <defs>
+    <linearGradient id="specular-status-pill-connected" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="32">
+      <stop offset="0" stop-color="{{$specular-rim-top.color}}" stop-opacity="{{$specular-rim-top.opacity}}" />
+      <stop offset="1" stop-color="{{$specular-rim-fade.color}}" stop-opacity="{{$specular-rim-fade.opacity}}" />
+    </linearGradient>
+  </defs>
   <polygon points="6,6 12,1 46,1 50,5 54,5 55,6" fill="{{$state-active-border}}" />
-
-  <!-- Main Status Pill Body -->
   <polygon points="1,11 6,6 49,6 55,12 135,12 139,16 139,25 133,31 106,31 101,29 6,29 1,24"
            fill="{{$surface-panel-recessed}}" stroke="{{$border-panel-outer}}" stroke-width="1.2" stroke-linejoin="round" />
-
-  <!-- Recessed Inner Groove Hairline -->
   <path d="M 50,7 L 56,13 L 134,13" fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" />
-
-  <!-- Notch Serrations on Bottom Right -->
   <line x1="110" y1="28.5" x2="110" y2="31" stroke="{{$border-panel-groove}}" stroke-width="1.5" />
   <line x1="114" y1="28.5" x2="114" y2="31" stroke="{{$border-panel-groove}}" stroke-width="1.5" />
   <line x1="118" y1="28.5" x2="118" y2="31" stroke="{{$border-panel-groove}}" stroke-width="1.5" />
   <line x1="122" y1="28.5" x2="122" y2="31" stroke="{{$border-panel-groove}}" stroke-width="1.5" />
+  <path fill="none" stroke="url(#specular-status-pill-connected)" stroke-width="1" stroke-linejoin="miter" d="M 1,11 L 6,6 L 49,6 L 55,12 L 135,12 L 139,16 M 6,6 L 12,1 L 46,1 L 50,5" />
 </svg>
