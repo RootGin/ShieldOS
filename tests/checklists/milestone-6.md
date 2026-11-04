@@ -14,8 +14,8 @@ Side-by-Side Path: `tests/captures/compare-6.png`
 - [x] Steel-grey control surface `#45464A` (left dock housing & right volume tabs) bounds pass: `1910x1049 +2+8` (`tests/check-gate3-golden.sh measure 6 '#45464A'`)
 - [x] Recessed panel surface `#292A2E` (status pill body & play trigger interior) bounds pass: `1916x1077 +2+2` (`tests/check-gate3-golden.sh measure 6 '#292A2E'`)
 - [x] Disconnected alert indicator `#AD2927` bounds pass: `1506x957 +145+75` (`tests/check-gate3-golden.sh measure 6 '#AD2927'`)
-- [x] Dynamic CPU & RAM active gauge highlight blocks in bright amber `#FEB703` bounds pass: `50x377 +1859+274` (`tests/check-gate3-golden.sh measure 6 '#FEB703'`)
-- [x] Gauge headers (CPU and RAM) in dark amber `#5D440B` bounds pass: `48x221 +1859+274` (`tests/check-gate3-golden.sh measure 6 '#5D440B'`)
+- [x] Dynamic CPU & RAM active gauge highlight blocks in bright amber `#FEB703` bounds pass: `50x377 +1870+274` (`tests/check-gate3-golden.sh measure 6 '#FEB703'`)
+- [x] Gauge headers (CPU and RAM) in dark amber `#5D440B` bounds pass: `48x221 +1870+274` (`tests/check-gate3-golden.sh measure 6 '#5D440B'`)
 
 ## Visual Fidelity Review (Milestone 6)
 - [x] Bridge Control Dock: Chamfered vertical dock housing styled in steel-grey $surface-control (#45464A) with 58px chamfer cut at 45°
