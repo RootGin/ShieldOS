@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Open every HUD window. The visual windows are offset relative to the usable
+# area that the zone-* strut windows create, so ALL windows must be opened
+# together (opening only background/top/bottom/left/right pushes them off-screen).
+set -euo pipefail
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+mapfile -t WINDOWS < <(grep -hoP '^\(defwindow\s+\K[A-Za-z0-9_-]+' "${REPO_DIR}"/yuck/*.yuck)
+eww -c "${REPO_DIR}" ping >/dev/null 2>&1 || eww -c "${REPO_DIR}" daemon
+for _ in $(seq 1 50); do
+  eww -c "${REPO_DIR}" ping >/dev/null 2>&1 && break
+  sleep 0.1
+done
+# Struts first so the other windows lay out against the final usable area.
+exec eww -c "${REPO_DIR}" open-many zone-top zone-bottom zone-left zone-right \
+  $(printf '%s\n' "${WINDOWS[@]}" | grep -v '^zone-' | tr '\n' ' ')

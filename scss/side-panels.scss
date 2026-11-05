@@ -20,6 +20,142 @@ window.right,
   min-height: $side-left-height;
 }
 
+.left-dock-content {
+  min-width: $left-dock-width;
+  min-height: $left-dock-height;
+  background-color: transparent;
+}
+
+.dock-pad-top {
+  min-height: $left-dock-play-pad-top;
+  background-color: transparent;
+}
+
+.dock-reticle-row {
+  background-color: transparent;
+}
+
+.dock-reticle-indent {
+  min-width: $left-dock-play-pad-left;
+  background-color: transparent;
+}
+
+.reticle-trigger-eventbox {
+  background-color: transparent;
+}
+
+.reticle-trigger {
+  min-width: $left-dock-play-size;
+  min-height: $left-dock-play-size;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.reticle-trigger:hover {
+  background-color: $bevel-highlight-pill;
+}
+
+.reticle-glyph-image {
+  background-color: transparent;
+}
+
+.dock-text-pad {
+  min-height: $left-dock-slot-gap;
+  background-color: transparent;
+}
+
+.dock-text-row {
+  background-color: transparent;
+}
+
+.dock-text-indent {
+  min-width: $left-dock-slot-pad-left;
+  background-color: transparent;
+}
+
+.dock-text-columns {
+  min-height: $left-dock-slot-height;
+  margin-top: dpi(-4px);
+  background-color: transparent;
+}
+
+.dock-title-label {
+  color: mix($text-muted, $border-panel-outer, 58%);
+  font-family: $font-hud-condensed;
+  font-size: dpi(13.5px);
+  font-weight: $weight-display;
+  letter-spacing: dpi(0.6px);
+}
+
+.dock-subtitle-label {
+  color: mix($border-panel-outer, $surface-control, 38%);
+  font-family: $font-hud-condensed;
+  font-size: dpi(6.5px);
+  font-weight: $weight-lg;
+  letter-spacing: dpi(2.05px);
+  margin-right: dpi(-3px);
+}
+
+.dock-status-pad {
+  min-height: $left-dock-pip-pad-top;
+  background-color: transparent;
+}
+
+.dock-status-row {
+  background-color: transparent;
+}
+
+.dock-status-indent {
+  min-width: $left-dock-pip-pad-left;
+  background-color: transparent;
+}
+
+.dock-status-cluster {
+  min-width: $left-dock-pip-size;
+  background-color: transparent;
+}
+
+.dock-status-badge {
+  min-width: $left-dock-slot-width;
+  min-height: $left-dock-slot-short-height;
+  background-color: mix($text-muted, $text-primary, 78%);
+  border-radius: dpi(5px) dpi(1px) dpi(1px) dpi(5px);
+}
+
+.dock-pips-gap {
+  min-height: $left-dock-slot-short-height - $left-dock-pip-gap;
+  background-color: transparent;
+}
+
+.dock-pips {
+  min-width: $left-dock-pip-size;
+  background-color: transparent;
+}
+
+.dock-pip {
+  min-width: $left-dock-pip-size - dpi(6px);
+  min-height: $left-dock-pip-size - dpi(6px);
+  border-radius: 50%;
+  border: dpi(3px) solid mix($text-muted, $text-primary, 78%);
+  background-color: $border-panel-groove;
+}
+
+.dock-pip.active {
+  border-color: mix($text-muted, $text-primary, 76%);
+  background-color: $border-panel-groove;
+}
+
+.dock-pip.standby {
+  border-color: mix($text-muted, $text-primary, 80%);
+  background-color: $border-panel-groove;
+}
+
+.dock-pip-gap {
+  min-height: $left-dock-pip-gap;
+  background-color: transparent;
+}
+
+
 .right-panel {
   background-color: transparent;
   min-width: $side-right-width;

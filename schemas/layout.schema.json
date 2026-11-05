@@ -10,6 +10,7 @@
     "void",
     "canvas",
     "emblem",
+    "exclusive_zone",
     "bars",
     "side_panels",
     "rails",
@@ -166,6 +167,17 @@
           "type": "integer",
           "minimum": 0
         }
+      }
+    },
+    "exclusive_zone": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["top", "bottom", "left", "right"],
+      "properties": {
+        "top": {"type": "integer", "minimum": 0},
+        "bottom": {"type": "integer", "minimum": 0},
+        "left": {"type": "integer", "minimum": 0},
+        "right": {"type": "integer", "minimum": 0}
       }
     },
     "bars": {

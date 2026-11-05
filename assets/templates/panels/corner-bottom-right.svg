@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1156" height="160" viewBox="0 0 1156 160">
   <defs>
-    <linearGradient id="specular-corner-bottom-right" gradientUnits="userSpaceOnUse" x1="0" y1="60" x2="0" y2="200">
+    <linearGradient id="specular-corner-bottom-right" gradientUnits="userSpaceOnUse" x1="0" y1="63" x2="0" y2="160">
       <stop offset="0" stop-color="{{$specular-rim-top.color}}" stop-opacity="{{$specular-rim-top.opacity}}" />
       <stop offset="1" stop-color="{{$specular-rim-fade.color}}" stop-opacity="{{$specular-rim-fade.opacity}}" />
     </linearGradient>
-    <linearGradient id="sheen-corner-bottom-right" gradientUnits="userSpaceOnUse" x1="0" y1="154" x2="0" y2="160">
+    <linearGradient id="sheen-corner-bottom-right" gradientUnits="userSpaceOnUse" x1="0" y1="63" x2="0" y2="160">
       <stop offset="0" stop-color="{{$surface-panel-lit-top}}" />
       <stop offset="1" stop-color="{{$surface-panel-lit-bottom}}" />
     </linearGradient>
   </defs>
   <polygon points="1133,160 1156,160 1156,137" fill="{{$bg-void}}" />
-  <path fill="url(#sheen-corner-bottom-right)" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 0,155 L 2,155 L 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1030,86 L 1053,63 L 1155,63 L 1155,137 L 1133,159 L 0,159" />
-  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 0,156.5 L 3,156.5 L 13,147.5 L 390,147.5 L 413,124.5 L 801,124.5 L 837,88.5 L 1031,88.5 L 1054,65.5 L 1152.5,65.5 L 1152.5,136 L 1132,157.5 L 0,157.5" />
-  <path fill="none" stroke="url(#specular-corner-bottom-right)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1030,86 L 1053,63 L 1155,63" />
+  <path fill="url(#sheen-corner-bottom-right)" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 0,155 L 2,155 L 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1074,86 L 1097,63 L 1155,63 L 1155,137 L 1133,159 L 0,159" />
+  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 0,156.5 L 3,156.5 L 13,147.5 L 390,147.5 L 413,124.5 L 801,124.5 L 837,88.5 L 1075,88.5 L 1098,65.5 L 1152.5,65.5 L 1152.5,136 L 1132,157.5 L 0,157.5" />
+  <path fill="none" stroke="url(#specular-corner-bottom-right)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1074,86 L 1097,63 L 1155,63" />
 </svg>

@@ -37,12 +37,12 @@ window.top,
 
 .operator-medallion-box {
   margin-left: $operator-icon-size;
-  margin-top: $void-padding;
+  margin-top: $void-padding - dpi(6px);
 }
 
 .operator-content {
   margin-left: dpi(21px);
-  margin-top: dpi(13px);
+  margin-top: dpi(7px);
   min-width: dpi(174px);
 }
 

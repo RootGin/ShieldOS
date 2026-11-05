@@ -31,8 +31,11 @@ def main():
 
     screen_w = int(layout["screen"]["width"])
     screen_h = int(layout["screen"]["height"])
-    top_h = int(layout["bars"]["top"]["height"])
-    bottom_h = int(layout["bars"]["bottom"]["height"])
+    zone = layout["exclusive_zone"]
+    top_h = int(zone["top"])
+    bottom_h = int(zone["bottom"])
+    left_w = int(zone["left"])
+    right_w = int(zone["right"])
 
     work_dir = tempfile.mkdtemp(prefix="shield-exclusive-")
     runtime_dir = Path(work_dir) / "runtime"
@@ -91,7 +94,7 @@ def main():
         if not ping_ok:
             fail("exclusive-zone", "Timed out waiting for Eww daemon ping")
 
-        windows_to_open = ["top", "bottom"]
+        windows_to_open = ["top", "bottom", "left", "right", "zone-top", "zone-bottom", "zone-left", "zone-right"]
 
         open_res = subprocess.run(["eww", "-c", str(config_dir), "open-many"] + windows_to_open, env=env, capture_output=True, text=True)
         if open_res.returncode != 0:
@@ -156,17 +159,19 @@ def main():
 
         expected_y = top_h
         expected_h = screen_h - top_h - bottom_h
-        expected_w = screen_w
+        expected_w = screen_w - left_w - right_w
+        if cx != left_w:
+            fail("exclusive-zone", f"Client x={cx} != left zone {left_w}")
 
         if cy != expected_y or ch != expected_h or cw != expected_w:
             fail(
                 "exclusive-zone",
-                f"Client geometry mismatch: got (x={cx}, y={cy}, w={cw}, h={ch}), expected (x=0, y={expected_y}, w={expected_w}, h={expected_h})",
+                f"Client geometry mismatch: got (x={cx}, y={cy}, w={cw}, h={ch}), expected (x={left_w}, y={expected_y}, w={expected_w}, h={expected_h})",
             )
 
         print(
             f"PASS [exclusive-zone]: Tiled client geometry x={cx} y={cy} w={cw} h={ch} "
-            f"clears top bar ({top_h}px) and bottom bar ({bottom_h}px) with zero overlap."
+            f"clears top zone ({top_h}px) and bottom zone ({bottom_h}px) and side zones ({left_w}px/{right_w}px) with zero overlap."
         )
         return 0
 

@@ -1,0 +1,38 @@
+;; Invisible strut windows. Sizes mirror layout.json "exclusive_zone"
+;; (top/bottom = 8% of 1080, left/right = 5% of 1920) so the tiled area is a
+;; symmetric rectangle; visual bars/panels are non-exclusive and overlay it.
+(defwindow zone-top
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "86px" :anchor "top center")
+  :layer "bottom"
+  :exclusive true
+  :focusable false
+  :namespace "shield-zone-top"
+  (box :class "exclusive-zone"))
+
+(defwindow zone-bottom
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "86px" :anchor "bottom center")
+  :layer "bottom"
+  :exclusive true
+  :focusable false
+  :namespace "shield-zone-bottom"
+  (box :class "exclusive-zone"))
+
+(defwindow zone-left
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :width "96px" :height "100%" :anchor "center left")
+  :layer "bottom"
+  :exclusive true
+  :focusable false
+  :namespace "shield-zone-left"
+  (box :class "exclusive-zone"))
+
+(defwindow zone-right
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :width "96px" :height "100%" :anchor "center right")
+  :layer "bottom"
+  :exclusive true
+  :focusable false
+  :namespace "shield-zone-right"
+  (box :class "exclusive-zone"))

@@ -1,16 +1,57 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="82" height="744" viewBox="0 0 82 744">
   <defs>
+    <!-- Part 1: Upper Dock (y=1..175) — subtle top highlight into dark recessed body ($surface-panel-recessed / $surface-panel) -->
+    <linearGradient id="sheen-rail-left-upper" gradientUnits="userSpaceOnUse" x1="12" y1="2" x2="45" y2="175">
+      <stop offset="0" stop-color="#414244" />
+      <stop offset="0.22" stop-color="#292A2E" />
+      <stop offset="0.65" stop-color="#2C2D2F" />
+      <stop offset="1" stop-color="#2C2D2F" />
+    </linearGradient>
+
+    <!-- Part 2: Neck (y=175..265) — connects at $surface-panel (y=175) and rises to $surface-control (y=265) -->
+    <linearGradient id="sheen-rail-left-neck" gradientUnits="userSpaceOnUse" x1="37" y1="175" x2="37" y2="265">
+      <stop offset="0" stop-color="#2C2D2F" />
+      <stop offset="0.55" stop-color="#414244" />
+      <stop offset="1" stop-color="#45464A" />
+    </linearGradient>
+
+    <!-- Part 3: Middle Bulge (y=265..447) — connects at $surface-control (y=265), shades diagonally to $surface-panel-lit-bottom (y=447) -->
+    <linearGradient id="sheen-rail-left-mid" gradientUnits="userSpaceOnUse" x1="25" y1="270" x2="45" y2="435">
+      <stop offset="0" stop-color="#45464A" />
+      <stop offset="0.32" stop-color="#414244" />
+      <stop offset="0.68" stop-color="#2C2D2F" />
+      <stop offset="1" stop-color="#1F2021" />
+    </linearGradient>
+
+    <!-- Part 4: Lower Tab (y=447..555) — connects at $surface-panel-lit-bottom (y=447), brightens diagonally to $surface-pill-inactive (y=555) -->
+    <linearGradient id="sheen-rail-left-lower" gradientUnits="userSpaceOnUse" x1="28" y1="455" x2="8" y2="548">
+      <stop offset="0" stop-color="#1F2021" />
+      <stop offset="0.45" stop-color="#414244" />
+      <stop offset="0.80" stop-color="#45464A" />
+      <stop offset="1" stop-color="#4E4E4E" />
+    </linearGradient>
+
+    <!-- Part 5: Thin Vertical Stem (y=555..744) — connects at $surface-pill-inactive (y=555) and docks at $surface-control (y=744) -->
+    <linearGradient id="sheen-rail-left-stem" gradientUnits="userSpaceOnUse" x1="5" y1="555" x2="5" y2="744">
+      <stop offset="0" stop-color="#4E4E4E" />
+      <stop offset="0.75" stop-color="#45464A" />
+      <stop offset="1" stop-color="#45464A" />
+    </linearGradient>
+
     <linearGradient id="specular-rail-left" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="300">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45" />
       <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.08" />
     </linearGradient>
-    <linearGradient id="sheen-rail-left" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="744">
-      <stop offset="0" stop-color="#414244" />
-      <stop offset="1" stop-color="#1F2021" />
-    </linearGradient>
   </defs>
-  <polygon points="1,744 1,323 13,312 13,107 1,95 1,1 23,1 75,46 75,162 62,175 62,265 80,281 80,428 58,447 41,447 41,528 10,555 10,744" fill="url(#sheen-rail-left)" />
+
+  <!-- Separate structural parts with 1px overlap in their constant-color pad zones for zero-seam joints -->
+  <polygon points="1,95 1,1 23,1 75,46 75,162 62,175 62,176 13,176 13,107" fill="url(#sheen-rail-left-upper)" />
+  <polygon points="13,175 62,175 62,266 13,266" fill="url(#sheen-rail-left-neck)" />
+  <polygon points="13,265 62,265 80,281 80,428 58,447 41,448 1,448 1,323 13,312" fill="url(#sheen-rail-left-mid)" />
+  <polygon points="1,447 41,447 41,528 10,555 10,556 1,556" fill="url(#sheen-rail-left-lower)" />
+  <polygon points="1,555 10,555 10,744 1,744" fill="url(#sheen-rail-left-stem)" />
+
   <path fill="none" stroke="#5A5C60" stroke-width="2" d="M 1,744 L 1,323 L 13,312 L 13,107 L 1,95 L 1,1 L 23,1 L 75,46 L 75,162 L 62,175 L 62,265 L 80,281 L 80,428 L 58,447 L 41,447 L 41,528 L 10,555 L 10,744" />
   <path fill="none" stroke="#18191B" stroke-width="1" d="M 3.5,744 L 3.5,324 L 15.5,313 L 15.5,106 L 3.5,94 L 3.5,3.5 L 22,3.5 L 72.5,47 L 72.5,161 L 59.5,174 L 59.5,266 L 77.5,282 L 77.5,427 L 57,444.5 L 38.5,444.5 L 38.5,527 L 7.5,554 L 7.5,744" />
-  <path fill="none" stroke="url(#specular-rail-left)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 1,95 L 1,1 L 23,1 L 75,46 L 75,162" />
+  <path fill="none" stroke="url(#specular-rail-left)" stroke-width="1" stroke-linejoin="miter" d="M 2.5,94.5 L 2.5,2.5 L 22.5,2.5 L 73.5,46.5" />
 </svg>

@@ -1,11 +1,11 @@
 (defwindow top
   :monitor 0
-  :geometry (geometry :x "0px"
-                      :y "0px"
+  :geometry (geometry :x "-96px"
+                      :y "-86px"
                       :width "100%"
-                      :anchor "top center")
+                      :anchor "top left")
   :layer "top"
-  :exclusive true
+  :exclusive false
   :focusable false
   :namespace "shield-top-bar"
   (box :class "top-bar"
