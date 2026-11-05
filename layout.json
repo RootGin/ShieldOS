@@ -32,10 +32,10 @@
     "left_offset": 136
   },
   "exclusive_zone": {
-    "top": 86,
-    "bottom": 86,
-    "left": 96,
-    "right": 96
+    "top": 54,
+    "bottom": 54,
+    "left": 48,
+    "right": 48
   },
   "bars": {
     "top": {
