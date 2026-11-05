@@ -1,16 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="20" viewBox="0 0 120 20">
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="20" viewBox="0 0 144 20">
   <defs>
     <linearGradient id="sheen-utility-btn" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="20">
-      <stop offset="0" stop-color="{{$surface-panel-lit-top}}" />
+      <stop offset="0" stop-color="{{$surface-control-lit-top}}" />
       <stop offset="1" stop-color="{{$surface-panel-lit-bottom}}" />
     </linearGradient>
-    <linearGradient id="specular-utility-btn" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="20">
-      <stop offset="0" stop-color="{{$specular-rim-top.color}}" stop-opacity="{{$specular-rim-top.opacity}}" />
-      <stop offset="1" stop-color="{{$specular-rim-fade.color}}" stop-opacity="{{$specular-rim-fade.opacity}}" />
-    </linearGradient>
   </defs>
-  <polygon points="0.5,19.5 19.5,0.5 119.5,0.5 100.5,19.5"
+  <polygon points="20,0 144,0 124,20 0,20"
            fill="url(#sheen-utility-btn)" stroke="{{$border-panel-outer}}" stroke-width="1" stroke-linejoin="round" />
-  <path fill="none" stroke="url(#specular-utility-btn)" stroke-width="1" stroke-linejoin="miter"
-        d="M 1.5,19.5 L 19.5,1.5 L 118.5,1.5" />
+  <line x1="20.5" y1="0.5" x2="143.5" y2="0.5" stroke="{{$border-panel-outer}}" stroke-width="1" />
 </svg>

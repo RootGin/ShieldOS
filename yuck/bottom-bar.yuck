@@ -111,177 +111,201 @@
                :image-height corner_bottom_right_height
                :width corner_bottom_right_width
                :height corner_bottom_right_height)
-        (box :class "bottom-right-container"
+        (box :class "layer-localshare"
              :width corner_bottom_right_width
              :height corner_bottom_right_height
              :orientation "horizontal"
              :space-evenly false
-             :halign "start"
              :valign "end"
-          (box :class "utility-strip"
-               :orientation "horizontal"
-               :space-evenly false
-               :valign "end"
-            (eventbox :class "utility-btn-eventbox"
-                      :onclick "bin/shield-ctl localshare"
-                      :valign "end"
-              (box :class "utility-btn utility-localshare"
-                   :width bottom_menu_utility_width
-                   :height bottom_menu_utility_height
-                   :valign "end"
-                (overlay
-                  (image :path "./assets/panels/utility-button.svg"
-                         :image-width bottom_menu_utility_width
-                         :image-height bottom_menu_utility_height
-                         :width bottom_menu_utility_width
-                         :height bottom_menu_utility_height)
-                  (box :class "utility-btn-content"
+          (box :class "indent-localshare"
+               :width bottom_menu_utility_offset_localshare)
+          (eventbox :class "utility-btn-eventbox"
+                    :onclick "bin/shield-ctl localshare"
+                    :valign "end"
+            (box :class "utility-btn utility-localshare"
+                 :width bottom_menu_utility_width
+                 :height bottom_menu_utility_height
+                 :valign "end"
+              (overlay
+                (image :path "./assets/panels/utility-button.svg"
+                       :image-width bottom_menu_utility_width
+                       :image-height bottom_menu_utility_height
                        :width bottom_menu_utility_width
-                       :height bottom_menu_utility_height
-                       :orientation "horizontal"
-                       :space-evenly false
-                       :halign "center"
-                       :valign "center"
-                    (image :class "utility-btn-icon"
-                           :path "./assets/panels/icon-localshare.svg"
-                           :image-width bottom_menu_utility_icon_size
-                           :image-height bottom_menu_utility_icon_size
-                           :width bottom_menu_utility_icon_size
-                           :height bottom_menu_utility_icon_size)
-                    (box :class "utility-btn-label-spacing"
-                         :width bottom_menu_utility_label_spacing)
-                    (label :class "utility-btn-label"
-                           :text "LOCALSHARE")))))
-            (box :class "utility-gap"
-                 :width bottom_menu_utility_gap)
-            (eventbox :class "utility-btn-eventbox"
-                      :onclick "bin/shield-ctl websearch"
-                      :valign "end"
-              (box :class "utility-btn utility-websearch"
-                   :width bottom_menu_utility_width
-                   :height bottom_menu_utility_height
-                   :valign "end"
-                (overlay
-                  (image :path "./assets/panels/utility-button.svg"
-                         :image-width bottom_menu_utility_width
-                         :image-height bottom_menu_utility_height
-                         :width bottom_menu_utility_width
-                         :height bottom_menu_utility_height)
-                  (box :class "utility-btn-content"
+                       :height bottom_menu_utility_height)
+                (box :class "utility-btn-content"
+                     :width bottom_menu_utility_width
+                     :height bottom_menu_utility_height
+                     :orientation "horizontal"
+                     :space-evenly false
+                     :halign "center"
+                     :valign "center"
+                  (image :class "utility-btn-icon"
+                         :path "./assets/panels/icon-localshare.svg"
+                         :image-width bottom_menu_utility_icon_size
+                         :image-height bottom_menu_utility_icon_size
+                         :width bottom_menu_utility_icon_size
+                         :height bottom_menu_utility_icon_size)
+                  (box :class "utility-btn-label-spacing"
+                       :width bottom_menu_utility_label_spacing)
+                  (label :class "utility-btn-label"
+                         :text "LOCALSHARE"))))))
+        (box :class "layer-websearch"
+             :width corner_bottom_right_width
+             :height corner_bottom_right_height
+             :orientation "horizontal"
+             :space-evenly false
+             :valign "end"
+          (box :class "indent-websearch"
+               :width bottom_menu_utility_offset_websearch)
+          (eventbox :class "utility-btn-eventbox"
+                    :onclick "bin/shield-ctl websearch"
+                    :valign "end"
+            (box :class "utility-btn utility-websearch"
+                 :width bottom_menu_utility_width
+                 :height bottom_menu_utility_height
+                 :valign "end"
+              (overlay
+                (image :path "./assets/panels/utility-button.svg"
+                       :image-width bottom_menu_utility_width
+                       :image-height bottom_menu_utility_height
                        :width bottom_menu_utility_width
-                       :height bottom_menu_utility_height
-                       :orientation "horizontal"
-                       :space-evenly false
-                       :halign "center"
-                       :valign "center"
-                    (image :class "utility-btn-icon"
-                           :path "./assets/panels/icon-websearch.svg"
-                           :image-width bottom_menu_utility_icon_size
-                           :image-height bottom_menu_utility_icon_size
-                           :width bottom_menu_utility_icon_size
-                           :height bottom_menu_utility_icon_size)
-                    (box :class "utility-btn-label-spacing"
-                         :width bottom_menu_utility_label_spacing)
-                    (label :class "utility-btn-label"
-                           :text "WEBSEARCH")))))
-            (box :class "utility-gap"
-                 :width bottom_menu_utility_gap)
-            (eventbox :class "utility-btn-eventbox"
-                      :onclick "bin/shield-ctl colors"
-                      :valign "end"
-              (box :class "utility-btn utility-colors"
-                   :width bottom_menu_utility_sm_width
-                   :height bottom_menu_utility_height
-                   :valign "end"
-                (overlay
-                  (image :path "./assets/panels/utility-button-sm.svg"
-                         :image-width bottom_menu_utility_sm_width
-                         :image-height bottom_menu_utility_height
-                         :width bottom_menu_utility_sm_width
-                         :height bottom_menu_utility_height)
-                  (box :class "utility-btn-content"
+                       :height bottom_menu_utility_height)
+                (box :class "utility-btn-content"
+                     :width bottom_menu_utility_width
+                     :height bottom_menu_utility_height
+                     :orientation "horizontal"
+                     :space-evenly false
+                     :halign "center"
+                     :valign "center"
+                  (image :class "utility-btn-icon"
+                         :path "./assets/panels/icon-websearch.svg"
+                         :image-width bottom_menu_utility_icon_size
+                         :image-height bottom_menu_utility_icon_size
+                         :width bottom_menu_utility_icon_size
+                         :height bottom_menu_utility_icon_size)
+                  (box :class "utility-btn-label-spacing"
+                       :width bottom_menu_utility_label_spacing)
+                  (label :class "utility-btn-label"
+                         :text "WEBSEARCH"))))))
+        (box :class "layer-colors"
+             :width corner_bottom_right_width
+             :height corner_bottom_right_height
+             :orientation "horizontal"
+             :space-evenly false
+             :valign "end"
+          (box :class "indent-colors"
+               :width bottom_menu_utility_offset_colors)
+          (eventbox :class "utility-btn-eventbox"
+                    :onclick "bin/shield-ctl colors"
+                    :valign "end"
+            (box :class "utility-btn utility-colors"
+                 :width bottom_menu_utility_sm_width
+                 :height bottom_menu_utility_height
+                 :valign "end"
+              (overlay
+                (image :path "./assets/panels/utility-button-sm.svg"
+                       :image-width bottom_menu_utility_sm_width
+                       :image-height bottom_menu_utility_height
                        :width bottom_menu_utility_sm_width
-                       :height bottom_menu_utility_height
-                       :orientation "horizontal"
-                       :space-evenly false
-                       :halign "center"
-                       :valign "center"
-                    (image :class "utility-btn-icon"
-                           :path "./assets/panels/icon-colors.svg"
-                           :image-width bottom_menu_utility_icon_size
-                           :image-height bottom_menu_utility_icon_size
-                           :width bottom_menu_utility_icon_size
-                           :height bottom_menu_utility_icon_size)
-                    (box :class "utility-btn-label-spacing"
-                         :width bottom_menu_utility_label_spacing)
-                    (label :class "utility-btn-label"
-                           :text "COLORS"))))))
-          (box :class "utility-deck-spacer")
-          (box :class "trapezoid-tabs-deck"
-               :orientation "horizontal"
-               :space-evenly false
-               :valign "end"
-            (eventbox :class "trapezoid-tab-eventbox"
-                      :onclick "bin/shield-ctl powermenu"
-                      :valign "end"
-              (box :class "trapezoid-tab tab-powermenu"
-                   :width bottom_menu_tab_width
-                   :height bottom_menu_tab_height
-                   :valign "end"
-                (overlay
-                  (image :path "./assets/panels/tab-trapezoid-normal.svg"
-                         :image-width bottom_menu_tab_width
-                         :image-height bottom_menu_tab_height
-                         :width bottom_menu_tab_width
-                         :height bottom_menu_tab_height)
-                  (box :class "trapezoid-tab-content"
+                       :height bottom_menu_utility_height)
+                (box :class "utility-btn-content"
+                     :width bottom_menu_utility_sm_width
+                     :height bottom_menu_utility_height
+                     :orientation "horizontal"
+                     :space-evenly false
+                     :halign "center"
+                     :valign "center"
+                  (image :class "utility-btn-icon"
+                         :path "./assets/panels/icon-colors.svg"
+                         :image-width bottom_menu_utility_icon_size
+                         :image-height bottom_menu_utility_icon_size
+                         :width bottom_menu_utility_icon_size
+                         :height bottom_menu_utility_icon_size)
+                  (box :class "utility-btn-label-spacing"
+                       :width bottom_menu_utility_label_spacing)
+                  (label :class "utility-btn-label"
+                         :text "COLORS"))))))
+        (box :class "layer-powermenu"
+             :width corner_bottom_right_width
+             :height corner_bottom_right_height
+             :orientation "horizontal"
+             :space-evenly false
+             :valign "end"
+          (box :class "indent-powermenu"
+               :width bottom_menu_tab_offset_powermenu)
+          (eventbox :class "trapezoid-tab-eventbox"
+                    :onclick "bin/shield-ctl powermenu"
+                    :valign "end"
+            (box :class "trapezoid-tab tab-powermenu"
+                 :width bottom_menu_tab_width
+                 :height bottom_menu_tab_height
+                 :valign "end"
+              (overlay
+                (image :path "./assets/panels/tab-trapezoid-normal.svg"
+                       :image-width bottom_menu_tab_width
+                       :image-height bottom_menu_tab_height
                        :width bottom_menu_tab_width
-                       :height bottom_menu_tab_height
-                       :halign "center"
-                       :valign "center"
-                    (label :class "trapezoid-tab-label"
-                           :text "POWERMENU")))))
-            (box :class "trapezoid-tab-gap"
-                 :width bottom_menu_tab_gap)
-            (eventbox :class "trapezoid-tab-eventbox"
-                      :onclick "bin/shield-ctl bluetooth"
-                      :valign "end"
-              (box :class "trapezoid-tab tab-bluetooth"
-                   :width bottom_menu_tab_width
-                   :height bottom_menu_tab_height
-                   :valign "end"
-                (overlay
-                  (image :path "./assets/panels/tab-trapezoid-normal.svg"
-                         :image-width bottom_menu_tab_width
-                         :image-height bottom_menu_tab_height
-                         :width bottom_menu_tab_width
-                         :height bottom_menu_tab_height)
-                  (box :class "trapezoid-tab-content"
+                       :height bottom_menu_tab_height)
+                (box :class "trapezoid-tab-content"
+                     :width bottom_menu_tab_width
+                     :height bottom_menu_tab_height
+                     :halign "center"
+                     :valign "center"
+                  (label :class "trapezoid-tab-label"
+                         :text "POWERMENU"))))))
+        (box :class "layer-bluetooth"
+             :width corner_bottom_right_width
+             :height corner_bottom_right_height
+             :orientation "horizontal"
+             :space-evenly false
+             :valign "end"
+          (box :class "indent-bluetooth"
+               :width bottom_menu_tab_offset_bluetooth)
+          (eventbox :class "trapezoid-tab-eventbox"
+                    :onclick "bin/shield-ctl bluetooth"
+                    :valign "end"
+            (box :class "trapezoid-tab tab-bluetooth"
+                 :width bottom_menu_tab_width
+                 :height bottom_menu_tab_height
+                 :valign "end"
+              (overlay
+                (image :path "./assets/panels/tab-trapezoid-normal.svg"
+                       :image-width bottom_menu_tab_width
+                       :image-height bottom_menu_tab_height
                        :width bottom_menu_tab_width
-                       :height bottom_menu_tab_height
-                       :halign "center"
-                       :valign "center"
-                    (label :class "trapezoid-tab-label"
-                           :text "BLUETOOTH")))))
-            (box :class "trapezoid-tab-gap"
-                 :width bottom_menu_tab_gap)
-            (eventbox :class "trapezoid-tab-eventbox"
-                      :onclick "bin/shield-ctl applications"
-                      :valign "end"
-              (box :class "trapezoid-tab tab-applications active"
-                   :width bottom_menu_tab_width
-                   :height bottom_menu_tab_height
-                   :valign "end"
-                (overlay
-                  (image :path "./assets/panels/tab-trapezoid-active.svg"
-                         :image-width bottom_menu_tab_width
-                         :image-height bottom_menu_tab_height
-                         :width bottom_menu_tab_width
-                         :height bottom_menu_tab_height)
-                  (box :class "trapezoid-tab-content"
-                       :width bottom_menu_tab_width
-                       :height bottom_menu_tab_height
-                       :halign "center"
-                       :valign "center"
-                    (label :class "trapezoid-tab-label active"
-                           :text "APPLICATIONS")))))))))))
+                       :height bottom_menu_tab_height)
+                (box :class "trapezoid-tab-content"
+                     :width bottom_menu_tab_width
+                     :height bottom_menu_tab_height
+                     :halign "center"
+                     :valign "center"
+                  (label :class "trapezoid-tab-label"
+                         :text "BLUETOOTH"))))))
+        (box :class "layer-applications"
+             :width corner_bottom_right_width
+             :height corner_bottom_right_height
+             :orientation "horizontal"
+             :space-evenly false
+             :valign "end"
+          (box :class "indent-applications"
+               :width bottom_menu_tab_offset_applications)
+          (eventbox :class "trapezoid-tab-eventbox"
+                    :onclick "bin/shield-ctl applications"
+                    :valign "end"
+            (box :class "trapezoid-tab tab-applications active"
+                 :width bottom_menu_tab_app_width
+                 :height bottom_menu_tab_height
+                 :valign "end"
+              (overlay
+                (image :path "./assets/panels/tab-trapezoid-active.svg"
+                       :image-width bottom_menu_tab_app_width
+                       :image-height bottom_menu_tab_height
+                       :width bottom_menu_tab_app_width
+                       :height bottom_menu_tab_height)
+                (box :class "trapezoid-tab-content"
+                     :width bottom_menu_tab_app_width
+                     :height bottom_menu_tab_height
+                     :halign "center"
+                     :valign "center"
+                  (label :class "trapezoid-tab-label active"
+                         :text "APPLICATIONS"))))))))))

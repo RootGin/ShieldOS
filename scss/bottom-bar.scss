@@ -127,12 +127,7 @@ window.bottom,
   background-color: transparent;
 }
 
-.bottom-right-container {
-  background-color: transparent;
-  padding-left: $bottom-menu-tray-offset-left;
-}
-
-.utility-strip {
+.btn-layer {
   background-color: transparent;
 }
 
@@ -153,8 +148,6 @@ window.bottom,
 
 .utility-btn-content {
   background-color: transparent;
-  margin-left: $bottom-menu-utility-pad-left;
-  margin-top: $bottom-menu-utility-pad-top;
 }
 
 .utility-btn-icon {
@@ -171,27 +164,13 @@ window.bottom,
 .utility-btn-label {
   font-family: $font-hud-condensed;
   font-size: $text-sm;
-  font-weight: $weight-lg;
-  letter-spacing: $tracking-md;
+  font-weight: $weight-sm;
+  letter-spacing: $tracking-sm;
   color: $text-ice;
 }
 
 .utility-btn-eventbox:hover .utility-btn-label {
   color: $text-primary;
-}
-
-.utility-gap {
-  min-width: $bottom-menu-utility-gap;
-  background-color: transparent;
-}
-
-.utility-deck-spacer {
-  min-width: $bottom-menu-deck-offset-left - ($bottom-menu-tray-offset-left + (2 * $bottom-menu-utility-width) + $bottom-menu-utility-sm-width + (2 * $bottom-menu-utility-gap));
-  background-color: transparent;
-}
-
-.trapezoid-tabs-deck {
-  background-color: transparent;
 }
 
 .trapezoid-tab-eventbox {
@@ -205,26 +184,24 @@ window.bottom,
   margin-bottom: $bottom-menu-deck-bottom-offset;
 }
 
-.trapezoid-tab-gap {
-  min-width: $bottom-menu-tab-gap;
-  background-color: transparent;
+.trapezoid-tab.tab-applications {
+  min-width: $bottom-menu-tab-app-width;
 }
 
 .trapezoid-tab-content {
   background-color: transparent;
-  margin-top: $bottom-menu-tab-pad-top;
 }
 
 .trapezoid-tab-label {
   font-family: $font-hud-condensed;
   font-size: $text-sm;
-  font-weight: $weight-lg;
-  letter-spacing: $tracking-md;
+  font-weight: $weight-sm;
+  letter-spacing: $tracking-sm;
   color: $text-primary;
 }
 
 .trapezoid-tab-label.active {
-  color: $state-active-border;
+  color: $text-ice;
 }
 
 .trapezoid-tab-eventbox:hover .trapezoid-tab-label {

@@ -738,18 +738,18 @@
         "utility_height",
         "utility_width",
         "utility_sm_width",
-        "utility_gap",
+        "utility_offset_localshare",
+        "utility_offset_websearch",
+        "utility_offset_colors",
         "utility_icon_size",
-        "utility_pad_left",
-        "utility_pad_top",
         "utility_label_spacing",
         "tab_height",
         "tab_width",
-        "tab_gap",
-        "tab_pad_top",
-        "tray_offset_left",
+        "tab_app_width",
+        "tab_offset_powermenu",
+        "tab_offset_bluetooth",
+        "tab_offset_applications",
         "tray_bottom_offset",
-        "deck_offset_left",
         "deck_bottom_offset"
       ],
       "properties": {
@@ -765,21 +765,21 @@
           "type": "integer",
           "minimum": 1
         },
-        "utility_gap": {
+        "utility_offset_localshare": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "utility_offset_websearch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "utility_offset_colors": {
           "type": "integer",
           "minimum": 0
         },
         "utility_icon_size": {
           "type": "integer",
           "minimum": 1
-        },
-        "utility_pad_left": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "utility_pad_top": {
-          "type": "integer",
-          "minimum": 0
         },
         "utility_label_spacing": {
           "type": "integer",
@@ -793,23 +793,23 @@
           "type": "integer",
           "minimum": 1
         },
-        "tab_gap": {
+        "tab_app_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tab_offset_powermenu": {
           "type": "integer",
           "minimum": 0
         },
-        "tab_pad_top": {
+        "tab_offset_bluetooth": {
           "type": "integer",
           "minimum": 0
         },
-        "tray_offset_left": {
+        "tab_offset_applications": {
           "type": "integer",
           "minimum": 0
         },
         "tray_bottom_offset": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "deck_offset_left": {
           "type": "integer",
           "minimum": 0
         },

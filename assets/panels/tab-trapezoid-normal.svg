@@ -1,16 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="126" height="20" viewBox="0 0 126 20">
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="20" viewBox="0 0 144 20">
   <defs>
     <linearGradient id="sheen-tab-normal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="20">
       <stop offset="0" stop-color="#58595C" />
-      <stop offset="1" stop-color="#303134" />
-    </linearGradient>
-    <linearGradient id="specular-tab-normal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="20">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45" />
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.08" />
+      <stop offset="1" stop-color="#1F2021" />
     </linearGradient>
   </defs>
-  <polygon points="0.5,19.5 19.5,0.5 106.5,0.5 125.5,19.5"
+  <polygon points="20,0 144,0 124,20 0,20"
            fill="url(#sheen-tab-normal)" stroke="#5A5C60" stroke-width="1" stroke-linejoin="round" />
-  <path fill="none" stroke="url(#specular-tab-normal)" stroke-width="1" stroke-linejoin="miter"
-        d="M 1.5,19.5 L 19.5,1.5 L 106.5,1.5 L 124.5,19.5" />
+  <line x1="20.5" y1="0.5" x2="143.5" y2="0.5" stroke="#5A5C60" stroke-width="1" />
 </svg>

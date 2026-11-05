@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="126" height="20" viewBox="0 0 126 20">
+<svg xmlns="http://www.w3.org/2000/svg" width="148" height="20" viewBox="0 0 148 20">
   <defs>
     <linearGradient id="sheen-tab-active" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="20">
-      <stop offset="0" stop-color="{{$state-active-surface}}" />
+      <stop offset="0" stop-color="{{$state-active-fill}}" />
       <stop offset="1" stop-color="{{$state-active-surface}}" />
     </linearGradient>
   </defs>
-  <polygon points="0.5,19.5 19.5,0.5 106.5,0.5 125.5,19.5"
-           fill="url(#sheen-tab-active)" stroke="{{$state-active-border}}" stroke-width="1.5" stroke-linejoin="round" />
-  <path fill="none" stroke="{{$state-active-border}}" stroke-width="2" stroke-linecap="round"
-        d="M 20,1.5 L 106,1.5" />
+  <polygon points="20,0 148,0 128,20 0,20"
+           fill="url(#sheen-tab-active)" stroke="{{$border-panel-groove}}" stroke-width="1" stroke-linejoin="round" />
+  <path d="M 0,20 L 20,0 L 148,0 L 128,20"
+        fill="none" stroke="{{$state-active-border}}" stroke-width="1.5" stroke-linejoin="miter" />
 </svg>
