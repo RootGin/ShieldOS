@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="102" height="20" viewBox="0 0 102 20">
+  <defs>
+    <linearGradient id="sheen-utility-btn-sm" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="20">
+      <stop offset="0" stop-color="#414244" />
+      <stop offset="1" stop-color="#1F2021" />
+    </linearGradient>
+    <linearGradient id="specular-utility-btn-sm" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="20">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45" />
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.08" />
+    </linearGradient>
+  </defs>
+  <polygon points="0.5,19.5 19.5,0.5 101.5,0.5 82.5,19.5"
+           fill="url(#sheen-utility-btn-sm)" stroke="#5A5C60" stroke-width="1" stroke-linejoin="round" />
+  <path fill="none" stroke="url(#specular-utility-btn-sm)" stroke-width="1" stroke-linejoin="miter"
+        d="M 1.5,19.5 L 19.5,1.5 L 100.5,1.5" />
+</svg>

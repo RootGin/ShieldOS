@@ -126,3 +126,111 @@ window.bottom,
 .bottom-dock-slot {
   background-color: transparent;
 }
+
+.bottom-right-container {
+  background-color: transparent;
+  padding-left: $bottom-menu-tray-offset-left;
+}
+
+.utility-strip {
+  background-color: transparent;
+}
+
+.utility-btn-eventbox {
+  background-color: transparent;
+}
+
+.utility-btn {
+  min-width: $bottom-menu-utility-width;
+  min-height: $bottom-menu-utility-height;
+  background-color: transparent;
+  margin-bottom: $bottom-menu-tray-bottom-offset;
+}
+
+.utility-btn.utility-colors {
+  min-width: $bottom-menu-utility-sm-width;
+}
+
+.utility-btn-content {
+  background-color: transparent;
+  margin-left: $bottom-menu-utility-pad-left;
+  margin-top: $bottom-menu-utility-pad-top;
+}
+
+.utility-btn-icon {
+  background-color: transparent;
+  min-width: $bottom-menu-utility-icon-size;
+  min-height: $bottom-menu-utility-icon-size;
+}
+
+.utility-btn-label-spacing {
+  min-width: $bottom-menu-utility-label-spacing;
+  background-color: transparent;
+}
+
+.utility-btn-label {
+  font-family: $font-hud-condensed;
+  font-size: $text-sm;
+  font-weight: $weight-lg;
+  letter-spacing: $tracking-md;
+  color: $text-ice;
+}
+
+.utility-btn-eventbox:hover .utility-btn-label {
+  color: $text-primary;
+}
+
+.utility-gap {
+  min-width: $bottom-menu-utility-gap;
+  background-color: transparent;
+}
+
+.utility-deck-spacer {
+  min-width: $bottom-menu-deck-offset-left - ($bottom-menu-tray-offset-left + (2 * $bottom-menu-utility-width) + $bottom-menu-utility-sm-width + (2 * $bottom-menu-utility-gap));
+  background-color: transparent;
+}
+
+.trapezoid-tabs-deck {
+  background-color: transparent;
+}
+
+.trapezoid-tab-eventbox {
+  background-color: transparent;
+}
+
+.trapezoid-tab {
+  min-width: $bottom-menu-tab-width;
+  min-height: $bottom-menu-tab-height;
+  background-color: transparent;
+  margin-bottom: $bottom-menu-deck-bottom-offset;
+}
+
+.trapezoid-tab-gap {
+  min-width: $bottom-menu-tab-gap;
+  background-color: transparent;
+}
+
+.trapezoid-tab-content {
+  background-color: transparent;
+  margin-top: $bottom-menu-tab-pad-top;
+}
+
+.trapezoid-tab-label {
+  font-family: $font-hud-condensed;
+  font-size: $text-sm;
+  font-weight: $weight-lg;
+  letter-spacing: $tracking-md;
+  color: $text-primary;
+}
+
+.trapezoid-tab-label.active {
+  color: $state-active-border;
+}
+
+.trapezoid-tab-eventbox:hover .trapezoid-tab-label {
+  color: $text-ice;
+}
+
+.trapezoid-tab-eventbox:hover .trapezoid-tab-label.active {
+  color: $state-active-border;
+}

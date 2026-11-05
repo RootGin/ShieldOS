@@ -50,6 +50,7 @@ def generate_scss(layout):
     sp_pill = layout.get("status_pill", {"width": 132, "height": 26, "gap": 8, "chamfer_cut": 4, "indicator_height": 3, "glyph_size": 14})
     eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
     ld = layout.get("left_dock", {})
+    bm = layout.get("bottom_menu", {})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -143,6 +144,22 @@ def generate_scss(layout):
         f"$left-dock-pip-pad-left: dpi({ld.get('pip_pad_left', 51)}px);",
         f"$left-dock-rail-gap: dpi({ld.get('rail_gap', 20)}px);",
         f"$left-dock-rail-height: dpi({ld.get('rail_height', 484)}px);",
+        f"$bottom-menu-utility-height: dpi({bm.get('utility_height', 20)}px);",
+        f"$bottom-menu-utility-width: dpi({bm.get('utility_width', 120)}px);",
+        f"$bottom-menu-utility-sm-width: dpi({bm.get('utility_sm_width', 102)}px);",
+        f"$bottom-menu-utility-gap: dpi({bm.get('utility_gap', 6)}px);",
+        f"$bottom-menu-utility-icon-size: dpi({bm.get('utility_icon_size', 14)}px);",
+        f"$bottom-menu-utility-pad-left: dpi({bm.get('utility_pad_left', 10)}px);",
+        f"$bottom-menu-utility-pad-top: dpi({bm.get('utility_pad_top', 1)}px);",
+        f"$bottom-menu-utility-label-spacing: dpi({bm.get('utility_label_spacing', 5)}px);",
+        f"$bottom-menu-tab-height: dpi({bm.get('tab_height', 20)}px);",
+        f"$bottom-menu-tab-width: dpi({bm.get('tab_width', 126)}px);",
+        f"$bottom-menu-tab-gap: dpi({bm.get('tab_gap', 4)}px);",
+        f"$bottom-menu-tab-pad-top: dpi({bm.get('tab_pad_top', 2)}px);",
+        f"$bottom-menu-tray-offset-left: dpi({bm.get('tray_offset_left', 20)}px);",
+        f"$bottom-menu-tray-bottom-offset: dpi({bm.get('tray_bottom_offset', 15)}px);",
+        f"$bottom-menu-deck-offset-left: dpi({bm.get('deck_offset_left', 412)}px);",
+        f"$bottom-menu-deck-bottom-offset: dpi({bm.get('deck_bottom_offset', 38)}px);",
     ]
     return "\n".join(lines) + "\n"
 
@@ -164,6 +181,7 @@ def generate_yuck(layout):
     sp_pill = layout.get("status_pill", {"width": 132, "height": 26, "gap": 8, "chamfer_cut": 4, "indicator_height": 3, "glyph_size": 14})
     eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
     ld = layout.get("left_dock", {})
+    bm = layout.get("bottom_menu", {})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -257,6 +275,22 @@ def generate_yuck(layout):
         f"(defvar left_dock_pip_pad_left {ld.get('pip_pad_left', 51)})",
         f"(defvar left_dock_rail_gap {ld.get('rail_gap', 20)})",
         f"(defvar left_dock_rail_height {ld.get('rail_height', 484)})",
+        f"(defvar bottom_menu_utility_height {bm.get('utility_height', 20)})",
+        f"(defvar bottom_menu_utility_width {bm.get('utility_width', 120)})",
+        f"(defvar bottom_menu_utility_sm_width {bm.get('utility_sm_width', 102)})",
+        f"(defvar bottom_menu_utility_gap {bm.get('utility_gap', 6)})",
+        f"(defvar bottom_menu_utility_icon_size {bm.get('utility_icon_size', 14)})",
+        f"(defvar bottom_menu_utility_pad_left {bm.get('utility_pad_left', 10)})",
+        f"(defvar bottom_menu_utility_pad_top {bm.get('utility_pad_top', 1)})",
+        f"(defvar bottom_menu_utility_label_spacing {bm.get('utility_label_spacing', 5)})",
+        f"(defvar bottom_menu_tab_height {bm.get('tab_height', 20)})",
+        f"(defvar bottom_menu_tab_width {bm.get('tab_width', 126)})",
+        f"(defvar bottom_menu_tab_gap {bm.get('tab_gap', 4)})",
+        f"(defvar bottom_menu_tab_pad_top {bm.get('tab_pad_top', 2)})",
+        f"(defvar bottom_menu_tray_offset_left {bm.get('tray_offset_left', 20)})",
+        f"(defvar bottom_menu_tray_bottom_offset {bm.get('tray_bottom_offset', 15)})",
+        f"(defvar bottom_menu_deck_offset_left {bm.get('deck_offset_left', 412)})",
+        f"(defvar bottom_menu_deck_bottom_offset {bm.get('deck_bottom_offset', 38)})",
     ]
     return "\n".join(lines) + "\n"
 

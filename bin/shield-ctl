@@ -1,10 +1,52 @@
 #!/usr/bin/env python3
 import argparse
 import glob
+import json
 import os
 import shlex
 import subprocess
 import sys
+from pathlib import Path
+
+
+DEFAULT_COMMANDS = {
+    "localsend": "localsend",
+    "localshare": "localsend",
+    "websearch": "xdg-open https://duckduckgo.com",
+    "colors": "python3 scripts/theme-gen.py --cycle",
+    "cycle-theme": "python3 scripts/theme-gen.py --cycle",
+    "apps": "eww open --toggle launcher",
+    "applications": "eww open --toggle launcher",
+    "powermenu": "eww open --toggle powermenu",
+    "bluetooth": "eww open --toggle bluetooth",
+}
+
+
+def load_command_config():
+    commands = dict(DEFAULT_COMMANDS)
+    config_paths = []
+    if "SHIELD_CONFIG" in os.environ and os.environ["SHIELD_CONFIG"].strip():
+        config_paths.append(Path(os.environ["SHIELD_CONFIG"].strip()))
+    repo_config = Path(__file__).resolve().parent.parent / "config.json"
+    config_paths.append(repo_config)
+    user_config = Path(os.environ.get("XDG_CONFIG_HOME") or os.path.expanduser("~/.config")) / "shieldOS" / "config.json"
+    config_paths.append(user_config)
+
+    for p in config_paths:
+        if p.is_file():
+            try:
+                data = json.loads(p.read_text(encoding="utf-8"))
+                if isinstance(data, dict):
+                    cfg_cmds = data.get("commands", data)
+                    if isinstance(cfg_cmds, dict):
+                        for k, v in cfg_cmds.items():
+                            if isinstance(v, str):
+                                commands[k.lower()] = v
+                break
+            except Exception:
+                pass
+    return commands
+
 
 
 def find_niri_socket():
@@ -167,6 +209,17 @@ def format_command(backend, subcommand, target, extra=None):
     if subcommand == "night-light":
         return "wlsunset -t 4500"
 
+    if subcommand in ("localsend", "localshare", "websearch", "colors", "cycle-theme", "apps", "applications", "powermenu", "bluetooth"):
+        config_cmds = load_command_config()
+        env_key = f"SHIELD_{subcommand.upper().replace('-', '_')}_CMD"
+        if env_key in os.environ and os.environ[env_key].strip():
+            return os.environ[env_key].strip()
+        if subcommand == "localshare" and "SHIELD_LOCALSEND_CMD" in os.environ and os.environ["SHIELD_LOCALSEND_CMD"].strip():
+            return os.environ["SHIELD_LOCALSEND_CMD"].strip()
+        if subcommand == "localsend" and "SHIELD_LOCALSHARE_CMD" in os.environ and os.environ["SHIELD_LOCALSHARE_CMD"].strip():
+            return os.environ["SHIELD_LOCALSHARE_CMD"].strip()
+        return config_cmds.get(subcommand, DEFAULT_COMMANDS.get(subcommand, subcommand))
+
     sys.stderr.write(f"error: unknown subcommand '{subcommand}'\n")
     sys.exit(1)
 
@@ -206,6 +259,15 @@ def main():
     nl_parser.add_argument("action", nargs="?", default="toggle", choices=["toggle"])
 
     subparsers.add_parser("bridge-toggle", parents=[parent_parser])
+    subparsers.add_parser("localsend", parents=[parent_parser])
+    subparsers.add_parser("localshare", parents=[parent_parser])
+    subparsers.add_parser("websearch", parents=[parent_parser])
+    subparsers.add_parser("colors", parents=[parent_parser])
+    subparsers.add_parser("cycle-theme", parents=[parent_parser])
+    subparsers.add_parser("apps", parents=[parent_parser])
+    subparsers.add_parser("applications", parents=[parent_parser])
+    subparsers.add_parser("powermenu", parents=[parent_parser])
+    subparsers.add_parser("bluetooth", parents=[parent_parser])
 
     args = parser.parse_args()
 

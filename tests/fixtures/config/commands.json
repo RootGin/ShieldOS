@@ -1,0 +1,7 @@
+{
+  "commands": {
+    "localsend": "localsend-custom --minimized",
+    "localshare": "localsend-custom --minimized",
+    "websearch": "firefox --search 'test query'"
+  }
+}

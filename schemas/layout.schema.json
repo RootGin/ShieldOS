@@ -22,7 +22,8 @@
     "volume_cluster",
     "status_pill",
     "equalizer_pod",
-    "left_dock"
+    "left_dock",
+    "bottom_menu"
   ],
   "properties": {
     "$schema": {
@@ -727,6 +728,94 @@
         "rail_height": {
           "type": "integer",
           "minimum": 1
+        }
+      }
+    },
+    "bottom_menu": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "utility_height",
+        "utility_width",
+        "utility_sm_width",
+        "utility_gap",
+        "utility_icon_size",
+        "utility_pad_left",
+        "utility_pad_top",
+        "utility_label_spacing",
+        "tab_height",
+        "tab_width",
+        "tab_gap",
+        "tab_pad_top",
+        "tray_offset_left",
+        "tray_bottom_offset",
+        "deck_offset_left",
+        "deck_bottom_offset"
+      ],
+      "properties": {
+        "utility_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "utility_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "utility_sm_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "utility_gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "utility_icon_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "utility_pad_left": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "utility_pad_top": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "utility_label_spacing": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tab_height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tab_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tab_gap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tab_pad_top": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tray_offset_left": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tray_bottom_offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "deck_offset_left": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "deck_bottom_offset": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     }

@@ -1,0 +1,13 @@
+{
+  "commands": {
+    "localsend": "localsend",
+    "localshare": "localsend",
+    "websearch": "xdg-open https://duckduckgo.com",
+    "colors": "python3 scripts/theme-gen.py --cycle",
+    "cycle-theme": "python3 scripts/theme-gen.py --cycle",
+    "apps": "eww open --toggle launcher",
+    "applications": "eww open --toggle launcher",
+    "powermenu": "eww open --toggle powermenu",
+    "bluetooth": "eww open --toggle bluetooth"
+  }
+}

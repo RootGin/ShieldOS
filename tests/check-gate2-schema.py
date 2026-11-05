@@ -478,6 +478,20 @@ def run_shield_ctl_checks():
         (["play-pause"], {"SHIELD_DRY_RUN": "1"}, "playerctl play-pause"),
         (["--dry-run", "media", "play-pause"], {}, "playerctl play-pause"),
         (["media", "play-pause"], {"SHIELD_DRY_RUN": "1"}, "playerctl play-pause"),
+        (["--dry-run", "localsend"], {}, "localsend"),
+        (["localsend"], {"SHIELD_DRY_RUN": "1"}, "localsend"),
+        (["--dry-run", "localshare"], {}, "localsend"),
+        (["localshare"], {"SHIELD_DRY_RUN": "1"}, "localsend"),
+        (["--dry-run", "websearch"], {}, "xdg-open https://duckduckgo.com"),
+        (["websearch"], {"SHIELD_DRY_RUN": "1"}, "xdg-open https://duckduckgo.com"),
+        (["--dry-run", "localsend"], {"SHIELD_CONFIG": str(REPO_DIR / "tests" / "fixtures" / "config" / "commands.json")}, "localsend-custom --minimized"),
+        (["--dry-run", "websearch"], {"SHIELD_CONFIG": str(REPO_DIR / "tests" / "fixtures" / "config" / "commands.json")}, "firefox --search 'test query'"),
+        (["--dry-run", "colors"], {}, "python3 scripts/theme-gen.py --cycle"),
+        (["--dry-run", "cycle-theme"], {}, "python3 scripts/theme-gen.py --cycle"),
+        (["--dry-run", "apps"], {}, "eww open --toggle launcher"),
+        (["--dry-run", "applications"], {}, "eww open --toggle launcher"),
+        (["--dry-run", "powermenu"], {}, "eww open --toggle powermenu"),
+        (["--dry-run", "bluetooth"], {}, "eww open --toggle bluetooth"),
     ]
 
     for args, env_overrides, expected_cmd in cases:
@@ -693,7 +707,7 @@ def extract_governed_dimensions(layout):
     def walk(obj):
         if isinstance(obj, dict):
             for k, v in obj.items():
-                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "gap_upper", "gap_lower", "chamfer_cut", "bar_gap", "housing_pad_top", "rung_height", "header_height", "volume_cluster", "status_pill", "equalizer_pod", "upper_width", "upper_height", "lower_width", "lower_height", "indicator_height", "glyph_size", "rails", "left_dock"):
+                if k in ("outer_border", "inner_groove", "bar_width", "bar_height", "top_offset", "gap", "gap_upper", "gap_lower", "chamfer_cut", "bar_gap", "housing_pad_top", "rung_height", "header_height", "volume_cluster", "status_pill", "equalizer_pod", "upper_width", "upper_height", "lower_width", "lower_height", "indicator_height", "glyph_size", "rails", "left_dock", "bottom_menu"):
                     continue
                 walk(v)
         elif isinstance(obj, list):
