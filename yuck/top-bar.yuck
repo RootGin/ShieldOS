@@ -169,7 +169,7 @@
                            :image-width 120
                            :image-height 45)
                     (box :class "tab-tag-box"
-                         :width 55
+                         :width 49
                          :height 34
                          :halign "start"
                          :valign "start"
@@ -178,7 +178,7 @@
                              :valign "center"
                              :text "${tab.tag}"))
                     (box :class "tab-title-box"
-                         :width 60
+                         :width 68
                          :height 34
                          :halign "end"
                          :valign "start"
@@ -187,8 +187,8 @@
                              :valign "center"
                              :text "${tab.title}"))
                     (box :class "tab-badge ${tab.urgent ? 'urgent' : 'normal'}"
-                         :width 36
-                         :height 7
+                         :width 46
+                         :height 8
                          :halign "end"
                          :valign "end"
                       (label :class "tab-badge-text ${tab.urgent ? 'urgent' : 'normal'}"

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="520" height="160" viewBox="0 0 520 160">
   <defs>
     <linearGradient id="sheen-cbl-outer-rail" gradientUnits="userSpaceOnUse" x1="5" y1="0" x2="95" y2="159">
-      <stop offset="0" stop-color="#45464A" />
-      <stop offset="0.18" stop-color="#45464A" />
+      <stop offset="0" stop-color="#1F2021" />
+      <stop offset="0.25" stop-color="#45464A" />
       <stop offset="0.55" stop-color="#4E4E4E" />
       <stop offset="0.78" stop-color="#414244" />
       <stop offset="1" stop-color="#1F2021" />

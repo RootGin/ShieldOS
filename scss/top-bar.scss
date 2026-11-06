@@ -254,7 +254,7 @@ window.top,
 
 .top-bar-deck {
   margin-top: $workspace-pill-top-offset;
-  margin-left: $workspace-pill-left-offset;
+  margin-left: $corner-top-left-cut;
 }
 
 .workspace-slot {
@@ -353,49 +353,49 @@ window.top,
 }
 
 .tab-tag-box {
-  min-width: dpi(55px);
+  min-width: dpi(49px);
   min-height: dpi(34px);
 }
 
 .tab-tag-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(22px);
+  font-size: dpi(20px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-sm;
   margin-top: dpi(2px);
-  margin-left: dpi(8px);
+  margin-left: dpi(4px);
 }
 
 .tab-title-box {
-  min-width: dpi(60px);
+  min-width: dpi(68px);
   min-height: dpi(34px);
 }
 
 .tab-title-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(15px);
+  font-size: dpi(13.5px);
   font-weight: $weight-md;
-  letter-spacing: $tracking-md;
+  letter-spacing: dpi(0.4px);
   margin-top: dpi(6px);
-  margin-left: dpi(2px);
+  margin-left: dpi(0px);
 }
 
 .tab-badge {
-  min-width: dpi(36px);
-  min-height: dpi(7px);
+  min-width: dpi(46px);
+  min-height: dpi(8px);
   margin-right: dpi(2px);
   margin-bottom: dpi(0px);
 }
 
 .tab-badge-text {
   font-family: $font-hud-condensed;
-  font-size: dpi(8px);
+  font-size: dpi(7.5px);
   font-weight: $weight-xl;
-  letter-spacing: dpi(0.2px);
+  letter-spacing: dpi(0px);
   margin-top: dpi(0px);
-  margin-left: dpi(3px);
+  margin-left: dpi(2px);
 }
 
 .tab-badge-text.normal {

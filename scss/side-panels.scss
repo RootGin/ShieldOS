@@ -116,10 +116,10 @@ window.right,
 }
 
 .dock-status-badge {
-  min-width: $left-dock-slot-width;
-  min-height: $left-dock-slot-short-height;
+  min-width: $left-dock-pip-size;
+  min-height: $left-dock-pip-size;
   background-color: mix($text-muted, $text-primary, 78%);
-  border-radius: dpi(5px) dpi(1px) dpi(1px) dpi(5px);
+  border-radius: 50%;
 }
 
 .dock-pips-gap {

@@ -53,12 +53,12 @@
     },
     "right": {
       "width": 180,
-      "height": 886,
-      "top_offset": 0,
+      "height": 887,
+      "top_offset": -18,
       "upper_width": 74,
       "upper_height": 164,
       "lower_width": 80,
-      "lower_height": 316
+      "lower_height": 317
     }
   },
   "rails": {
@@ -136,13 +136,13 @@
     "bar_gap": 5
   },
   "left_dock": {
-    "width": 74,
-    "height": 240,
+    "width": 82,
+    "height": 260,
     "chamfer_cut": 58,
     "play_size": 24,
     "play_pad_top": 42,
     "play_pad_left": 46,
-    "slot_width": 6,
+    "slot_width": 10,
     "slot_height": 92,
     "slot_tall_height": 28,
     "slot_short_height": 10,

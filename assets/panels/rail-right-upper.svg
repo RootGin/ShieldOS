@@ -12,6 +12,6 @@
   <polygon points="1,0 1,1 31,30 31,145 49,163 73,163 73,0" fill="url(#sheen-rail-right-upper)" />
   <path fill="none" stroke="#5A5C60" stroke-width="2" d="M 1,0 L 31,30 L 31,145 L 49,163 L 73,163 L 73,0" />
   <path fill="none" stroke="#18191B" stroke-width="1" d="M 2.5,0 L 33.5,30 L 33.5,144 L 50,160.5 L 70.5,160.5 L 70.5,0" />
-  <text x="-88" y="52" transform="rotate(-90)" text-anchor="middle" fill="#7D7D7F" font-family="'Orbitron', sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.5">HARDWARE MONITOR</text>
+  <text x="-92" y="52" transform="rotate(-90)" text-anchor="middle" fill="#7D7D7F" font-family="'Orbitron', sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.5">HARDWARE MONITOR</text>
   <path fill="none" stroke="url(#specular-rail-right-upper)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 1,0 L 31,30 L 31,145" />
 </svg>

@@ -84,10 +84,10 @@
                :width left_dock_pip_size
                :halign "start"
             (box :class "dock-status-badge"
-                 :halign "end"
+                 :halign "center"
                  :valign "center"
-                 :width left_dock_slot_width
-                 :height left_dock_slot_short_height)
+                 :width left_dock_pip_size
+                 :height left_dock_pip_size)
             (box :class "dock-pips-gap"
                  :height {left_dock_slot_short_height - left_dock_pip_gap})
             (box :class "dock-pips"
@@ -108,7 +108,7 @@
 (defwindow right
   :monitor 0
   :geometry (geometry :x "-82px"
-                      :y "0px"
+                      :y "-18px"
                       :anchor "top right")
   :layer "top"
   :exclusive false

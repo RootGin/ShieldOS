@@ -10,7 +10,8 @@
     </linearGradient>
   </defs>
   <polygon points="1133,160 1156,160 1156,137" fill="{{$bg-void}}" />
-  <path fill="url(#sheen-corner-bottom-right)" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 0,155 L 2,155 L 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1074,86 L 1097,63 L 1155,63 L 1155,137 L 1133,159 L 0,159" />
-  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 0,156.5 L 3,156.5 L 13,147.5 L 390,147.5 L 413,124.5 L 801,124.5 L 837,88.5 L 1075,88.5 L 1098,65.5 L 1152.5,65.5 L 1152.5,136 L 1132,157.5 L 0,157.5" />
-  <path fill="none" stroke="url(#specular-corner-bottom-right)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1074,86 L 1097,63 L 1155,63" />
+  <polygon points="0,155 2,155 12,145 389,145 412,122 800,122 836,86 1074,86 1097,63 1155,63 1155,137 1133,159 0,159" fill="url(#sheen-corner-bottom-right)" />
+  <path fill="none" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 0,155 L 2,155 L 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1074,86 L 1097,63 L 1140,63 M 1155,63 L 1155,137 L 1133,159 L 0,159" />
+  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 0,156.5 L 3,156.5 L 13,147.5 L 390,147.5 L 413,124.5 L 801,124.5 L 837,88.5 L 1075,88.5 L 1098,65.5 L 1141,65.5 M 1152.5,63 L 1152.5,136 L 1132,157.5 L 0,157.5" />
+  <path fill="none" stroke="url(#specular-corner-bottom-right)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 12,145 L 389,145 L 412,122 L 800,122 L 836,86 L 1074,86 L 1097,63 L 1139,63" />
 </svg>
