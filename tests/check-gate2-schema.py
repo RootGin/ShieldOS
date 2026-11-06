@@ -751,7 +751,6 @@ def lint_yuck_layout_text(text, label, governed_dims):
         if not clean_line or clean_line.startswith(";"):
             continue
         if "(geometry" in clean_line:
-            # defwindow geometry only accepts literals (no defvars), exempt.
             continue
         for match in re.finditer(
             r":(width|height|image-width|image-height|size)\s+[\"']?(\d+)(?:px)?[\"']?",

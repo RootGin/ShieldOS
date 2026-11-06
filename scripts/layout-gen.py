@@ -51,6 +51,7 @@ def generate_scss(layout):
     eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
     ld = layout.get("left_dock", {})
     bm = layout.get("bottom_menu", {})
+    ez = layout.get("exclusive_zone", {"top": 68, "bottom": 60, "left": 56, "right": 58})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -159,6 +160,10 @@ def generate_scss(layout):
         f"$bottom-menu-tab-offset-applications: dpi({bm.get('tab_offset_applications', 680)}px);",
         f"$bottom-menu-tray-bottom-offset: dpi({bm.get('tray_bottom_offset', 20)}px);",
         f"$bottom-menu-deck-bottom-offset: dpi({bm.get('deck_bottom_offset', 42)}px);",
+        f"$exclusive-zone-top: dpi({ez['top']}px);",
+        f"$exclusive-zone-bottom: dpi({ez['bottom']}px);",
+        f"$exclusive-zone-left: dpi({ez['left']}px);",
+        f"$exclusive-zone-right: dpi({ez['right']}px);",
     ]
     return "\n".join(lines) + "\n"
 
@@ -181,6 +186,7 @@ def generate_yuck(layout):
     eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
     ld = layout.get("left_dock", {})
     bm = layout.get("bottom_menu", {})
+    ez = layout.get("exclusive_zone", {"top": 68, "bottom": 60, "left": 56, "right": 58})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -290,6 +296,10 @@ def generate_yuck(layout):
         f"(defvar bottom_menu_tab_offset_applications {bm.get('tab_offset_applications', 680)})",
         f"(defvar bottom_menu_tray_bottom_offset {bm.get('tray_bottom_offset', 20)})",
         f"(defvar bottom_menu_deck_bottom_offset {bm.get('deck_bottom_offset', 42)})",
+        f"(defvar exclusive_zone_top {ez['top']})",
+        f"(defvar exclusive_zone_bottom {ez['bottom']})",
+        f"(defvar exclusive_zone_left {ez['left']})",
+        f"(defvar exclusive_zone_right {ez['right']})",
     ]
     return "\n".join(lines) + "\n"
 

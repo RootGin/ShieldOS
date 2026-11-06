@@ -1,9 +1,6 @@
-;; Invisible strut windows. Sizes mirror layout.json "exclusive_zone"
-;; (top/bottom = 5% of 1080, left/right = 2.5% of 1920) so the tiled area is a
-;; symmetric rectangle; visual bars/panels are non-exclusive and overlay it.
 (defwindow zone-top
   :monitor 0
-  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "54px" :anchor "top center")
+  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "68px" :anchor "top center")
   :layer "bottom"
   :exclusive true
   :focusable false
@@ -12,7 +9,7 @@
 
 (defwindow zone-bottom
   :monitor 0
-  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "54px" :anchor "bottom center")
+  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "60px" :anchor "bottom center")
   :layer "bottom"
   :exclusive true
   :focusable false
@@ -21,7 +18,7 @@
 
 (defwindow zone-left
   :monitor 0
-  :geometry (geometry :x "0px" :y "0px" :width "48px" :height "100%" :anchor "center left")
+  :geometry (geometry :x "0px" :y "0px" :width "56px" :height "100%" :anchor "center left")
   :layer "bottom"
   :exclusive true
   :focusable false
@@ -30,7 +27,7 @@
 
 (defwindow zone-right
   :monitor 0
-  :geometry (geometry :x "0px" :y "0px" :width "48px" :height "100%" :anchor "center right")
+  :geometry (geometry :x "0px" :y "0px" :width "58px" :height "100%" :anchor "center right")
   :layer "bottom"
   :exclusive true
   :focusable false

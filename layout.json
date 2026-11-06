@@ -18,24 +18,24 @@
     "size": 24
   },
   "operator": {
-    "medallion_size": 92,
-    "icon_size": 22
+    "medallion_size": 48,
+    "icon_size": 16
   },
   "workspace_pills": {
     "width": 38,
-    "height": 40,
+    "height": 32,
     "gap": 7,
-    "chamfer_cut": 10,
+    "chamfer_cut": 8,
     "bar_width": 4,
-    "bar_height": 13,
+    "bar_height": 10,
     "top_offset": 2,
     "left_offset": 136
   },
   "exclusive_zone": {
-    "top": 54,
-    "bottom": 54,
-    "left": 48,
-    "right": 48
+    "top": 68,
+    "bottom": 60,
+    "left": 56,
+    "right": 58
   },
   "bars": {
     "top": {
@@ -170,7 +170,7 @@
     "tab_offset_powermenu": 412,
     "tab_offset_bluetooth": 546,
     "tab_offset_applications": 680,
-    "tray_bottom_offset": 16,
-    "deck_bottom_offset": 39
+    "tray_bottom_offset": 14,
+    "deck_bottom_offset": 36
   }
 }

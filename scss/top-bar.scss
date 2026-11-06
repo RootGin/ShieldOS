@@ -41,17 +41,17 @@ window.top,
 }
 
 .operator-content {
-  margin-left: dpi(21px);
-  margin-top: dpi(7px);
+  margin-left: $operator-icon-size;
+  margin-top: dpi(4px);
   min-width: dpi(174px);
 }
 
 .operator-segments {
-  margin-bottom: dpi(5px);
+  margin-bottom: dpi(2px);
 }
 
 .operator-segments .segment {
-  min-height: dpi(5px);
+  min-height: dpi(3px);
   margin-right: dpi(4px);
 }
 
@@ -77,7 +77,7 @@ window.top,
 }
 
 .operator-clock-row {
-  margin-bottom: dpi(3px);
+  margin-bottom: dpi(1px);
 }
 
 .operator-left-col {
@@ -87,25 +87,25 @@ window.top,
 .operator-clock .clock-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(34px);
+  font-size: dpi(20px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-8px);
-  margin-bottom: dpi(-6px);
+  margin-top: dpi(-4px);
+  margin-bottom: dpi(-3px);
 }
 
 .operator-prefix {
-  margin-top: dpi(3px);
+  margin-top: dpi(1px);
 }
 
 .operator-prefix .prefix-text {
   color: $text-muted;
   font-family: $font-hud-condensed;
-  font-size: $text-md;
+  font-size: dpi(9px);
   font-weight: $weight-md;
   letter-spacing: $tracking-sm;
-  margin-top: dpi(-3px);
-  margin-bottom: dpi(-2px);
+  margin-top: dpi(-2px);
+  margin-bottom: dpi(-1px);
 }
 
 .operator-version-badge {
@@ -120,44 +120,44 @@ window.top,
 .version-badge-content .version-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(30px);
+  font-size: dpi(16px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-6px);
-  margin-bottom: dpi(-5px);
+  margin-top: dpi(-4px);
+  margin-bottom: dpi(-3px);
 }
 
 .operator-id-row {
-  margin-top: dpi(2px);
+  margin-top: dpi(1px);
 }
 
 .operator-user {
   background-color: $surface-control;
-  border-bottom: dpi(3px) solid $surface-panel-recessed;
+  border-bottom: dpi(2px) solid $surface-panel-recessed;
   margin-left: dpi(-4px);
   min-width: dpi(174px);
-  min-height: dpi(14px);
+  min-height: dpi(13px);
   padding-left: dpi(4px);
 }
 
 .operator-user .user-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: $text-xl;
+  font-size: dpi(13px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-6px);
-  margin-bottom: dpi(-5px);
+  margin-top: dpi(-4px);
+  margin-bottom: dpi(-3px);
 }
 
 .operator-sub-row {
-  margin-top: dpi(2px);
+  margin-top: dpi(1px);
 }
 
 .operator-sub .sub-text {
   color: $text-muted;
   font-family: $font-mono;
-  font-size: dpi(10px);
+  font-size: dpi(9px);
   font-weight: $weight-xs;
   letter-spacing: $tracking-xs;
   margin-top: dpi(-2px);
@@ -166,7 +166,7 @@ window.top,
 
 .operator-radar-icons {
   margin-left: dpi(132px);
-  margin-top: dpi(15px);
+  margin-top: dpi(10px);
 }
 
 .radar-icon-box {
@@ -316,7 +316,7 @@ window.top,
   font-size: $text-workspace-pill;
   font-weight: $weight-sm;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(7px);
+  margin-top: dpi(3px);
 }
 
 .window-tabs-strip,
@@ -343,42 +343,42 @@ window.top,
   font-size: dpi(11px);
   font-weight: $weight-lg;
   margin-right: dpi(2px);
-  margin-top: dpi(5px);
+  margin-top: dpi(2px);
 }
 
 .window-tab {
   min-width: dpi(104px);
-  min-height: dpi(45px);
-  margin-top: dpi(3px);
+  min-height: $workspace-pill-height;
+  margin-top: dpi(0px);
 }
 
 .tab-tag-box {
-  min-width: dpi(58px);
-  min-height: dpi(34px);
+  min-width: dpi(55px);
+  min-height: dpi(22px);
 }
 
 .tab-tag-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(22px);
+  font-size: dpi(14px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-sm;
-  margin-top: dpi(2px);
+  margin-top: dpi(-2px);
   margin-left: dpi(8px);
 }
 
 .tab-title-box {
-  min-width: dpi(46px);
-  min-height: dpi(34px);
+  min-width: dpi(45px);
+  min-height: dpi(22px);
 }
 
 .tab-title-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(15px);
+  font-size: dpi(12px);
   font-weight: $weight-md;
   letter-spacing: $tracking-md;
-  margin-top: dpi(6px);
+  margin-top: dpi(1px);
   margin-left: dpi(2px);
 }
 

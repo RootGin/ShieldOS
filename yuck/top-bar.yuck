@@ -1,7 +1,7 @@
 (defwindow top
   :monitor 0
-  :geometry (geometry :x "-48px"
-                      :y "-54px"
+  :geometry (geometry :x "-56px"
+                      :y "-68px"
                       :width "100%"
                       :anchor "top left")
   :layer "top"
@@ -60,11 +60,11 @@
                    :valign "center"
                 (overlay
                   (image :path "./assets/panels/version-badge.svg"
-                         :image-width 56
-                         :image-height 42)
+                         :image-width 34
+                         :image-height 22)
                   (box :class "version-badge-content"
-                       :width 56
-                       :height 42
+                       :width 34
+                       :height 22
                        :halign "center"
                        :valign "center"
                     (label :class "version-text"
@@ -162,15 +162,15 @@
                        :text "F:")
                 (box :class "window-tab ${tab.urgent ? 'urgent' : 'normal'}"
                      :width 104
-                     :height 45
+                     :height workspace_pill_height
                      :valign "start"
                   (overlay
                     (image :path {tab.urgent ? "./assets/panels/homelab-tab-urgent.svg" : "./assets/panels/homelab-tab-normal.svg"}
                            :image-width 104
-                           :image-height 45)
+                           :image-height workspace_pill_height)
                     (box :class "tab-tag-box"
-                         :width 58
-                         :height 34
+                         :width 55
+                         :height 22
                          :halign "start"
                          :valign "start"
                       (label :class "tab-tag-text"
@@ -178,8 +178,8 @@
                              :valign "center"
                              :text "${tab.tag}"))
                     (box :class "tab-title-box"
-                         :width 46
-                         :height 34
+                         :width 45
+                         :height 22
                          :halign "end"
                          :valign "start"
                       (label :class "tab-title-text"
