@@ -51,7 +51,7 @@ def generate_scss(layout):
     eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
     ld = layout.get("left_dock", {})
     bm = layout.get("bottom_menu", {})
-    ez = layout.get("exclusive_zone", {"top": 68, "bottom": 60, "left": 56, "right": 58})
+    ez = layout.get("exclusive_zone", {"top": 108, "bottom": 80, "left": 58, "right": 58})
 
     lines = [
         f"$screen-width: dpi({s['width']}px);",
@@ -81,7 +81,7 @@ def generate_scss(layout):
         f"$side-right-top-offset: dpi({sp['right'].get('top_offset', 125)}px);",
         f"$side-right-upper-width: dpi({sp['right'].get('upper_width', 60)}px);",
         f"$side-right-upper-height: dpi({sp['right'].get('upper_height', 130)}px);",
-        f"$side-right-lower-width: dpi({sp['right'].get('lower_width', 80)}px);",
+        f"$side-right-lower-width: dpi({sp['right'].get('lower_width', 48)}px);",
         f"$side-right-lower-height: dpi({sp['right'].get('lower_height', 310)}px);",
         f"$rail-top-height: dpi({r['top']['height']}px);",
         f"$rail-bottom-height: dpi({r['bottom']['height']}px);",
@@ -186,7 +186,7 @@ def generate_yuck(layout):
     eq_pod = layout.get("equalizer_pod", {"width": 36, "height": 26, "chamfer_cut": 4, "bar_width": 3, "bar_height": 16, "bar_gap": 3})
     ld = layout.get("left_dock", {})
     bm = layout.get("bottom_menu", {})
-    ez = layout.get("exclusive_zone", {"top": 68, "bottom": 60, "left": 56, "right": 58})
+    ez = layout.get("exclusive_zone", {"top": 108, "bottom": 80, "left": 58, "right": 58})
 
     lines = [
         f"(defvar screen_width {s['width']})",
@@ -262,7 +262,7 @@ def generate_yuck(layout):
         f"(defvar equalizer_bar_width {eq_pod['bar_width']})",
         f"(defvar equalizer_bar_height {eq_pod['bar_height']})",
         f"(defvar equalizer_bar_gap {eq_pod['bar_gap']})",
-        f"(defvar left_dock_width {ld.get('width', 74)})",
+        f"(defvar left_dock_width {ld.get('width', 48)})",
         f"(defvar left_dock_height {ld.get('height', 240)})",
         f"(defvar left_dock_chamfer_cut {ld.get('chamfer_cut', 58)})",
         f"(defvar left_dock_play_size {ld.get('play_size', 24)})",

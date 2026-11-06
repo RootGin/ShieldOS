@@ -1,6 +1,6 @@
 (defwindow top
   :monitor 0
-  :geometry (geometry :x "-56px"
+  :geometry (geometry :x "-58px"
                       :y "-108px"
                       :width "100%"
                       :anchor "top left")
@@ -60,10 +60,10 @@
                    :valign "center"
                 (overlay
                   (image :path "./assets/panels/version-badge.svg"
-                         :image-width exclusive_zone_left
+                         :image-width 56
                          :image-height 42)
                   (box :class "version-badge-content"
-                       :width exclusive_zone_left
+                       :width 56
                        :height 42
                        :halign "center"
                        :valign "center"

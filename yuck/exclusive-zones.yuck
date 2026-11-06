@@ -18,7 +18,7 @@
 
 (defwindow zone-left
   :monitor 0
-  :geometry (geometry :x "0px" :y "0px" :width "56px" :height "100%" :anchor "center left")
+  :geometry (geometry :x "0px" :y "0px" :width "58px" :height "100%" :anchor "center left")
   :layer "bottom"
   :exclusive true
   :focusable false
