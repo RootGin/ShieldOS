@@ -1,6 +1,6 @@
 (defwindow top
   :monitor 0
-  :geometry (geometry :x "-58px"
+  :geometry (geometry :x "-82px"
                       :y "-108px"
                       :width "100%"
                       :anchor "top left")
@@ -161,12 +161,12 @@
                        :valign "start"
                        :text "F:")
                 (box :class "window-tab ${tab.urgent ? 'urgent' : 'normal'}"
-                     :width 104
+                     :width 120
                      :height 45
                      :valign "start"
                   (overlay
                     (image :path {tab.urgent ? "./assets/panels/homelab-tab-urgent.svg" : "./assets/panels/homelab-tab-normal.svg"}
-                           :image-width 104
+                           :image-width 120
                            :image-height 45)
                     (box :class "tab-tag-box"
                          :width 55
@@ -178,7 +178,7 @@
                              :valign "center"
                              :text "${tab.tag}"))
                     (box :class "tab-title-box"
-                         :width 45
+                         :width 60
                          :height 34
                          :halign "end"
                          :valign "start"
@@ -187,7 +187,7 @@
                              :valign "center"
                              :text "${tab.title}"))
                     (box :class "tab-badge ${tab.urgent ? 'urgent' : 'normal'}"
-                         :width 30
+                         :width 36
                          :height 7
                          :halign "end"
                          :valign "end"

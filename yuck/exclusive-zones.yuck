@@ -9,7 +9,7 @@
 
 (defwindow zone-bottom
   :monitor 0
-  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "80px" :anchor "bottom center")
+  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "84px" :anchor "bottom center")
   :layer "bottom"
   :exclusive true
   :focusable false
@@ -18,7 +18,7 @@
 
 (defwindow zone-left
   :monitor 0
-  :geometry (geometry :x "0px" :y "0px" :width "58px" :height "100%" :anchor "center left")
+  :geometry (geometry :x "0px" :y "0px" :width "82px" :height "100%" :anchor "center left")
   :layer "bottom"
   :exclusive true
   :focusable false
@@ -27,7 +27,7 @@
 
 (defwindow zone-right
   :monitor 0
-  :geometry (geometry :x "0px" :y "0px" :width "58px" :height "100%" :anchor "center right")
+  :geometry (geometry :x "0px" :y "0px" :width "82px" :height "100%" :anchor "center right")
   :layer "bottom"
   :exclusive true
   :focusable false

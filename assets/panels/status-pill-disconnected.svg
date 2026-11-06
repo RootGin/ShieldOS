@@ -5,13 +5,13 @@
       <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.08" />
     </linearGradient>
   </defs>
-  <polygon points="6,6 12,1 46,1 50,5 54,5 55,6" fill="#AD2927" />
+  <polygon points="6,6 12,1 46,1 50,5 49,6" fill="#9D000B" />
   <polygon points="1,11 6,6 49,6 55,12 135,12 139,16 139,25 133,31 106,31 101,29 6,29 1,24"
            fill="#292A2E" stroke="#5A5C60" stroke-width="1.2" stroke-linejoin="round" />
   <path d="M 50,7 L 56,13 L 134,13" fill="none" stroke="#18191B" stroke-width="1" />
-  <line x1="110" y1="28.5" x2="110" y2="31" stroke="#18191B" stroke-width="1.5" />
-  <line x1="114" y1="28.5" x2="114" y2="31" stroke="#18191B" stroke-width="1.5" />
-  <line x1="118" y1="28.5" x2="118" y2="31" stroke="#18191B" stroke-width="1.5" />
-  <line x1="122" y1="28.5" x2="122" y2="31" stroke="#18191B" stroke-width="1.5" />
+  <line x1="110" y1="27" x2="110" y2="29.5" stroke="#18191B" stroke-width="1.5" />
+  <line x1="114" y1="27" x2="114" y2="29.5" stroke="#18191B" stroke-width="1.5" />
+  <line x1="118" y1="27" x2="118" y2="29.5" stroke="#18191B" stroke-width="1.5" />
+  <line x1="122" y1="27" x2="122" y2="29.5" stroke="#18191B" stroke-width="1.5" />
   <path fill="none" stroke="url(#specular-status-pill-disconnected)" stroke-width="1" stroke-linejoin="miter" d="M 1,11 L 6,6 L 49,6 L 55,12 L 135,12 L 139,16 M 6,6 L 12,1 L 46,1 L 50,5" />
 </svg>

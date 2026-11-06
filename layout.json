@@ -33,9 +33,9 @@
   },
   "exclusive_zone": {
     "top": 108,
-    "bottom": 80,
-    "left": 58,
-    "right": 58
+    "bottom": 84,
+    "left": 82,
+    "right": 82
   },
   "bars": {
     "top": {
@@ -47,18 +47,18 @@
   },
   "side_panels": {
     "left": {
-      "width": 48,
+      "width": 82,
       "height": 744,
       "top_offset": 60
     },
     "right": {
       "width": 180,
       "height": 886,
-      "top_offset": -26,
+      "top_offset": 0,
       "upper_width": 74,
       "upper_height": 164,
-      "lower_width": 48,
-      "lower_height": 310
+      "lower_width": 80,
+      "lower_height": 316
     }
   },
   "rails": {
@@ -136,22 +136,22 @@
     "bar_gap": 5
   },
   "left_dock": {
-    "width": 48,
+    "width": 74,
     "height": 240,
-    "chamfer_cut": 37,
-    "play_size": 20,
+    "chamfer_cut": 58,
+    "play_size": 24,
     "play_pad_top": 42,
-    "play_pad_left": 19,
+    "play_pad_left": 46,
     "slot_width": 6,
     "slot_height": 92,
     "slot_tall_height": 28,
     "slot_short_height": 10,
     "slot_gap": 1,
-    "slot_pad_left": 18,
-    "pip_size": 8,
+    "slot_pad_left": 48,
+    "pip_size": 10,
     "pip_gap": 2,
     "pip_pad_top": 14,
-    "pip_pad_left": 25,
+    "pip_pad_left": 47,
     "rail_gap": 20,
     "rail_height": 484
   },

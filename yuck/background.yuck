@@ -1,6 +1,6 @@
 (defwindow background
   :monitor 0
-  :geometry (geometry :x "-58px"
+  :geometry (geometry :x "-82px"
                       :y "-108px"
                       :width "100%"
                       :height "100%"

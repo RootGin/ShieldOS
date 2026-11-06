@@ -347,7 +347,7 @@ window.top,
 }
 
 .window-tab {
-  min-width: dpi(104px);
+  min-width: dpi(120px);
   min-height: dpi(45px);
   margin-top: dpi(3px);
 }
@@ -368,7 +368,7 @@ window.top,
 }
 
 .tab-title-box {
-  min-width: dpi(45px);
+  min-width: dpi(60px);
   min-height: dpi(34px);
 }
 
@@ -383,7 +383,7 @@ window.top,
 }
 
 .tab-badge {
-  min-width: dpi(30px);
+  min-width: dpi(36px);
   min-height: dpi(7px);
   margin-right: dpi(2px);
   margin-bottom: dpi(0px);
@@ -393,7 +393,7 @@ window.top,
   font-family: $font-hud-condensed;
   font-size: dpi(8px);
   font-weight: $weight-xl;
-  letter-spacing: $tracking-xs;
+  letter-spacing: dpi(0.2px);
   margin-top: dpi(0px);
   margin-left: dpi(3px);
 }

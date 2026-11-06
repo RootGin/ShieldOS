@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="520" height="160" viewBox="0 0 520 160">
   <defs>
-    <!-- Part 1: Outer L-Rail — connects at $surface-control (y=0..24), brightens at 45-deg bend, darkens at bottom foot -->
     <linearGradient id="sheen-cbl-outer-rail" gradientUnits="userSpaceOnUse" x1="5" y1="0" x2="95" y2="159">
       <stop offset="0" stop-color="#45464A" />
       <stop offset="0.18" stop-color="#45464A" />
@@ -8,38 +7,25 @@
       <stop offset="0.78" stop-color="#414244" />
       <stop offset="1" stop-color="#1F2021" />
     </linearGradient>
-
-    <!-- Part 2: Inner 45-deg Gusset + Shelf — matches $surface-control at (10,24), dark in gusset body, brightens on shelf -->
     <linearGradient id="sheen-cbl-gusset" gradientUnits="userSpaceOnUse" x1="10" y1="24" x2="235" y2="159">
       <stop offset="0" stop-color="#45464A" />
       <stop offset="0.38" stop-color="#1F2021" />
       <stop offset="0.78" stop-color="#45464A" />
       <stop offset="1" stop-color="#414244" />
     </linearGradient>
-
-    <!-- Part 3: Bottom Rail Tail — connects with Part 2 at $surface-panel-lit-top and docks with bottom center rail -->
     <linearGradient id="sheen-cbl-bottom-rail" gradientUnits="userSpaceOnUse" x1="0" y1="155" x2="0" y2="159">
       <stop offset="0" stop-color="#414244" />
       <stop offset="1" stop-color="#1F2021" />
     </linearGradient>
-
     <linearGradient id="specular-corner-bottom-left" gradientUnits="userSpaceOnUse" x1="0" y1="24" x2="0" y2="150">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22" />
       <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.08" />
     </linearGradient>
   </defs>
-
   <polygon points="0,117 0,160 43,160" fill="#0A0B0F" />
-
-  <!-- Separate Part 1: Outer L-Rail -->
   <polygon points="1,0 10,0 10,104 39,133 91,133 117,159 43,159 1,117" fill="url(#sheen-cbl-outer-rail)" />
-
-  <!-- Separate Part 2: Inner 45-deg Gusset + Shelf -->
   <polygon points="10,24 124,138 235,138 256,159 117,159 91,133 39,133 10,104" fill="url(#sheen-cbl-gusset)" />
-
-  <!-- Separate Part 3: Bottom Rail Tail -->
   <polygon points="258,155 520,155 520,159 262,159" fill="url(#sheen-cbl-bottom-rail)" />
-
   <path fill="none" stroke="#5A5C60" stroke-width="2" d="M 10,0 L 10,24 L 124,138 L 235,138 L 256,159 L 43,159 L 1,117 L 1,0 M 520,159 L 262,159 L 258,155 L 520,155" />
   <path fill="none" stroke="#18191B" stroke-width="1" d="M 7.5,0 L 7.5,25 L 123,140.5 L 234,140.5 L 250.5,156.5 L 44,156.5 L 3.5,116 L 3.5,0 M 520,157.5 L 263,157.5 L 262,156.5 L 520,156.5" />
   <path fill="none" stroke="#5A5C60" stroke-width="2" d="M 10,24 L 10,104 L 39,133 L 91,133 L 117,159" />
