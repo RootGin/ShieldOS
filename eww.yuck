@@ -2,7 +2,7 @@
 (defvar active_theme "shield-gold")
 (defvar hud_visible true)
 (deflisten telemetry
-  :initial '{"time":"00:00:00","day":"01","month_year":"JAN - 1970","weekday":"THU","cpu_percent":0,"cpu_load":0.0,"ram_percent":0,"user":"OPERATOR","kernel":"UNKNOWN","version":"V0.1"}'
+  :initial '{"time":"00:00:00","day":"01","month_year":"JAN - 1970","weekday":"THU","cpu_percent":0,"cpu_load":0.0,"ram_percent":0,"user":"OPERATOR","kernel":"UNKNOWN","version":"V0.1","cpu_ladder":{"bucket":0,"rungs":[{"label":"100","sublabel":"","state":"normal"},{"label":"80","sublabel":"","state":"normal"},{"label":"60","sublabel":"","state":"normal"},{"label":"40","sublabel":"","state":"normal"},{"label":"0","sublabel":"0.0","state":"active"}]},"ram_ladder":{"bucket":0,"rungs":[{"label":"100","sublabel":"","state":"normal"},{"label":"80","sublabel":"","state":"normal"},{"label":"60","sublabel":"","state":"normal"},{"label":"40","sublabel":"","state":"normal"},{"label":"20","sublabel":"","state":"normal"},{"label":"0","sublabel":"0.0","state":"active"}]}}'
   `SHIELD_FIXTURE="$SHIELD_FIXTURE" ./scripts/telemetry.py`)
 (deflisten compositor
   :initial '{"backend":"none","workspaces":[{"id":1,"state":"empty"},{"id":2,"state":"empty"},{"id":3,"state":"empty"},{"id":4,"state":"empty"},{"id":5,"state":"empty"},{"id":6,"state":"empty"},{"id":7,"state":"empty"},{"id":8,"state":"empty"},{"id":9,"state":"empty"},{"id":10,"state":"empty"}],"tabs":[{"id":"hydra","tag":"8G","title":"Hydra","badge":"0-0-NE-01","urgent":false},{"id":"nebula","tag":"UPD","title":"Nebula","badge":"SSWS","urgent":true},{"id":"spartim","tag":"UPD","title":"Spartim","badge":"3C2E-0010","urgent":true},{"id":"gersfit","tag":"UPD","title":"Gersfit","badge":"SCOREN","urgent":true}]}'

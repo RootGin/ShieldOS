@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="520" height="116" viewBox="0 0 520 116">
   <defs>
-    <linearGradient id="specular-corner-top-left" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="68">
+    <linearGradient id="specular-corner-top-left" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="80">
       <stop offset="0" stop-color="{{$specular-rim-top.color}}" stop-opacity="{{$specular-rim-top.opacity}}" />
       <stop offset="1" stop-color="{{$specular-rim-fade.color}}" stop-opacity="{{$specular-rim-fade.opacity}}" />
     </linearGradient>
@@ -10,12 +10,12 @@
     </linearGradient>
   </defs>
   <polygon points="0,0 36,0 0,36" fill="{{$bg-void}}" />
-  <path fill="url(#sheen-corner-top-left)" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 520,1 L 36,1 L 1,36 L 1,67 L 417,67 L 434,50 L 501,50 L 520,31" />
-  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 520,3.5 L 37,3.5 L 3.5,37 L 3.5,64.5 L 416,64.5 L 433,47.5 L 500,47.5 L 520,27.5" />
-  <path fill="{{$bg-canvas}}" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 72,18 L 86,4 L 315,4 L 322,11 L 322,55 L 315,62 L 86,62 L 72,48 Z" />
-  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 74,19 L 87,6 L 314,6 L 320,12 L 320,54 L 314,60 L 87,60 L 74,47" />
-  <circle cx="40" cy="34" r="28.5" fill="{{$bg-canvas}}" stroke="{{$border-panel-groove}}" stroke-width="1" />
-  <circle cx="40" cy="34" r="26.5" fill="{{$bg-canvas}}" stroke="{{$border-panel-outer}}" stroke-width="3.5" />
-  <circle cx="40" cy="34" r="24.5" fill="{{$bg-canvas}}" stroke="{{$border-panel-groove}}" stroke-width="1" />
-  <path fill="none" stroke="url(#specular-corner-top-left)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 1,36 L 36,1 L 520,1 M 72,18 L 86,4 L 315,4" />
+  <path fill="url(#sheen-corner-top-left)" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 520,1 L 36,1 L 1,36 L 1,80 L 68,80 L 404,80 L 434,50 L 501,50 L 520,31" />
+  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 520,3.5 L 37,3.5 L 3.5,37 L 3.5,77.5 L 20,77.5 M 322,77.5 L 403,77.5 L 433,47.5 L 500,47.5 L 520,27.5" />
+  <path fill="{{$bg-canvas}}" stroke="{{$border-panel-outer}}" stroke-width="2" d="M 104,22 L 123,3 L 315,3 L 322,10 L 322,22 L 319,25 L 319,71 L 322,74 L 322,96 L 315,103 L 256,103 L 251,98 L 125,98 L 104,77 Z" />
+  <path fill="none" stroke="{{$border-panel-groove}}" stroke-width="1" d="M 107,23 L 124,5.5 L 314,5.5 L 319.5,11 L 319.5,21.5 L 316.5,24.5 L 316.5,71.5 L 319.5,74.5 L 319.5,95 L 314,100.5 L 257,100.5 L 252,95.5 L 126,95.5 L 107,76.5" />
+  <circle cx="68" cy="56" r="51.5" fill="{{$bg-canvas}}" stroke="{{$border-panel-groove}}" stroke-width="1" />
+  <circle cx="68" cy="56" r="48.5" fill="{{$bg-canvas}}" stroke="{{$border-panel-outer}}" stroke-width="4.5" />
+  <circle cx="68" cy="56" r="45.5" fill="{{$bg-canvas}}" stroke="{{$border-panel-groove}}" stroke-width="1.5" />
+  <path fill="none" stroke="url(#specular-corner-top-left)" stroke-width="1" transform="translate(1.5 1.5)" stroke-linejoin="miter" d="M 1,36 L 36,1 L 520,1 M 104,22 L 123,3 L 315,3" />
 </svg>

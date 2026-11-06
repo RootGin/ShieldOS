@@ -41,17 +41,17 @@ window.top,
 }
 
 .operator-content {
-  margin-left: $operator-icon-size;
-  margin-top: dpi(4px);
+  margin-left: dpi(21px);
+  margin-top: dpi(7px);
   min-width: dpi(174px);
 }
 
 .operator-segments {
-  margin-bottom: dpi(2px);
+  margin-bottom: dpi(5px);
 }
 
 .operator-segments .segment {
-  min-height: dpi(3px);
+  min-height: dpi(5px);
   margin-right: dpi(4px);
 }
 
@@ -77,7 +77,7 @@ window.top,
 }
 
 .operator-clock-row {
-  margin-bottom: dpi(1px);
+  margin-bottom: dpi(3px);
 }
 
 .operator-left-col {
@@ -87,25 +87,25 @@ window.top,
 .operator-clock .clock-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(20px);
+  font-size: dpi(34px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-4px);
-  margin-bottom: dpi(-3px);
+  margin-top: dpi(-8px);
+  margin-bottom: dpi(-6px);
 }
 
 .operator-prefix {
-  margin-top: dpi(1px);
+  margin-top: dpi(3px);
 }
 
 .operator-prefix .prefix-text {
   color: $text-muted;
   font-family: $font-hud-condensed;
-  font-size: dpi(9px);
+  font-size: $text-md;
   font-weight: $weight-md;
   letter-spacing: $tracking-sm;
-  margin-top: dpi(-2px);
-  margin-bottom: dpi(-1px);
+  margin-top: dpi(-3px);
+  margin-bottom: dpi(-2px);
 }
 
 .operator-version-badge {
@@ -120,44 +120,44 @@ window.top,
 .version-badge-content .version-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(16px);
+  font-size: dpi(30px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-4px);
-  margin-bottom: dpi(-3px);
+  margin-top: dpi(-6px);
+  margin-bottom: dpi(-5px);
 }
 
 .operator-id-row {
-  margin-top: dpi(1px);
+  margin-top: dpi(2px);
 }
 
 .operator-user {
   background-color: $surface-control;
-  border-bottom: dpi(2px) solid $surface-panel-recessed;
+  border-bottom: dpi(3px) solid $surface-panel-recessed;
   margin-left: dpi(-4px);
   min-width: dpi(174px);
-  min-height: dpi(13px);
+  min-height: dpi(14px);
   padding-left: dpi(4px);
 }
 
 .operator-user .user-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(13px);
+  font-size: $text-xl;
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-4px);
-  margin-bottom: dpi(-3px);
+  margin-top: dpi(-6px);
+  margin-bottom: dpi(-5px);
 }
 
 .operator-sub-row {
-  margin-top: dpi(1px);
+  margin-top: dpi(2px);
 }
 
 .operator-sub .sub-text {
   color: $text-muted;
   font-family: $font-mono;
-  font-size: dpi(9px);
+  font-size: dpi(10px);
   font-weight: $weight-xs;
   letter-spacing: $tracking-xs;
   margin-top: dpi(-2px);
@@ -166,7 +166,7 @@ window.top,
 
 .operator-radar-icons {
   margin-left: dpi(132px);
-  margin-top: dpi(10px);
+  margin-top: dpi(15px);
 }
 
 .radar-icon-box {
@@ -316,7 +316,7 @@ window.top,
   font-size: $text-workspace-pill;
   font-weight: $weight-sm;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(3px);
+  margin-top: dpi(7px);
 }
 
 .window-tabs-strip,
@@ -343,42 +343,42 @@ window.top,
   font-size: dpi(11px);
   font-weight: $weight-lg;
   margin-right: dpi(2px);
-  margin-top: dpi(2px);
+  margin-top: dpi(5px);
 }
 
 .window-tab {
   min-width: dpi(104px);
-  min-height: $workspace-pill-height;
-  margin-top: dpi(0px);
+  min-height: dpi(45px);
+  margin-top: dpi(3px);
 }
 
 .tab-tag-box {
   min-width: dpi(55px);
-  min-height: dpi(22px);
+  min-height: dpi(34px);
 }
 
 .tab-tag-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(14px);
+  font-size: dpi(22px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-sm;
-  margin-top: dpi(-2px);
+  margin-top: dpi(2px);
   margin-left: dpi(8px);
 }
 
 .tab-title-box {
   min-width: dpi(45px);
-  min-height: dpi(22px);
+  min-height: dpi(34px);
 }
 
 .tab-title-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(12px);
+  font-size: dpi(15px);
   font-weight: $weight-md;
   letter-spacing: $tracking-md;
-  margin-top: dpi(1px);
+  margin-top: dpi(6px);
   margin-left: dpi(2px);
 }
 

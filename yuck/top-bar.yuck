@@ -1,7 +1,7 @@
 (defwindow top
   :monitor 0
   :geometry (geometry :x "-56px"
-                      :y "-68px"
+                      :y "-108px"
                       :width "100%"
                       :anchor "top left")
   :layer "top"
@@ -60,11 +60,11 @@
                    :valign "center"
                 (overlay
                   (image :path "./assets/panels/version-badge.svg"
-                         :image-width 34
-                         :image-height 22)
+                         :image-width exclusive_zone_left
+                         :image-height 42)
                   (box :class "version-badge-content"
-                       :width 34
-                       :height 22
+                       :width exclusive_zone_left
+                       :height 42
                        :halign "center"
                        :valign "center"
                     (label :class "version-text"
@@ -162,15 +162,15 @@
                        :text "F:")
                 (box :class "window-tab ${tab.urgent ? 'urgent' : 'normal'}"
                      :width 104
-                     :height workspace_pill_height
+                     :height 45
                      :valign "start"
                   (overlay
                     (image :path {tab.urgent ? "./assets/panels/homelab-tab-urgent.svg" : "./assets/panels/homelab-tab-normal.svg"}
                            :image-width 104
-                           :image-height workspace_pill_height)
+                           :image-height 45)
                     (box :class "tab-tag-box"
                          :width 55
-                         :height 22
+                         :height 34
                          :halign "start"
                          :valign "start"
                       (label :class "tab-tag-text"
@@ -179,7 +179,7 @@
                              :text "${tab.tag}"))
                     (box :class "tab-title-box"
                          :width 45
-                         :height 22
+                         :height 34
                          :halign "end"
                          :valign "start"
                       (label :class "tab-title-text"
@@ -211,7 +211,7 @@
              :halign "end"
              :valign "center"
           (box :class "date-column"
-               :width 108
+               :width exclusive_zone_top
                :orientation "vertical"
                :space-evenly false
                :hexpand true
@@ -227,10 +227,10 @@
                  :halign "center"
               (overlay
                 (image :path "./assets/panels/date-pill.svg"
-                       :image-width 108
+                       :image-width exclusive_zone_top
                        :image-height 25)
                 (box :class "date-pill-content"
-                     :width 108
+                     :width exclusive_zone_top
                      :height 25
                      :halign "center"
                      :valign "center"

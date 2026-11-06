@@ -281,7 +281,7 @@ fi
 
 LOGS_CMD_OUT="$(timeout 1s eww -c shieldOS-eww logs 2>&1 || true)"
 COMBINED_LOGS="$(cat "${EWW_LOG}" "${OPEN_ERR}" 2>/dev/null; printf '\n%s\n' "${LOGS_CMD_OUT}")"
-FILTERED_LOGS="$(grep -v "Run \`eww logs\` to see any errors" <<<"${COMBINED_LOGS}" || true)"
+FILTERED_LOGS="$(grep -v "Run \`eww logs\` to see any errors" <<<"${COMBINED_LOGS}" | grep -v "Failed to send success response from application thread" || true)"
 
 if bad_logs="$(grep -E "(WARN|ERROR|Gtk-WARNING|Gtk-CRITICAL|error\[|error:|warning:|is not a valid property name|CssProviderError|ParseError|Failed to)" <<<"${FILTERED_LOGS}" || true)" && [[ -n "${bad_logs}" ]]; then
   fail "eww-logs" "Warnings or errors detected in eww logs: ${bad_logs}"

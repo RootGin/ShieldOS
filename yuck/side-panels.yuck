@@ -4,7 +4,7 @@
 (defwindow left
   :monitor 0
   :geometry (geometry :x "-56px"
-                      :y "108px"
+                      :y "68px"
                       :anchor "top left")
   :layer "top"
   :exclusive false
@@ -108,7 +108,7 @@
 (defwindow right
   :monitor 0
   :geometry (geometry :x "-58px"
-                      :y "22px"
+                      :y "-18px"
                       :anchor "top right")
   :layer "top"
   :exclusive false
