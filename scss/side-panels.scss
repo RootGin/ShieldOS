@@ -82,7 +82,7 @@ window.right,
 .dock-title-label {
   color: mix($text-muted, $border-panel-outer, 58%);
   font-family: $font-hud-condensed;
-  font-size: dpi(13.5px);
+  font-size: dpi(10px);
   font-weight: $weight-display;
   letter-spacing: dpi(0.6px);
 }
@@ -90,9 +90,9 @@ window.right,
 .dock-subtitle-label {
   color: mix($border-panel-outer, $surface-control, 38%);
   font-family: $font-hud-condensed;
-  font-size: dpi(6.5px);
+  font-size: dpi(10px);
   font-weight: $weight-lg;
-  letter-spacing: dpi(2.05px);
+  letter-spacing: dpi(1px);
   margin-right: dpi(-3px);
 }
 

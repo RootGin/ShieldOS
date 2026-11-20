@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="74" height="164" viewBox="0 0 74 164">
+<svg xmlns="http://www.w3.org/2000/svg" width="74" height="164" viewBox="0 0 74 164" preserveAspectRatio="none">
   <defs>
     <linearGradient id="specular-rail-right-upper" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="164">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45" />

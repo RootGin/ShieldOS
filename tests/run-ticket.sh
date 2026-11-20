@@ -11,6 +11,9 @@ fi
 printf '==> Running Layout Generator...\n'
 python3 "${REPO_DIR}/scripts/layout-gen.py"
 
+printf '\n==> Running Layout Drift Guard...\n'
+python3 "${REPO_DIR}/tests/check-layout-drift.py"
+
 printf '\n==> Running Gate 1: GTK3 CSS denylist and headless Eww runtime...\n'
 "${REPO_DIR}/tests/check-gate1-gtk.sh"
 

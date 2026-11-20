@@ -18,9 +18,9 @@ window.top,
 .top-rail {
   background-color: $surface-panel;
   background-image: linear-gradient(to bottom, $surface-panel-lit-top, $surface-panel-lit-bottom);
-  border-top: $bevel-outer-border solid $border-panel-outer;
+  border-top: $bevel-inner-groove solid $border-panel-outer;
   border-bottom: $bevel-outer-border solid $border-panel-outer;
-  min-height: $rail-top-height - (2 * $bevel-outer-border);
+  min-height: $rail-top-height - $bevel-outer-border - $bevel-inner-groove;
   box-shadow: inset 0 1px 0 $specular-rim-top;
 }
 
@@ -28,7 +28,7 @@ window.top,
   border-top: $bevel-inner-groove solid $border-panel-groove;
   border-bottom: $bevel-inner-groove solid $border-panel-groove;
   margin-top: $bevel-inner-groove;
-  margin-bottom: $bevel-outer-border;
+  margin-bottom: $bevel-inner-groove;
 }
 
 .operator-module {
@@ -37,34 +37,34 @@ window.top,
 
 .operator-medallion-box {
   margin-left: $operator-icon-size;
-  margin-top: $void-padding - dpi(6px);
+  margin-top: dpi(6px);
 }
 
 .operator-content {
-  margin-left: dpi(21px);
-  margin-top: dpi(7px);
-  min-width: dpi(174px);
+  margin-left: dpi(13px);
+  margin-top: dpi(5px);
+  min-width: dpi(117px);
 }
 
 .operator-segments {
-  margin-bottom: dpi(5px);
+  margin-bottom: dpi(3px);
 }
 
 .operator-segments .segment {
-  min-height: dpi(5px);
-  margin-right: dpi(4px);
+  min-height: dpi(3px);
+  margin-right: dpi(3px);
 }
 
 .operator-segments .segment.wide {
-  min-width: dpi(52px);
+  min-width: dpi(35px);
 }
 
 .operator-segments .segment.short {
-  min-width: dpi(23px);
+  min-width: dpi(15px);
 }
 
 .operator-segments .segment.med {
-  min-width: dpi(31px);
+  min-width: dpi(23px);
   margin-right: dpi(0px);
 }
 
@@ -77,40 +77,40 @@ window.top,
 }
 
 .operator-clock-row {
-  margin-bottom: dpi(3px);
+  margin-bottom: dpi(2px);
 }
 
 .operator-left-col {
-  min-width: dpi(110px);
+  min-width: dpi(74px);
 }
 
 .operator-clock .clock-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(34px);
+  font-size: dpi(22px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-8px);
-  margin-bottom: dpi(-6px);
+  margin-top: dpi(-6px);
+  margin-bottom: dpi(-4px);
 }
 
 .operator-prefix {
-  margin-top: dpi(3px);
+  margin-top: dpi(1px);
 }
 
 .operator-prefix .prefix-text {
   color: $text-muted;
   font-family: $font-hud-condensed;
-  font-size: $text-md;
+  font-size: dpi(9px);
   font-weight: $weight-md;
   letter-spacing: $tracking-sm;
-  margin-top: dpi(-3px);
-  margin-bottom: dpi(-2px);
+  margin-top: dpi(-2px);
+  margin-bottom: dpi(-1px);
 }
 
 .operator-version-badge {
   background-color: transparent;
-  margin-left: dpi(8px);
+  margin-left: dpi(6px);
 }
 
 .version-badge-content {
@@ -120,24 +120,24 @@ window.top,
 .version-badge-content .version-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(30px);
+  font-size: dpi(19px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-6px);
-  margin-bottom: dpi(-5px);
+  margin-top: dpi(-5px);
+  margin-bottom: dpi(-4px);
 }
 
 .operator-id-row {
-  margin-top: dpi(2px);
+  margin-top: dpi(1px);
 }
 
 .operator-user {
   background-color: $surface-control;
-  border-bottom: dpi(3px) solid $surface-panel-recessed;
-  margin-left: dpi(-4px);
-  min-width: dpi(174px);
-  min-height: dpi(14px);
-  padding-left: dpi(4px);
+  border-bottom: dpi(2px) solid $surface-panel-recessed;
+  margin-left: dpi(-3px);
+  min-width: dpi(117px);
+  min-height: dpi(10px);
+  padding-left: dpi(3px);
 }
 
 .operator-user .user-text {
@@ -146,18 +146,18 @@ window.top,
   font-size: $text-xl;
   font-weight: $weight-xl;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-6px);
-  margin-bottom: dpi(-5px);
+  margin-top: dpi(-5px);
+  margin-bottom: dpi(-4px);
 }
 
 .operator-sub-row {
-  margin-top: dpi(2px);
+  margin-top: dpi(1px);
 }
 
 .operator-sub .sub-text {
   color: $text-muted;
   font-family: $font-mono;
-  font-size: dpi(10px);
+  font-size: dpi(8px);
   font-weight: $weight-xs;
   letter-spacing: $tracking-xs;
   margin-top: dpi(-2px);
@@ -165,17 +165,17 @@ window.top,
 }
 
 .operator-radar-icons {
-  margin-left: dpi(132px);
-  margin-top: dpi(15px);
+  margin-left: dpi(25px);
+  margin-top: dpi(10px);
 }
 
 .radar-icon-box {
-  margin-right: dpi(7px);
+  margin-right: dpi(5px);
 }
 
 .date-block {
   background-color: transparent;
-  padding-right: dpi(46px);
+  padding-right: dpi(30px);
 }
 
 .date-column {
@@ -184,7 +184,7 @@ window.top,
 
 .date-day {
   background-color: transparent;
-  margin-bottom: dpi(4px);
+  margin-bottom: dpi(3px);
 }
 
 .date-day .day-text {
@@ -197,7 +197,7 @@ window.top,
 
 .date-pill {
   background-color: transparent;
-  margin-bottom: dpi(4px);
+  margin-bottom: dpi(2px);
 }
 
 .date-pill-content {
@@ -207,16 +207,16 @@ window.top,
 .date-pill-content .pill-text {
   color: $text-on-accent;
   font-family: $font-hud-condensed;
-  font-size: $text-date-pill;
+  font-size: dpi(15px);
   font-weight: $weight-md;
   letter-spacing: $tracking-xl;
-  margin-top: dpi(-5px);
+  margin-top: dpi(-4px);
   margin-bottom: dpi(-3px);
 }
 
 .date-weekday {
   background-color: transparent;
-  margin-right: dpi(3px);
+  margin-right: dpi(2px);
 }
 
 .date-weekday .weekday-text {
@@ -225,8 +225,8 @@ window.top,
   font-size: $text-date-weekday;
   font-weight: $weight-lg;
   letter-spacing: $tracking-lg;
-  margin-top: dpi(-4px);
-  margin-bottom: dpi(-4px);
+  margin-top: dpi(-3px);
+  margin-bottom: dpi(-3px);
 }
 
 @mixin pill-chamfer($color, $leg) {
@@ -340,7 +340,7 @@ window.top,
 .tab-anchor {
   color: $text-muted;
   font-family: $font-hud-condensed;
-  font-size: dpi(11px);
+  font-size: dpi(10px);
   font-weight: $weight-lg;
   margin-right: dpi(2px);
   margin-top: dpi(5px);
@@ -360,7 +360,7 @@ window.top,
 .tab-tag-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(20px);
+  font-size: dpi(13px);
   font-weight: $weight-xl;
   letter-spacing: $tracking-sm;
   margin-top: dpi(2px);
@@ -375,7 +375,7 @@ window.top,
 .tab-title-text {
   color: $text-primary;
   font-family: $font-hud-condensed;
-  font-size: dpi(13.5px);
+  font-size: dpi(10px);
   font-weight: $weight-md;
   letter-spacing: dpi(0.4px);
   margin-top: dpi(6px);
@@ -391,7 +391,7 @@ window.top,
 
 .tab-badge-text {
   font-family: $font-hud-condensed;
-  font-size: dpi(7.5px);
+  font-size: dpi(7px);
   font-weight: $weight-xl;
   letter-spacing: dpi(0px);
   margin-top: dpi(0px);

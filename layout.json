@@ -1,5 +1,13 @@
 {
   "$schema": "./schemas/layout.schema.json",
+  "scale": 0.672,
+  "min": {
+    "gauges": {
+      "width": 34,
+      "header_height": 16,
+      "rung_height": 20
+    }
+  },
   "screen": {
     "width": 1920,
     "height": 1080
@@ -54,7 +62,7 @@
     "right": {
       "width": 180,
       "height": 887,
-      "top_offset": -18,
+      "top_offset": -19,
       "upper_width": 74,
       "upper_height": 164,
       "lower_width": 80,

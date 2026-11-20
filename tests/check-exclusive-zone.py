@@ -25,9 +25,15 @@ def main():
         fail("exclusive-zone", f"layout.json not found at {LAYOUT_PATH}")
 
     try:
-        layout = json.loads(LAYOUT_PATH.read_text(encoding="utf-8"))
+        raw_layout = json.loads(LAYOUT_PATH.read_text(encoding="utf-8"))
     except Exception as exc:
         fail("exclusive-zone", f"Failed to parse layout.json: {exc}")
+
+    import importlib.util
+    gen_spec = importlib.util.spec_from_file_location("layout_gen", REPO_DIR / "scripts" / "layout-gen.py")
+    gen_mod = importlib.util.module_from_spec(gen_spec)
+    gen_spec.loader.exec_module(gen_mod)
+    layout = gen_mod.resolve_layout(raw_layout)
 
     screen_w = int(layout["screen"]["width"])
     screen_h = int(layout["screen"]["height"])

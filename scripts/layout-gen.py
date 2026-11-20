@@ -32,6 +32,54 @@ def load_layout(layout_path, schema_path=None):
 
     return data
 
+UNSCALED_SECTIONS = {"$schema", "scale", "min", "screen", "void", "canvas", "emblem"}
+
+def scale_node(node, scale, min_node=None, skip_keys=()):
+    if isinstance(node, dict):
+        out = {}
+        for k, v in node.items():
+            if k in skip_keys:
+                out[k] = v
+            else:
+                sub_min = min_node.get(k) if isinstance(min_node, dict) else None
+                out[k] = scale_node(v, scale, sub_min)
+        return out
+    if isinstance(node, int) and not isinstance(node, bool):
+        scaled = int(round(node * scale))
+        if isinstance(min_node, int):
+            return max(min_node, scaled)
+        return scaled
+    return node
+
+def resolve_layout(raw_layout):
+    scale = float(raw_layout.get("scale", 1.0))
+    min_cfg = raw_layout.get("min", {})
+    if scale == 1.0 and not min_cfg:
+        return raw_layout
+    resolved = {}
+    for k, v in raw_layout.items():
+        if k in UNSCALED_SECTIONS:
+            resolved[k] = v
+        elif k == "corner_plates":
+            resolved[k] = scale_node(v, scale, min_cfg.get(k), skip_keys=("bevel",))
+        else:
+            resolved[k] = scale_node(v, scale, min_cfg.get(k))
+    gg = resolved["gauges"]
+    sp_r = resolved["side_panels"]["right"]
+    cpu_h = gg["header_height"] + 5 * gg["rung_height"]
+    ram_h = gg["header_height"] + 6 * gg["rung_height"]
+    min_right_h = (
+        sp_r["upper_height"]
+        + gg["gap_upper"]
+        + cpu_h
+        + gg["gap"]
+        + ram_h
+        + gg["gap_lower"]
+        + sp_r["lower_height"]
+    )
+    sp_r["height"] = max(sp_r["height"], min_right_h)
+    return resolved
+
 def generate_scss(layout):
     s = layout["screen"]
     v = layout["void"]
@@ -314,7 +362,8 @@ def main():
     scss_out = repo_dir / "scss" / "_layout.scss"
     yuck_out = repo_dir / "yuck" / "_layout.yuck"
 
-    layout = load_layout(layout_path, schema_path)
+    raw_layout = load_layout(layout_path, schema_path)
+    layout = resolve_layout(raw_layout)
     expected_scss = generate_scss(layout)
     expected_yuck = generate_yuck(layout)
 

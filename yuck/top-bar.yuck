@@ -1,7 +1,7 @@
 (defwindow top
   :monitor 0
-  :geometry (geometry :x "-82px"
-                      :y "-108px"
+  :geometry (geometry :x "-55px"
+                      :y "-73px"
                       :width "100%"
                       :anchor "top left")
   :layer "top"
@@ -60,11 +60,11 @@
                    :valign "center"
                 (overlay
                   (image :path "./assets/panels/version-badge.svg"
-                         :image-width 56
-                         :image-height 42)
+                         :image-width 37
+                         :image-height 28)
                   (box :class "version-badge-content"
-                       :width 56
-                       :height 42
+                       :width 37
+                       :height 28
                        :halign "center"
                        :valign "center"
                     (label :class "version-text"
@@ -196,15 +196,15 @@
                              :valign "center"
                              :text "${tab.badge}"))))))))))
     (box :class "corner-housing-tr"
-         :width corner_top_right_width
+         :width {corner_top_right_width - 2}
          :height corner_top_right_height
          :valign "start"
       (overlay
         (image :path "./assets/panels/corner-top-right.svg"
-               :image-width corner_top_right_width
+               :image-width {corner_top_right_width - 2}
                :image-height corner_top_right_height)
         (box :class "date-block"
-             :width corner_top_right_width
+             :width {corner_top_right_width - 2}
              :height corner_top_right_height
              :orientation "horizontal"
              :space-evenly false
@@ -221,17 +221,17 @@
                  :halign "center"
                  :tooltip {telemetry.day}
               (image :path "./assets/panels/date-day.svg"
-                     :image-width 103
-                     :image-height 26))
+                     :image-width 70
+                     :image-height 17))
             (box :class "date-pill"
                  :halign "center"
               (overlay
                 (image :path "./assets/panels/date-pill.svg"
                        :image-width exclusive_zone_top
-                       :image-height 25)
+                       :image-height 17)
                 (box :class "date-pill-content"
                      :width exclusive_zone_top
-                     :height 25
+                     :height 17
                      :halign "center"
                      :valign "center"
                   (label :class "pill-text"

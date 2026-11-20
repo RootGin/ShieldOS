@@ -29,6 +29,35 @@
     "$schema": {
       "type": "string"
     },
+    "scale": {
+      "type": "number",
+      "minimum": 0.1,
+      "maximum": 2.0
+    },
+    "min": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gauges": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "header_height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "rung_height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
     "screen": {
       "type": "object",
       "additionalProperties": false,

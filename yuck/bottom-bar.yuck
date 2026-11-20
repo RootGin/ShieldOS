@@ -1,7 +1,7 @@
 (defwindow bottom
   :monitor 0
-  :geometry (geometry :x "-82px"
-                      :y "-84px"
+  :geometry (geometry :x "-55px"
+                      :y "-56px"
                       :width "100%"
                       :anchor "bottom left")
   :layer "top"
