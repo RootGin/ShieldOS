@@ -567,8 +567,8 @@ def validate_compositor_fixtures(schema):
             if ws_map.get(2) != "active" or ws_map.get(8) != "active":
                 fail("compositor-fixture-frozen", f"frozen.json workspaces 2 and 8 must be 'active', got: {ws_map}")
             tabs = data.get("tabs", [])
-            if len(tabs) != 4 or tabs[0]["title"] != "Hydra" or tabs[1]["title"] != "Nebula":
-                fail("compositor-fixture-frozen", f"frozen.json tabs must contain the 4 homelab placeholder slots, got: {tabs}")
+            if len(tabs) != 4 or tabs[0]["title"] != "SLOT 1" or tabs[1]["title"] != "SLOT 2":
+                fail("compositor-fixture-frozen", f"frozen.json tabs must contain the 4 placeholder slots, got: {tabs}")
         print(f"VALIDATED [compositor-static:{fixture_file.stem}]: {fixture_file.name} -> #/$defs/compositor OK")
         validated.append(f"compositor:{fixture_file.stem}")
     return validated

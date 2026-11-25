@@ -20,6 +20,21 @@ window.right,
   min-height: $side-left-height;
 }
 
+.left-rail-connector {
+  background-color: $surface-panel-lit-bottom;
+  border-left: dpi(1px) solid $border-panel-outer;
+  border-right: dpi(1px) solid $border-panel-outer;
+  padding-left: dpi(1px);
+  min-width: dpi(4px);
+  margin-top: dpi(-1px);
+}
+
+.left-rail-connector-groove {
+  background-color: transparent;
+  border-left: dpi(1px) solid $border-panel-groove;
+  min-width: dpi(3px);
+}
+
 .left-dock-content {
   min-width: $left-dock-width;
   min-height: $left-dock-height;

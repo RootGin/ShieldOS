@@ -14,7 +14,7 @@
        :orientation "vertical"
        :space-evenly false
        :width side_left_width
-       :height side_left_height
+       :height {screen_height - exclusive_zone_top - side_left_top_offset - bar_bottom_height}
     (overlay
       (box :class "left-rail"
            :halign "start"
@@ -102,7 +102,15 @@
                    :height left_dock_pip_gap)
               (box :class "dock-pip standby"
                    :width left_dock_pip_size
-                   :height left_dock_pip_size))))))))
+                   :height left_dock_pip_size))))))
+    (box :class "left-rail-connector"
+         :orientation "horizontal"
+         :space-evenly false
+         :halign "start"
+         :height {screen_height - exclusive_zone_top - side_left_top_offset - bar_bottom_height - side_left_height + 1}
+      (box :class "left-rail-connector-groove"
+           :hexpand true
+           :vexpand true))))
 
 
 (defwindow right
